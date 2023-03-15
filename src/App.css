@@ -1,0 +1,20 @@
+* {
+  padding: 0px;
+  margin: 0 auto;
+}
+.header {
+  background-color: green;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  align-content: flex-start;
+  list-style-type: none;
+}
+
+.header li:hover {
+  cursor: pointer;
+}
+
+.logo {
+  height: 30px;
+}
