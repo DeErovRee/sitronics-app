@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { auth } from "../firebase/firebase";
 import { Link } from "react-router-dom";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+} from "firebase/auth";
 
 export const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -22,6 +25,17 @@ export const LoginPage = () => {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  const handleForgotPassword = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    try {
+      await sendPasswordResetEmail(auth, email);
     } catch (error) {
       setError(error.message);
     }
@@ -56,6 +70,7 @@ export const LoginPage = () => {
           <p>
             Don't have an account? <Link to="/signup"> Sign up</Link>
           </p>
+          <button onClick={handleForgotPassword}>Restore password</button>
         </div>
       </form>
     </div>

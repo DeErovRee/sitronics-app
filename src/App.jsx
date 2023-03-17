@@ -30,19 +30,13 @@ export const App = () => {
   };
 
   const Component = () => {
-    const logout = async () => {
-      try {
-        await auth.signOut();
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
     return authed ? (
-      <button onClick={logout}>Logout</button>
+      <li className="loginBtn">
+        <Link to="/personalArea">Личный кабинет</Link>
+      </li>
     ) : (
       <li>
-        <Link to="/login">Login</Link>
+        <Link to="/login">ВОЙТИ</Link>
       </li>
     );
   };
@@ -70,9 +64,6 @@ export const App = () => {
             </li>
             <li>
               <Link to="/services">Услуги</Link>
-            </li>
-            <li>
-              <Link to="/personalArea">Личный кабинет</Link>
             </li>
             <Component />
           </ul>
@@ -115,6 +106,15 @@ export const App = () => {
           <Route exact path="*" element={<Page404 />} />
         </Routes>
       </main>
+      <footer>
+        <div className="footer">
+          <ul>
+            <li>Общая информация</li>
+            <li>Контактные данные</li>
+            <li>Другие сведения</li>
+          </ul>
+        </div>
+      </footer>
     </Router>
   );
 };
