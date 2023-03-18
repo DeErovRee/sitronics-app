@@ -67,13 +67,9 @@ export const App = () => {
                 <Link to="/services">Услуги</Link>
               </li>
               <li>
-                <Link to="/services">Заказать звонок</Link>
-              </li>
-              <li>
-                <Link to="/services">Поддержка</Link>
+                <Link to="/chats">Чат</Link>
               </li>
             </div>
-              
             <Component />
           </ul>
         </nav>
