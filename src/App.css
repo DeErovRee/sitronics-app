@@ -348,7 +348,7 @@ header ul a {
   margin: -15px;
   width: 35px;
   -webkit-transform: scale(2);
-          transform: scale(2);
+  transform: scale(2);
 }
 
 .loginForm .checkbox p {
@@ -370,7 +370,7 @@ header ul a {
   color: #ff0000;
   margin-bottom: 0px;
   position: absolute;
-  bottom: 34%;
+  bottom: 30.5%;
   left: 0;
   text-align: center;
 }

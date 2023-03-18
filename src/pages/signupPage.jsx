@@ -26,16 +26,20 @@ export const SignupPage = () => {
     e.preventDefault();
     setError("");
 
-    if (password === rePassword) {
+    if(password === rePassword) {
       try {
         await createUserWithEmailAndPassword(auth, email, password);
       } catch (error) {
-        setError(error.message);
+        switch (error.message) {
+          case 'Firebase: Error (auth/user-not-found).': setError('Неверный логин и/или пароль')
+          case 'Firebase: Error (auth/invalid-email).': setError('Пользователя с таким email не существует' )
+          case 'Firebase: Error (auth/wrong-password).': setError('Неверный логин и/или пароль')
+        }
       }
     } else {
-      setError("Пароли не совпадают")
+      setError('Пароли не совпадают')
     }
-    
+      
   };
 
   return (

@@ -285,6 +285,10 @@ header {
         input {
             margin: -15px;
             width: 35px;
+            -ms-transform: scale(2);
+            -moz-transform: scale(2);
+            -webkit-transform: scale(2);
+            -o-transform: scale(2);
             transform: scale(2);
         }
 
@@ -308,7 +312,7 @@ header {
         color: #ff0000;
         margin-bottom: 0px;
         position: absolute;
-        bottom: 34%;
+        bottom: 30.5%;
         left: 0;
         text-align: center;
     }
