@@ -31,9 +31,9 @@ export const SignupPage = () => {
         await createUserWithEmailAndPassword(auth, email, password);
       } catch (error) {
         switch (error.message) {
-          case 'Firebase: Error (auth/user-not-found).': setError('Неверный логин и/или пароль')
-          case 'Firebase: Error (auth/invalid-email).': setError('Пользователя с таким email не существует' )
-          case 'Firebase: Error (auth/wrong-password).': setError('Неверный логин и/или пароль')
+          case 'Firebase: Error (auth/user-not-found).': setError('Неверный логин и/или пароль');
+          case 'Firebase: Error (auth/invalid-email).': setError('Пользователя с таким email не существует' ); 
+          case 'Firebase: Error (auth/wrong-password).': setError('Неверный логин и/или пароль');
         }
       }
     } else {
@@ -83,7 +83,7 @@ export const SignupPage = () => {
           <p></p>
         </div>
         {error && <p className="signupError">{error}</p>}
-        <button className="input" type="submit">Войти</button>
+        <button className="input" type="submit">Зарегестрироваться</button>
         <div className="restore">
           <p>
             <Link to="/login">У меня есть аккаунт</Link>
