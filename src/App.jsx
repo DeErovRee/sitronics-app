@@ -35,7 +35,7 @@ export const App = () => {
         <Link to="/personalArea">Личный кабинет</Link>
       </li>
     ) : (
-      <li>
+      <li className="loginBtn">
         <Link to="/login">ВОЙТИ</Link>
       </li>
     );
@@ -53,18 +53,27 @@ export const App = () => {
             <li>
               <Link to="/">
                 <img
+                  src={require('../src/images/free-icon-camera-drone.png')}
                   className="logo"
-                  src="https://cdn-icons-png.flaticon.com/512/2646/2646459.png"
                   alt="logo"
                 />
               </Link>
             </li>
+            <div className="headerCenter">
             <li>
-              <Link to="/drons">Дроны</Link>
-            </li>
-            <li>
-              <Link to="/services">Услуги</Link>
-            </li>
+                <Link to="/drons">Дроны</Link>
+              </li>
+              <li>
+                <Link to="/services">Услуги</Link>
+              </li>
+              <li>
+                <Link to="/services">Заказать звонок</Link>
+              </li>
+              <li>
+                <Link to="/services">Поддержка</Link>
+              </li>
+            </div>
+              
             <Component />
           </ul>
         </nav>
@@ -109,9 +118,21 @@ export const App = () => {
       <footer>
         <div className="footer">
           <ul>
-            <li>Общая информация</li>
-            <li>Контактные данные</li>
-            <li>Другие сведения</li>
+            <li><p>&copy;&nbsp;2023 Все права защищены</p></li>
+            <li>
+              <div className="socialNetwork">
+                <div className="cube">
+                  <img src={require("./images/facebook-f-brands.png")} alt="facebook-f-brands" />
+                </div>
+                <div className="cube">
+                  <img src={require("./images/instagram-brands.png")} alt="instagram-brands" /> 
+                </div>
+                <div className="cube">
+                  <img src={require("./images/twitter-brands.png")} alt="twitter-brands" />
+                </div>
+              </div>
+            </li>
+            <li><p>+7 (495) 685-53-53<br /> sitronicsgroup@mail.ru<br />г. Тюмень</p></li>
           </ul>
         </div>
       </footer>

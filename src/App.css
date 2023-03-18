@@ -7,11 +7,13 @@
 }
 
 header {
+  
   background-color: #000000;
   padding: 16px;
 }
 
 header ul {
+  max-width: 1600px;
   display: flex;
   list-style-type: none;
   font-size: 16px;
@@ -36,8 +38,12 @@ header ul li a {
   text-transform: uppercase;
 }
 
-header ul li a img {
-  height: 20px;
+.headerCenter {
+  display: flex;
+}
+
+.headerCenter li {
+  margin: 0 23px
 }
 
 .loginBtn {
@@ -46,4 +52,115 @@ header ul li a img {
   padding: 14px 16px;
   border: 1px solid #ffffff;
   border-radius: 5px;
+}
+
+.mainPage {
+  max-width: 1920px;
+  display: flex;
+  padding: 261px 160px 140px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.first {
+  background-image: url(./images/white-drone-hovering-bright-blue-sky.png);
+}
+
+.second {
+  background-image: url(./images/mainpage-second-background-image.png)
+}
+
+.third {
+  flex-direction: column;
+  padding: 37px 0 0 0;
+  background-image: url(./images/mainpage-third-background-image.png);
+}
+
+.thirdDescription {
+  display: flex;
+}
+
+.companyDescription {
+  width: 660px;
+  padding: 147px 0 200px 0;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 28px;
+}
+
+.second h1 {
+  color: #ffffff;
+}
+
+.mainPage h1 {
+  width: 550px;
+  font-size: 48px;
+  font-weight: 300;
+}
+
+.mainPage img {
+  margin: 21px;
+  height: 180px;
+}
+
+.companyImage {
+  width: 50%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.serviceName {
+  padding: 37px 0 0 0;
+  width: 50%;
+  display: flex;
+  align-items: center;
+}
+
+.serviceName h1 {
+  text-align: center;
+}
+
+.third .serviceName h1 {
+  font-size: 64px;
+  line-height: 75px;
+  font-weight: 300;
+}
+
+.footer {
+  background-color: #222224;
+}
+
+.footer ul {
+  display: flex;
+  align-items: flex-end;
+  list-style-type: none;
+  padding: 35px 0 78px;
+}
+
+.footer ul li {
+  font-family: 'Lato';
+}
+
+.footer ul li p {
+  color: #FFFFFF;
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+}
+
+.socialNetwork {
+  display: flex;
+}
+
+.cube {
+  margin: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background-color: #FFFFFF;
 }
