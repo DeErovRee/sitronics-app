@@ -36,7 +36,7 @@ export const App = () => {
       </li>
     ) : (
       <li className="loginBtn">
-        <Link to="/login">ВОЙТИ</Link>
+        <Link to="/login">Войти</Link>
       </li>
     );
   };
@@ -132,7 +132,11 @@ export const App = () => {
                 </div>
               </div>
             </li>
-            <li><p>+7 (495) 685-53-53<br /> sitronicsgroup@mail.ru<br />г. Тюмень</p></li>
+            <li>
+              <p>+7 (495) 685-53-53</p>
+              <p>sitronicsgroup@mail.ru</p>
+              <p>г. Тюмень</p>
+            </li>
           </ul>
         </div>
       </footer>
