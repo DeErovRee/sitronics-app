@@ -1,20 +1,422 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 * {
   padding: 0px;
   margin: 0 auto;
-}
-.header {
-  background-color: green;
-  padding: 10px;
-  display: flex;
-  flex-direction: row;
-  align-content: flex-start;
-  list-style-type: none;
+  font-family: Roboto;
 }
 
-.header li:hover {
+header {
+  background-color: #000000;
+  padding: 16px;
+}
+
+header ul {
+  max-width: 1600px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  list-style-type: none;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+header ul li {
+  color: white;
+  text-decoration: none;
+  text-transform: uppercase;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+header ul li:hover {
   cursor: pointer;
 }
 
-.logo {
-  height: 30px;
+header ul a {
+  color: white;
+  text-decoration: none;
+  text-transform: uppercase;
 }
+
+.headerCenter {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.headerCenter li {
+  margin: 0 23px;
+}
+
+.headerCenter a:hover {
+  color: #999999;
+}
+
+.loginBtn {
+  text-align: center;
+  width: 160px;
+  border: 1px solid #ffffff;
+  border-radius: 5px;
+}
+
+.loginBtn a {
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.loginBtn a:hover {
+  color: #000000;
+  background-color: #C4C4C4;
+}
+
+.loginBtn a:active {
+  background-color: #999999;
+}
+
+.mainPage {
+  max-width: 1920px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 261px 160px 140px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.mainPage h1 {
+  width: 550px;
+  font-size: 48px;
+  font-weight: 300;
+}
+
+.mainPage img {
+  margin: 21px;
+  height: 180px;
+}
+
+.first {
+  background-image: url(./images/white-drone-hovering-bright-blue-sky.png);
+}
+
+.second {
+  background-image: url(./images/mainpage-second-background-image.png);
+}
+
+.second h1 {
+  color: #ffffff;
+}
+
+.third {
+  background-position-x: 70px;
+  background-size: contain;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 37px 0 0 0;
+  background-image: url(./images/sitronics_company.png);
+}
+
+.third .thirdDescription {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.third .companyDescription {
+  width: 660px;
+  padding: 147px 0 200px 0;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 28px;
+}
+
+.companyImage {
+  width: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.companyImage img:hover {
+  -webkit-filter: brightness(0.8);
+          filter: brightness(0.8);
+  cursor: pointer;
+}
+
+.serviceName {
+  padding: 37px 0 0 0;
+  width: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.serviceName h1 {
+  text-align: center;
+}
+
+.third .serviceName h1 {
+  font-size: 64px;
+  line-height: 75px;
+  font-weight: 300;
+}
+
+.footer {
+  background-color: #222224;
+}
+
+.footer ul {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  list-style-type: none;
+  padding: 35px 0 78px;
+}
+
+.footer ul li {
+  font-family: 'Lato';
+}
+
+.footer ul p {
+  margin: 5px;
+  color: #FFFFFF;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+}
+
+.socialNetwork {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  list-style-type: none;
+}
+
+.socialNetwork .cube {
+  margin: 4px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 32px;
+  height: 32px;
+  background-color: #FFFFFF;
+}
+
+.socialNetwork .cube:hover {
+  cursor: pointer;
+  background-color: #999999;
+}
+
+.socialNetwork li img {
+  margin: 5px;
+}
+
+.socialNetwork li img:hover {
+  -webkit-filter: brightness(0.8);
+          filter: brightness(0.8);
+  cursor: pointer;
+}
+
+.loginPage {
+  background-color: #FFFFFF;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 176px 0;
+}
+
+.loginForm {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 36px 66px 38px;
+  border-radius: 80px;
+  background-color: #F2F2F2;
+}
+
+.loginForm h3 {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 38px;
+  margin-bottom: 22.26px;
+}
+
+.loginForm h4 {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  padding-bottom: 25.72px;
+}
+
+.loginForm p {
+  margin-bottom: 22px;
+}
+
+.loginForm .input {
+  width: 512px;
+  height: 70px;
+  border: none;
+  border-radius: 10px;
+  background-color: #ffffff;
+  margin: 26px 0;
+  padding: 0 42px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: #000842;
+}
+
+.loginForm .input::-webkit-input-placeholder {
+  color: #000842;
+}
+
+.loginForm .input:-ms-input-placeholder {
+  color: #000842;
+}
+
+.loginForm .input::-ms-input-placeholder {
+  color: #000842;
+}
+
+.loginForm .input::placeholder {
+  color: #000842;
+}
+
+.loginForm .input button:hover {
+  -webkit-filter: brightness(0.8);
+          filter: brightness(0.8);
+  cursor: pointer;
+}
+
+.loginForm .checkbox {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.loginForm .checkbox input {
+  margin: -15px;
+  width: 35px;
+  -webkit-transform: scale(2);
+  transform: scale(2);
+}
+
+.loginForm .checkbox p {
+  margin: 0px;
+}
+
+.loginForm .loginError {
+  width: 100%;
+  color: #ff0000;
+  margin-bottom: 0px;
+  position: absolute;
+  bottom: 40.5%;
+  left: 0;
+  text-align: center;
+}
+
+.loginForm .signupError {
+  width: 100%;
+  color: #ff0000;
+  margin-bottom: 0px;
+  position: absolute;
+  bottom: 30.5%;
+  left: 0;
+  text-align: center;
+}
+
+.loginForm .submitButton {
+  width: 512px;
+  height: 70px;
+  border: none;
+  background-color: #FFFFFF;
+}
+
+.loginForm .restore {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-bottom: 22px;
+}
+
+.loginForm .restore button {
+  margin: 0;
+  border: none;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: #000842;
+}
+
+.loginForm .restore p {
+  margin: 0;
+  padding-bottom: 0;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  margin-bottom: 0px;
+}
+
+.loginForm .restore p a {
+  text-decoration: none;
+  color: #000842;
+}
+/*# sourceMappingURL=App.css.map */

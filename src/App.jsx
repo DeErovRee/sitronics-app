@@ -30,19 +30,13 @@ export const App = () => {
   };
 
   const Component = () => {
-    const logout = async () => {
-      try {
-        await auth.signOut();
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
     return authed ? (
-      <button onClick={logout}>Logout</button>
+      <li className="loginBtn">
+        <Link to="/personalArea">Личный кабинет</Link>
+      </li>
     ) : (
-      <li>
-        <Link to="/login">Login</Link>
+      <li className="loginBtn">
+        <Link to="/login">Войти</Link>
       </li>
     );
   };
@@ -59,21 +53,23 @@ export const App = () => {
             <li>
               <Link to="/">
                 <img
+                  src={require('../src/images/free-icon-camera-drone.png')}
                   className="logo"
-                  src="https://cdn-icons-png.flaticon.com/512/2646/2646459.png"
                   alt="logo"
                 />
               </Link>
             </li>
+            <div className="headerCenter">
             <li>
-              <Link to="/drons">Дроны</Link>
-            </li>
-            <li>
-              <Link to="/services">Услуги</Link>
-            </li>
-            <li>
-              <Link to="/personalArea">Личный кабинет</Link>
-            </li>
+                <Link to="/drons">Дроны</Link>
+              </li>
+              <li>
+                <Link to="/services">Услуги</Link>
+              </li>
+              <li>
+                <Link to="/chats">Чат</Link>
+              </li>
+            </div>
             <Component />
           </ul>
         </nav>
@@ -115,6 +111,31 @@ export const App = () => {
           <Route exact path="*" element={<Page404 />} />
         </Routes>
       </main>
+      <footer>
+        <div className="footer">
+          <ul>
+            <li><p>&copy;&nbsp;2023 Все права защищены</p></li>
+            <li>
+              <div className="socialNetwork">
+                <div className="cube">
+                  <img src={require("./images/facebook-f-brands.png")} alt="facebook-f-brands" />
+                </div>
+                <div className="cube">
+                  <img src={require("./images/instagram-brands.png")} alt="instagram-brands" /> 
+                </div>
+                <div className="cube">
+                  <img src={require("./images/twitter-brands.png")} alt="twitter-brands" />
+                </div>
+              </div>
+            </li>
+            <li>
+              <p>+7 (495) 685-53-53</p>
+              <p>sitronicsgroup@mail.ru</p>
+              <p>г. Тюмень</p>
+            </li>
+          </ul>
+        </div>
+      </footer>
     </Router>
   );
 };
