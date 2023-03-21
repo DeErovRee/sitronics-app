@@ -311,6 +311,8 @@ header {
   }
 
   .loginError {
+    text-transform: uppercase;
+    font-weight: 900;
     width: 100%;
     color: #ff0000;
     margin-bottom: 0px;
@@ -321,11 +323,13 @@ header {
   }
 
   .signupError {
+    text-transform: uppercase;
+    font-weight: 900;
     width: 100%;
     color: #ff0000;
     margin-bottom: 0px;
     position: absolute;
-    bottom: 30.5%;
+    bottom: 24%;
     left: 0;
     text-align: center;
   }
