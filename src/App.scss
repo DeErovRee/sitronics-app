@@ -161,6 +161,9 @@ header {
 
 .footer {
   background-color: #222224;
+  .footerMaxWidth {
+    max-width: 1600px;
+  }
 
   ul {
     display: flex;
@@ -251,6 +254,19 @@ header {
     margin-bottom: 22px;
   }
 
+  button {
+    &:hover {
+      filter: brightness(0.8);
+      cursor: pointer;
+    }
+  }
+
+  .forgotPassword {
+    &:hover {
+      filter: none;
+      cursor: pointer;
+    }
+  }
   .input {
     width: 512px;
     height: 70px;
@@ -271,13 +287,6 @@ header {
 
     &::placeholder {
       color: #000842;
-    }
-
-    button {
-      &:hover {
-        filter: brightness(0.8);
-        cursor: pointer;
-      }
     }
   }
 
@@ -365,6 +374,7 @@ header {
 
 // Chat styles
 .workSpace {
+  max-width: 1600px;
   align-items: flex-start;
   justify-content: space-between;
   width: 100%;

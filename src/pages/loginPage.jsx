@@ -7,7 +7,6 @@ import {
 } from "firebase/auth";
 
 export const LoginPage = () => {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -28,11 +27,14 @@ export const LoginPage = () => {
       await signInWithEmailAndPassword(auth, email, password);
     } catch (error) {
       switch (error.message) {
-        case 'Firebase: Error (auth/user-not-found).': setError('Неверный логин и/или пароль')
-        case 'Firebase: Error (auth/invalid-email).': setError('Пользователя с таким email не существует' )
-        case 'Firebase: Error (auth/wrong-password).': setError('Неверный логин и/или пароль')
+        case "Firebase: Error (auth/user-not-found).":
+          setError("Неверный логин и/или пароль");
+        case "Firebase: Error (auth/invalid-email).":
+          setError("Пользователя с таким email не существует");
+        case "Firebase: Error (auth/wrong-password).":
+          setError("Неверный логин и/или пароль");
       }
-      console.log(error.message)
+      console.log(error.message);
     }
   };
 
@@ -42,7 +44,9 @@ export const LoginPage = () => {
 
     try {
       await sendPasswordResetEmail(auth, email);
-      setError('На вашу почту отправлено письмо, c инструкцией по восстановлению пароля')
+      setError(
+        "На вашу почту отправлено письмо, c инструкцией по восстановлению пароля"
+      );
     } catch (error) {
       setError(error.message);
     }
@@ -70,9 +74,13 @@ export const LoginPage = () => {
           value={password}
         />
         {error && <p className="loginError">{error}</p>}
-        <button className="input" type="submit">Войти</button>
+        <button className="input" type="submit">
+          Войти
+        </button>
         <div className="restore">
-          <button onClick={handleForgotPassword}>Не помню пароль</button>
+          <button className="forgotPassword" onClick={handleForgotPassword}>
+            Не помню пароль
+          </button>
           <p>
             <Link to="/signup">Создать аккаунт</Link>
           </p>
@@ -86,7 +94,10 @@ export const LoginPage = () => {
             <img src={require("../images/vk_logo.png")} alt="vk_logo" />
           </li>
           <li>
-            <img src={require("../images/microsoft_logo.png")} alt="microsoft_logo" />
+            <img
+              src={require("../images/microsoft_logo.png")}
+              alt="microsoft_logo"
+            />
           </li>
         </ul>
       </form>

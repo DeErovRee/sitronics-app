@@ -45,6 +45,16 @@ export const App = () => {
     );
   };
 
+  const Chats = () => {
+    return authed ? (
+      <li>
+        <Link to="/chats">Чат</Link>
+      </li>
+    ) : (
+      <></>
+    );
+  };
+
   useEffect(() => {
     AuthedCheck();
   }, []);
@@ -71,9 +81,7 @@ export const App = () => {
                 <li>
                   <Link to="/services">Услуги</Link>
                 </li>
-                <li>
-                  <Link to="/chats">Чат</Link>
-                </li>
+                <Chats />
               </div>
               <Component />
             </ul>
@@ -127,7 +135,7 @@ export const App = () => {
         </main>
         <footer>
           <div className="footer">
-            <ul>
+            <ul className="footerMaxWidth">
               <li>
                 <p>&copy;&nbsp;2023 Все права защищены</p>
               </li>
