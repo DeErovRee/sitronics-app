@@ -1,4 +1,4 @@
-import "./App.css";
+import "./App.scss";
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
@@ -9,9 +9,13 @@ import { LoginPage } from "./pages/loginPage";
 import { SignupPage } from "./pages/signupPage";
 import { PersonalAreaPage } from "./pages/personalAreaPage";
 import { Page404 } from "./pages/page404";
+import { ChatsPage } from "./pages/chatsPage";
 
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase/firebase";
+
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
 
 import { PublicRoute } from "./hocs/publicRoute";
 import { PrivateRoute } from "./hocs/privateRoute";
@@ -47,95 +51,117 @@ export const App = () => {
 
   return (
     <Router>
-      <header>
-        <nav>
-          <ul className="header">
-            <li>
-              <Link to="/">
-                <img
-                  src={require('../src/images/free-icon-camera-drone.png')}
-                  className="logo"
-                  alt="logo"
-                />
-              </Link>
-            </li>
-            <div className="headerCenter">
-            <li>
-                <Link to="/drons">Дроны</Link>
-              </li>
+      <Provider store={store}>
+        <header>
+          <nav>
+            <ul className="header">
               <li>
-                <Link to="/services">Услуги</Link>
+                <Link to="/">
+                  <img
+                    src={require("../src/images/free-icon-camera-drone.png")}
+                    className="logo"
+                    alt="logo"
+                  />
+                </Link>
               </li>
-              <li>
-                <Link to="/chats">Чат</Link>
-              </li>
-            </div>
-            <Component />
-          </ul>
-        </nav>
-      </header>
-      <main>
-        <Routes>
-          <Route exact path="/" element={<MainPage />} />
-          <Route exact path="/drons" element={<DronsPage />} />
-          <Route exact path="/services" element={<ServicesPage />} />
-          <Route
-            exact
-            path="/personalArea"
-            element={
-              <PrivateRoute authenticated={authed}>
-                <PersonalAreaPage />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            authenticated={authed}
-            exact
-            path="/login"
-            element={
-              <PublicRoute authenticated={authed}>
-                <LoginPage />
-              </PublicRoute>
-            }
-          />
-          <Route
-            authenticated={authed}
-            exact
-            path="/signup"
-            element={
-              <PublicRoute authenticated={authed}>
-                <SignupPage />
-              </PublicRoute>
-            }
-          />
-          <Route exact path="*" element={<Page404 />} />
-        </Routes>
-      </main>
-      <footer>
-        <div className="footer">
-          <ul>
-            <li><p>&copy;&nbsp;2023 Все права защищены</p></li>
-            <li>
-              <div className="socialNetwork">
-                <div className="cube">
-                  <img src={require("./images/facebook-f-brands.png")} alt="facebook-f-brands" />
-                </div>
-                <div className="cube">
-                  <img src={require("./images/instagram-brands.png")} alt="instagram-brands" /> 
-                </div>
-                <div className="cube">
-                  <img src={require("./images/twitter-brands.png")} alt="twitter-brands" />
-                </div>
+              <div className="headerCenter">
+                <li>
+                  <Link to="/drons">Дроны</Link>
+                </li>
+                <li>
+                  <Link to="/services">Услуги</Link>
+                </li>
+                <li>
+                  <Link to="/chats">Чат</Link>
+                </li>
               </div>
-            </li>
-            <li>
-              <p>+7 (495) 685-53-53</p>
-              <p>sitronicsgroup@mail.ru</p>
-              <p>г. Тюмень</p>
-            </li>
-          </ul>
-        </div>
-      </footer>
+              <Component />
+            </ul>
+          </nav>
+        </header>
+        <main>
+          <Routes>
+            <Route exact path="/" element={<MainPage />} />
+            <Route exact path="/drons" element={<DronsPage />} />
+            <Route exact path="/services" element={<ServicesPage />} />
+            <Route
+              exact
+              path="/chats/*"
+              element={
+                <PrivateRoute authenticated={authed}>
+                  <ChatsPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              exact
+              path="/personalArea"
+              element={
+                <PrivateRoute authenticated={authed}>
+                  <PersonalAreaPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              authenticated={authed}
+              exact
+              path="/login"
+              element={
+                <PublicRoute authenticated={authed}>
+                  <LoginPage />
+                </PublicRoute>
+              }
+            />
+            <Route
+              authenticated={authed}
+              exact
+              path="/signup"
+              element={
+                <PublicRoute authenticated={authed}>
+                  <SignupPage />
+                </PublicRoute>
+              }
+            />
+            <Route exact path="*" element={<Page404 />} />
+          </Routes>
+        </main>
+        <footer>
+          <div className="footer">
+            <ul>
+              <li>
+                <p>&copy;&nbsp;2023 Все права защищены</p>
+              </li>
+              <li>
+                <div className="socialNetwork">
+                  <div className="cube">
+                    <img
+                      src={require("./images/facebook-f-brands.png")}
+                      alt="facebook-f-brands"
+                    />
+                  </div>
+                  <div className="cube">
+                    <img
+                      src={require("./images/instagram-brands.png")}
+                      alt="instagram-brands"
+                    />
+                  </div>
+                  <div className="cube">
+                    <img
+                      src={require("./images/twitter-brands.png")}
+                      alt="twitter-brands"
+                    />
+                  </div>
+                </div>
+              </li>
+              <li>
+                <p>+7 (495) 685-53-53</p>
+                <p>sitronicsgroup@mail.ru</p>
+                <p>г. Тюмень</p>
+              </li>
+            </ul>
+          </div>
+        </footer>
+      </Provider>
     </Router>
   );
 };

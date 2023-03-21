@@ -28,8 +28,8 @@ header ul li {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
 }
 
 header ul li:hover {
@@ -70,16 +70,16 @@ header ul a {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
 }
 
 .loginBtn a:hover {
   color: #000000;
-  background-color: #C4C4C4;
+  background-color: #c4c4c4;
 }
 
 .loginBtn a:active {
@@ -125,10 +125,9 @@ header ul a {
   background-size: contain;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
   padding: 37px 0 0 0;
-  background-image: url(./images/sitronics_company.png);
 }
 
 .third .thirdDescription {
@@ -151,12 +150,12 @@ header ul a {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  flex-wrap: wrap;
 }
 
 .companyImage img:hover {
   -webkit-filter: brightness(0.8);
-          filter: brightness(0.8);
+  filter: brightness(0.8);
   cursor: pointer;
 }
 
@@ -167,8 +166,8 @@ header ul a {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
 }
 
 .serviceName h1 {
@@ -190,20 +189,20 @@ header ul a {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: end;
-      -ms-flex-align: end;
-          align-items: flex-end;
+  -ms-flex-align: end;
+  align-items: flex-end;
   list-style-type: none;
   padding: 35px 0 78px;
 }
 
 .footer ul li {
-  font-family: 'Lato';
+  font-family: "Lato";
 }
 
 .footer ul p {
   margin: 5px;
-  color: #FFFFFF;
-  font-family: 'Roboto';
+  color: #ffffff;
+  font-family: "Roboto";
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -223,14 +222,14 @@ header ul a {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   width: 32px;
   height: 32px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 
 .socialNetwork .cube:hover {
@@ -244,12 +243,12 @@ header ul a {
 
 .socialNetwork li img:hover {
   -webkit-filter: brightness(0.8);
-          filter: brightness(0.8);
+  filter: brightness(0.8);
   cursor: pointer;
 }
 
 .loginPage {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -263,15 +262,15 @@ header ul a {
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
   padding: 36px 66px 38px;
   border-radius: 80px;
-  background-color: #F2F2F2;
+  background-color: #f2f2f2;
 }
 
 .loginForm h3 {
-  font-family: 'Roboto';
+  font-family: "Roboto";
   font-style: normal;
   font-weight: 400;
   font-size: 32px;
@@ -280,7 +279,7 @@ header ul a {
 }
 
 .loginForm h4 {
-  font-family: 'Roboto';
+  font-family: "Roboto";
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
@@ -301,8 +300,8 @@ header ul a {
   margin: 26px 0;
   padding: 0 42px;
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  font-family: 'Roboto';
+  box-sizing: border-box;
+  font-family: "Roboto";
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -328,7 +327,7 @@ header ul a {
 
 .loginForm .input button:hover {
   -webkit-filter: brightness(0.8);
-          filter: brightness(0.8);
+  filter: brightness(0.8);
   cursor: pointer;
 }
 
@@ -337,11 +336,11 @@ header ul a {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
 }
 
 .loginForm .checkbox input {
@@ -379,7 +378,7 @@ header ul a {
   width: 512px;
   height: 70px;
   border: none;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 
 .loginForm .restore {
@@ -388,15 +387,15 @@ header ul a {
   display: flex;
   width: 100%;
   -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
   margin-bottom: 22px;
 }
 
 .loginForm .restore button {
   margin: 0;
   border: none;
-  font-family: 'Roboto';
+  font-family: "Roboto";
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -407,7 +406,7 @@ header ul a {
 .loginForm .restore p {
   margin: 0;
   padding-bottom: 0;
-  font-family: 'Roboto';
+  font-family: "Roboto";
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
