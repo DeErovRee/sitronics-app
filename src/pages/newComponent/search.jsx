@@ -47,9 +47,9 @@ export const Search = () => {
     try {
       const res = await getDoc(doc(db, "chats", combinedId));
 
-      if (!res.exists()) {
+      if (true) {
         await setDoc(doc(db, "chats", combinedId), { messages: [] });
-        console.log("кт1");
+        
         await updateDoc(doc(db, "userChats", currentUser.uid), {
           [combinedId + ".userInfo"]: {
             uid: user.uid,
@@ -58,7 +58,7 @@ export const Search = () => {
           },
           [combinedId + ".date"]: serverTimestamp(),
         });
-        console.log("кт2");
+        
         await updateDoc(doc(db, "userChats", user.uid), {
           [combinedId + ".userInfo"]: {
             uid: currentUser.uid,
@@ -69,10 +69,9 @@ export const Search = () => {
         });
       }
     } catch (error) {
-      setError(true);
+      console.log(error);
     }
 
-    setError("");
     setUser(null);
     setUsername("");
   };
@@ -92,7 +91,7 @@ export const Search = () => {
           value={username}
         />
       </div>
-      {error && <span>Пользователь не найден</span>}
+      {error && <span>{error.message}</span>}
       {user && (
         <div className="userChat" onClick={handleSelect}>
           <img src={file} style={{ width: "120px" }} alt="user-avatar" />

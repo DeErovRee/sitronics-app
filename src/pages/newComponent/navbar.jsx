@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { auth } from "../../firebase/firebase";
 import { AuthContext } from "";
 
 const Navbar = () => {
