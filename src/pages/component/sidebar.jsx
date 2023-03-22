@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-// import AddIcon from '@material-ui/icons/Add'
 import { useDispatch, useSelector } from "react-redux";
 
 import { addChat, delChat } from "../../redux/chats/actions";

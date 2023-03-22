@@ -12,8 +12,8 @@ export const SignupPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [file, setFile] = useState(null)
-  const [isProvider, setIsProvider] = useState(false)
+  const [file, setFile] = useState(null);
+  const [isProvider, setIsProvider] = useState(false);
 
   const handleNameChange = (e) => {
     setDisplayName(e.target.value);
@@ -32,55 +32,60 @@ export const SignupPage = () => {
   };
 
   const handleIsProviderChange = (e) => {
-    setIsProvider(!isProvider)
-  }
+    setIsProvider(!isProvider);
+  };
 
   const handleFileChange = (e) => {
-    setFile(e.target.file)
-  }
+    setFile(e.target.files[0]);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!displayName) {
-      setError('Введите имя')
-      return
-    } 
+      setError("Введите имя");
+      return;
+    }
     if (!email) {
-      setError('Введите email')
-      return
+      setError("Введите email");
+      return;
     }
     if (!password) {
-      setError('Введите пароль')
-      return
-    } 
+      setError("Введите пароль");
+      return;
+    }
     if (password !== rePassword) {
-      setError('Пароли не совпадают')
-      return
+      setError("Пароли не совпадают");
+      return;
     }
 
-    // console.log(displayName)
-    // console.log(email)
-    // console.log(password)
-    // console.log(isProvider)
-    
-        const res = await createUserWithEmailAndPassword(auth, email, password).catch(error => {
-          console.log(error.code)
-          switch (error.code) {
-              case "auth/email-already-in-use":
-                setError("Данный email уже используется")
-              case "auth/weak-password":
-                setError("Слабый пароль")
-            }
-        });
+    const res = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    ).catch((error) => {
+      console.log(error.code);
+      switch (error.code) {
+        case "auth/email-already-in-use":
+          setError("Данный email уже используется");
+          break;
+        case "auth/weak-password":
+          setError("Слабый пароль");
+          break;
+        default:
+          setError("");
+      }
+    });
 
-        console.log(res.user)
+    console.log(res.user);
 
-        const date = new Date().getTime()
-        const storageRef = ref(storage, `${displayName + date}`);
+    const date = new Date().getTime();
+    const storageRef = ref(storage, `${displayName + date}`);
 
-        await uploadBytesResumable(storageRef, file).then(() => {
-          getDownloadURL(storageRef).then(async (downloadURL) => {
+    await uploadBytesResumable(storageRef, file)
+      .then(() => {
+        getDownloadURL(storageRef)
+          .then(async (downloadURL) => {
             try {
               await updateProfile(res.user, {
                 displayName,
@@ -93,17 +98,24 @@ export const SignupPage = () => {
                 email,
                 isProvider,
                 photoURL: downloadURL,
-              })
+              });
+              await setDoc(doc(db, "userChats", res.user.uid), {});
+              if (isProvider) {
+                await setDoc(doc(db, "providerOrders", res.user.uid), {});
+              } else {
+                await setDoc(doc(db, "userOrders", res.user.uid), {});
+              }
             } catch (err) {
-              setError(err)
-              
+              setError(err);
             }
-          }).catch(error => {
-            setError(error)
           })
-        }).catch(error => {
-          setError(error)
-        })
+          .catch((error) => {
+            setError(error);
+          });
+      })
+      .catch((error) => {
+        setError(error);
+      });
   };
 
   return (
@@ -115,7 +127,7 @@ export const SignupPage = () => {
           <input
             className="input"
             type="name"
-            placeholder="Name"
+            placeholder="Введите имя"
             name="name"
             onChange={handleNameChange}
             value={displayName}
@@ -125,7 +137,7 @@ export const SignupPage = () => {
           <input
             className="input"
             type="email"
-            placeholder="Email"
+            placeholder="Введите свой email"
             name="email"
             onChange={handleEmailChange}
             value={email}
@@ -135,7 +147,7 @@ export const SignupPage = () => {
           <input
             className="input"
             type="password"
-            placeholder="password"
+            placeholder="Введите пароль"
             name="password"
             onChange={handlePassChange}
             value={password}
@@ -145,7 +157,7 @@ export const SignupPage = () => {
           <input
             className="input"
             type="password"
-            placeholder="repeat password"
+            placeholder="Повторите пароль"
             name="RePassword"
             onChange={handleRePassChange}
             value={rePassword}
@@ -153,20 +165,29 @@ export const SignupPage = () => {
         </div>
         <div>
           <input
+            style={{ display: "none" }}
             className="input"
             type="file"
-            placeholder="repeat password"
             name="file"
             id="file"
             onChange={handleFileChange}
-            value={file}
           />
-          <label htmlFor="file">
-            <img src="../" alt="" />
+          <label htmlFor="file" className="input">
+            <img
+              style={{ width: "25px" }}
+              src="https://cdn-icons-png.flaticon.com/512/1091/1091916.png"
+              alt=""
+            />
+            <span>Добавьте аватар</span>
           </label>
         </div>
         <div className="input checkbox">
-          <input type="checkbox" name="provider" id="provider" onChange={handleIsProviderChange}/>
+          <input
+            type="checkbox"
+            name="provider"
+            id="provider"
+            onChange={handleIsProviderChange}
+          />
           <p>Я поставщик услуг</p>
           <p></p>
         </div>
@@ -197,4 +218,4 @@ export const SignupPage = () => {
       </form>
     </div>
   );
-  }
+};
