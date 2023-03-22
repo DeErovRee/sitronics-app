@@ -7,7 +7,6 @@
 }
 
 header {
-  
   background-color: #000000;
   padding: 16px;
 
@@ -19,22 +18,22 @@ header {
     text-decoration: none;
 
     li {
-        color: white;
-        text-decoration: none;
-        text-transform: uppercase;
-        display: flex;
-        align-items: center;
+      color: white;
+      text-decoration: none;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
 
-        &:hover {
-            cursor: pointer;
-          }
+      &:hover {
+        cursor: pointer;
+      }
     }
 
     a {
-        color: white;
-        text-decoration: none;
-        text-transform: uppercase;
-      }
+      color: white;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
   }
 }
 
@@ -42,7 +41,7 @@ header {
   display: flex;
 
   li {
-    margin: 0 23px
+    margin: 0 23px;
   }
 
   a:hover {
@@ -64,12 +63,12 @@ header {
     justify-content: center;
 
     &:hover {
-        color: #000000;
-        background-color: #C4C4C4;
+      color: #000000;
+      background-color: #c4c4c4;
     }
 
     &:active {
-        background-color: #999999;
+      background-color: #999999;
     }
   }
 }
@@ -107,23 +106,29 @@ header {
 }
 
 .third {
-    background-position-x: 70px;
-    background-size: contain;
-    flex-direction: column;
-    padding: 37px 0 0 0;
+  background-position-x: 70px;
+  background-size: contain;
+  flex-direction: column;
+  padding: 37px 0 0 0;
+
+  .thirdDescription {
+    display: flex;
+  }
+
+  .companyDescription {
+    width: 660px;
+    padding: 147px 0 200px 0;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 28px;
+  }
+
+  .background {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     background-image: url(./images/sitronics_company.png);
-
-    .thirdDescription {
-        display: flex;
-    }
-
-    .companyDescription {
-        width: 660px;
-        padding: 147px 0 200px 0;
-        font-size: 24px;
-        font-weight: 400;
-        line-height: 28px;
-    }
+  }
 }
 
 .companyImage {
@@ -132,7 +137,7 @@ header {
   flex-wrap: wrap;
 
   img:hover {
-    filter:brightness(0.8);
+    filter: brightness(0.8);
     cursor: pointer;
   }
 }
@@ -156,6 +161,9 @@ header {
 
 .footer {
   background-color: #222224;
+  .footerMaxWidth {
+    max-width: 1600px;
+  }
 
   ul {
     display: flex;
@@ -164,17 +172,17 @@ header {
     padding: 35px 0 78px;
 
     li {
-        font-family: 'Lato';
+      font-family: "Lato";
     }
 
     p {
-        margin: 5px;
-        color: #FFFFFF;
-        font-family: 'Roboto';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 19px;
+      margin: 5px;
+      color: #ffffff;
+      font-family: "Roboto";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 19px;
     }
   }
 }
@@ -190,8 +198,8 @@ header {
     justify-content: center;
     width: 32px;
     height: 32px;
-    background-color: #FFFFFF;
-    
+    background-color: #ffffff;
+
     &:hover {
       cursor: pointer;
       background-color: #999999;
@@ -200,161 +208,359 @@ header {
 
   li {
     img {
-        margin: 5px;
+      margin: 5px;
 
-        &:hover {
-            filter: brightness(0.8);
-            cursor: pointer;
-        }
+      &:hover {
+        filter: brightness(0.8);
+        cursor: pointer;
+      }
     }
   }
 }
 
 .loginPage {
-    background-color: #FFFFFF;
-    display: flex;
-    padding: 176px 0;
+  background-color: #ffffff;
+  display: flex;
+  padding: 176px 0;
 }
 
 .loginForm {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    padding: 36px 66px 38px;
-    border-radius: 80px;
-    background-color: #F2F2F2;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 36px 66px 38px;
+  border-radius: 80px;
+  background-color: #f2f2f2;
 
-    h3 {
-        font-family: 'Roboto';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 32px;
-        line-height: 38px;
-        margin-bottom: 22.26px;
+  h3 {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 38px;
+    margin-bottom: 22.26px;
+  }
+
+  h4 {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    padding-bottom: 25.72px;
+  }
+
+  p {
+    margin-bottom: 22px;
+  }
+
+  button {
+    &:hover {
+      filter: brightness(0.8);
+      cursor: pointer;
     }
+  }
 
-    h4 {
-        font-family: 'Roboto';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 20px;
-        line-height: 24px;
-        padding-bottom: 25.72px;
+  .forgotPassword {
+    &:hover {
+      filter: none;
+      cursor: pointer;
+    }
+  }
+  .input {
+    width: 512px;
+    height: 70px;
+    border: none;
+    border-radius: 10px;
+    background-color: #ffffff;
+    margin: 26px 0;
+    padding: 0 42px;
+    box-sizing: border-box;
+
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+
+    color: #000842;
+
+    &::placeholder {
+      color: #000842;
+    }
+  }
+
+  .checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    input {
+      margin: -15px;
+      width: 35px;
+      -ms-transform: scale(2);
+      -moz-transform: scale(2);
+      -webkit-transform: scale(2);
+      -o-transform: scale(2);
+      transform: scale(2);
     }
 
     p {
-        margin-bottom: 22px;
+      margin: 0px;
+    }
+  }
+
+  .loginError {
+    text-transform: uppercase;
+    font-weight: 900;
+    width: 100%;
+    color: #ff0000;
+    margin-bottom: 0px;
+    position: absolute;
+    bottom: 40.5%;
+    left: 0;
+    text-align: center;
+  }
+
+  .signupError {
+    text-transform: uppercase;
+    font-weight: 900;
+    width: 100%;
+    color: #ff0000;
+    margin-bottom: 0px;
+    position: absolute;
+    bottom: 24%;
+    left: 0;
+    text-align: center;
+  }
+
+  .submitButton {
+    width: 512px;
+    height: 70px;
+    border: none;
+    background-color: #ffffff;
+  }
+
+  .restore {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-bottom: 22px;
+
+    button {
+      margin: 0;
+      border: none;
+      font-family: "Roboto";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 19px;
+      color: #000842;
     }
 
-    .input {
-        width: 512px;
-        height: 70px;
-        border: none;
-        border-radius: 10px;
-        background-color: #ffffff;
-        margin: 26px 0;
-        padding: 0 42px;
-        box-sizing: border-box;
+    p {
+      margin: 0;
+      padding-bottom: 0;
+      font-family: "Roboto";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 19px;
+      margin-bottom: 0px;
 
-        font-family: 'Roboto';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 19px;
-
+      a {
+        text-decoration: none;
         color: #000842;
-
-        &::placeholder {
-            color: #000842;
-        }
-
-        button {
-            
-            &:hover {
-                filter: brightness(0.8);
-                cursor: pointer;
-            }
-        }
+      }
     }
+  }
+}
 
-    .checkbox {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+// Chat styles
+.workSpace {
+  max-width: 1600px;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+  display: flex;
+  flex-grow: 1;
+}
 
-        input {
-            margin: -15px;
-            width: 35px;
-            -ms-transform: scale(2);
-            -moz-transform: scale(2);
-            -webkit-transform: scale(2);
-            -o-transform: scale(2);
-            transform: scale(2);
-        }
+.sidebar {
+  z-index: 99;
+  top: 0;
+  background-color: ghostwhite;
 
-        p {
-            margin: 0px;
-        }
-    }
+  &:hover {
+  }
 
-    .loginError {
-        width: 100%;
-        color: #ff0000;
-        margin-bottom: 0px;
-        position: absolute;
-        bottom: 40.5%;
-        left: 0;
-        text-align: center;
-    }
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+}
 
-    .signupError {
-        width: 100%;
-        color: #ff0000;
-        margin-bottom: 0px;
-        position: absolute;
-        bottom: 30.5%;
-        left: 0;
-        text-align: center;
-    }
-
-    .submitButton {
-        width: 512px;
-        height: 70px;
-        border: none;
-        background-color: #FFFFFF;
-    }
-
-    .restore {
-        display: flex;
-        width: 100%;
-        justify-content: space-between;
-        margin-bottom: 22px;
-        
-        button {
-            margin: 0;
-            border: none;
-            font-family: 'Roboto';
-            font-style: normal;
-            font-weight: 400;
-            font-size: 16px;
-            line-height: 19px;
-            color:#000842;
-        }
-
-        p {
-            margin: 0;
-            padding-bottom: 0;
-            font-family: 'Roboto';
-            font-style: normal;
-            font-weight: 400;
-            font-size: 16px;
-            line-height: 19px;
-            margin-bottom: 0px;
-            
-            a {
-                text-decoration: none;
-                color:#000842
-            }
-        }
-    }
+.SidebarItem {
+  position: relative;
+  display: flex;
+  margin: 0;
+  border-bottom: 0.5px solid gainsboro;
+  justify-content: flex-start;
+  text-decoration: none;
+  color: black;
+}
+.btnDelChat {
+  top: 0px;
+  right: 0px;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  border: none;
+  background: none;
+  color: gainsboro;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+.chatImg {
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: none;
+  width: 40px;
+  height: 40px;
+  background-color: aquamarine;
+  border-radius: 20px;
+  margin-right: 10px;
+  box-sizing: border-box;
+  padding: 10px;
+  line-height: 1.2em;
+}
+.chatTitle {
+  margin: 10px 20px 10px 10px;
+}
+.formListAdd {
+  display: flex;
+}
+.chatListAddBtn {
+  background-color: gainsboro;
+  padding: 0;
+}
+.chatListAddInput {
+  margin: 10px 20px 10px 10px;
+  border: none;
+  background-color: inherit;
+  border-bottom: 1px solid gainsboro;
+}
+.chatListAddInput:focus-visible {
+  outline: none;
+}
+.sidebar ul li:hover {
+  background-color: aliceblue;
+  cursor: pointer;
+}
+.messageList {
+  min-height: 92.5vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+.message {
+  max-width: 70vh;
+  text-align: center;
+  background-color: aliceblue;
+  border: 0.5px solid gainsboro;
+  border-radius: 20px 20px 20px 0px;
+  margin: 10px;
+}
+.message h3 {
+  text-align: left;
+  margin: 5px 10px;
+}
+.message .text {
+  word-break: break-all;
+  text-align: justify;
+  margin: 10px 10px;
+}
+.timeStamp {
+  color: gainsboro;
+  text-align: right;
+  margin: 5px 5px;
+}
+.formSubmit {
+  position: sticky;
+  bottom: 50px;
+  width: 150%;
+  background-color: gainsboro;
+  display: flex;
+  flex-shrink: 1;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  align-content: center;
+}
+.inputField input {
+  height: 20px;
+  border: none;
+}
+.inputField input:focus-visible {
+  outline: none;
+}
+.inputField .inputName {
+  min-width: 50px;
+  border-radius: 20px 0px 0px 20px;
+  padding: 5px 5px 5px 15px;
+  margin: 10px 0px 10px 15px;
+  border-right: 0.5px solid gainsboro;
+}
+.inputField .inputText {
+  width: 300px;
+  border-radius: 20px 20px 20px 20px;
+  padding: 5px 15px 5px 15px;
+  margin: 10px 10px 10px 0px;
+}
+.sendMessageBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0;
+  font-size: 32px;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 40px;
+  color: white;
+  background-color: dodgerblue;
+}
+.profile {
+  background-color: aquamarine;
+  display: flex;
+  justify-content: center;
+}
+.profileImg {
+  width: 70px;
+  height: 70px;
+  border-radius: 70px;
+  background-color: red;
+}
+.settings {
+  display: flex;
+}
+.quoteBlock {
+  margin: 0 auto;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+}
+.quote {
+  text-align: justify;
+  padding: 15px;
 }

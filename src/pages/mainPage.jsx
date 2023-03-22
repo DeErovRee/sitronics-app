@@ -29,7 +29,7 @@ export const MainPage = () => {
         <h1>О компании</h1>
       </div>
       <div className="thirdDescription">
-        <div className="companyDescription">
+        <div className="companyDescription background">
         </div>
         <div className="companyDescription">
         Группа компаний &laquo;Ситроникс&raquo;&nbsp;&mdash; российская многопрофильная ИТ-компания 

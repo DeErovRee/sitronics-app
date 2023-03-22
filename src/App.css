@@ -79,7 +79,7 @@ header ul a {
 
 .loginBtn a:hover {
   color: #000000;
-  background-color: #C4C4C4;
+  background-color: #c4c4c4;
 }
 
 .loginBtn a:active {
@@ -128,7 +128,6 @@ header ul a {
       -ms-flex-direction: column;
           flex-direction: column;
   padding: 37px 0 0 0;
-  background-image: url(./images/sitronics_company.png);
 }
 
 .third .thirdDescription {
@@ -143,6 +142,13 @@ header ul a {
   font-size: 24px;
   font-weight: 400;
   line-height: 28px;
+}
+
+.third .background {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url(./images/sitronics_company.png);
 }
 
 .companyImage {
@@ -185,6 +191,10 @@ header ul a {
   background-color: #222224;
 }
 
+.footer .footerMaxWidth {
+  max-width: 1600px;
+}
+
 .footer ul {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -197,13 +207,13 @@ header ul a {
 }
 
 .footer ul li {
-  font-family: 'Lato';
+  font-family: "Lato";
 }
 
 .footer ul p {
   margin: 5px;
-  color: #FFFFFF;
-  font-family: 'Roboto';
+  color: #ffffff;
+  font-family: "Roboto";
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -230,7 +240,7 @@ header ul a {
           justify-content: center;
   width: 32px;
   height: 32px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 
 .socialNetwork .cube:hover {
@@ -249,7 +259,7 @@ header ul a {
 }
 
 .loginPage {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -267,11 +277,11 @@ header ul a {
           flex-direction: column;
   padding: 36px 66px 38px;
   border-radius: 80px;
-  background-color: #F2F2F2;
+  background-color: #f2f2f2;
 }
 
 .loginForm h3 {
-  font-family: 'Roboto';
+  font-family: "Roboto";
   font-style: normal;
   font-weight: 400;
   font-size: 32px;
@@ -280,7 +290,7 @@ header ul a {
 }
 
 .loginForm h4 {
-  font-family: 'Roboto';
+  font-family: "Roboto";
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
@@ -290,6 +300,18 @@ header ul a {
 
 .loginForm p {
   margin-bottom: 22px;
+}
+
+.loginForm button:hover {
+  -webkit-filter: brightness(0.8);
+          filter: brightness(0.8);
+  cursor: pointer;
+}
+
+.loginForm .forgotPassword:hover {
+  -webkit-filter: none;
+          filter: none;
+  cursor: pointer;
 }
 
 .loginForm .input {
@@ -302,7 +324,7 @@ header ul a {
   padding: 0 42px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  font-family: 'Roboto';
+  font-family: "Roboto";
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -324,12 +346,6 @@ header ul a {
 
 .loginForm .input::placeholder {
   color: #000842;
-}
-
-.loginForm .input button:hover {
-  -webkit-filter: brightness(0.8);
-          filter: brightness(0.8);
-  cursor: pointer;
 }
 
 .loginForm .checkbox {
@@ -356,6 +372,8 @@ header ul a {
 }
 
 .loginForm .loginError {
+  text-transform: uppercase;
+  font-weight: 900;
   width: 100%;
   color: #ff0000;
   margin-bottom: 0px;
@@ -366,11 +384,13 @@ header ul a {
 }
 
 .loginForm .signupError {
+  text-transform: uppercase;
+  font-weight: 900;
   width: 100%;
   color: #ff0000;
   margin-bottom: 0px;
   position: absolute;
-  bottom: 30.5%;
+  bottom: 24%;
   left: 0;
   text-align: center;
 }
@@ -379,7 +399,7 @@ header ul a {
   width: 512px;
   height: 70px;
   border: none;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 
 .loginForm .restore {
@@ -396,7 +416,7 @@ header ul a {
 .loginForm .restore button {
   margin: 0;
   border: none;
-  font-family: 'Roboto';
+  font-family: "Roboto";
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -407,7 +427,7 @@ header ul a {
 .loginForm .restore p {
   margin: 0;
   padding-bottom: 0;
-  font-family: 'Roboto';
+  font-family: "Roboto";
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -418,5 +438,277 @@ header ul a {
 .loginForm .restore p a {
   text-decoration: none;
   color: #000842;
+}
+
+.workSpace {
+  max-width: 1600px;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+}
+
+.sidebar {
+  z-index: 99;
+  top: 0;
+  background-color: ghostwhite;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.SidebarItem {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 0;
+  border-bottom: 0.5px solid gainsboro;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  text-decoration: none;
+  color: black;
+}
+
+.btnDelChat {
+  top: 0px;
+  right: 0px;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  border: none;
+  background: none;
+  color: gainsboro;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.chatImg {
+  margin: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  text-align: center;
+  border: none;
+  width: 40px;
+  height: 40px;
+  background-color: aquamarine;
+  border-radius: 20px;
+  margin-right: 10px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  line-height: 1.2em;
+}
+
+.chatTitle {
+  margin: 10px 20px 10px 10px;
+}
+
+.formListAdd {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.chatListAddBtn {
+  background-color: gainsboro;
+  padding: 0;
+}
+
+.chatListAddInput {
+  margin: 10px 20px 10px 10px;
+  border: none;
+  background-color: inherit;
+  border-bottom: 1px solid gainsboro;
+}
+
+.chatListAddInput:focus-visible {
+  outline: none;
+}
+
+.sidebar ul li:hover {
+  background-color: aliceblue;
+  cursor: pointer;
+}
+
+.messageList {
+  min-height: 92.5vh;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
+.message {
+  max-width: 70vh;
+  text-align: center;
+  background-color: aliceblue;
+  border: 0.5px solid gainsboro;
+  border-radius: 20px 20px 20px 0px;
+  margin: 10px;
+}
+
+.message h3 {
+  text-align: left;
+  margin: 5px 10px;
+}
+
+.message .text {
+  word-break: break-all;
+  text-align: justify;
+  margin: 10px 10px;
+}
+
+.timeStamp {
+  color: gainsboro;
+  text-align: right;
+  margin: 5px 5px;
+}
+
+.formSubmit {
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 50px;
+  width: 150%;
+  background-color: gainsboro;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-negative: 1;
+      flex-shrink: 1;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  -ms-flex-line-pack: center;
+      align-content: center;
+}
+
+.inputField input {
+  height: 20px;
+  border: none;
+}
+
+.inputField input:focus-visible {
+  outline: none;
+}
+
+.inputField .inputName {
+  min-width: 50px;
+  border-radius: 20px 0px 0px 20px;
+  padding: 5px 5px 5px 15px;
+  margin: 10px 0px 10px 15px;
+  border-right: 0.5px solid gainsboro;
+}
+
+.inputField .inputText {
+  width: 300px;
+  border-radius: 20px 20px 20px 20px;
+  padding: 5px 15px 5px 15px;
+  margin: 10px 10px 10px 0px;
+}
+
+.sendMessageBtn {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 0;
+  font-size: 32px;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 40px;
+  color: white;
+  background-color: dodgerblue;
+}
+
+.profile {
+  background-color: aquamarine;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.profileImg {
+  width: 70px;
+  height: 70px;
+  border-radius: 70px;
+  background-color: red;
+}
+
+.settings {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.quoteBlock {
+  margin: 0 auto;
+  max-width: 400px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
+}
+
+.quote {
+  text-align: justify;
+  padding: 15px;
 }
 /*# sourceMappingURL=App.css.map */
