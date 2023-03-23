@@ -1,5 +1,5 @@
 import "./App.scss";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 import { ServicesPage } from "./pages/servicesPage";
@@ -9,7 +9,7 @@ import { LoginPage } from "./pages/loginPage";
 import { SignupPage } from "./pages/signupPage";
 import { PersonalAreaPage } from "./pages/personalAreaPage";
 import { Page404 } from "./pages/page404";
-import { ChatsPage } from "./pages/chatsPage";
+import { Search } from "./pages/newComponent/search";
 
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase/firebase";
@@ -19,6 +19,8 @@ import { store } from "./redux/store";
 
 import { PublicRoute } from "./hocs/publicRoute";
 import { PrivateRoute } from "./hocs/privateRoute";
+
+import { AuthContext } from "./context/AuthContext";
 
 export const App = () => {
   const [authed, setAuthed] = useState(false);
@@ -59,6 +61,10 @@ export const App = () => {
     AuthedCheck();
   }, []);
 
+  const { currentUser } = useContext(AuthContext);
+
+  console.log(currentUser);
+
   return (
     <Router>
       <Provider store={store}>
@@ -97,7 +103,7 @@ export const App = () => {
               path="/chats/*"
               element={
                 <PrivateRoute authenticated={authed}>
-                  <ChatsPage />
+                  <Search />
                 </PrivateRoute>
               }
             />

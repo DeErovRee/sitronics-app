@@ -29,10 +29,15 @@ export const LoginPage = () => {
       switch (error.message) {
         case "Firebase: Error (auth/user-not-found).":
           setError("Неверный логин и/или пароль");
+          break;
         case "Firebase: Error (auth/invalid-email).":
           setError("Пользователя с таким email не существует");
+          break;
         case "Firebase: Error (auth/wrong-password).":
           setError("Неверный логин и/или пароль");
+          break;
+        default:
+          setError("");
       }
       console.log(error.message);
     }

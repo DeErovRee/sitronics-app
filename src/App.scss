@@ -268,6 +268,9 @@ header {
     }
   }
   .input {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 512px;
     height: 70px;
     border: none;
@@ -287,6 +290,20 @@ header {
 
     &::placeholder {
       color: #000842;
+    }
+
+    img {
+      margin: 0;
+    }
+
+    span {
+      margin: 0 0 0 10px;
+    }
+  }
+
+  label {
+    &:hover {
+      cursor: pointer;
     }
   }
 
