@@ -23,6 +23,7 @@ export const Search = () => {
   const { currentUser } = useContext(AuthContext);
 
   const handleSearch = async () => {
+    setUser(null);
     const q = query(
       collection(db, "users"),
       where("displayName", "==", username)
@@ -34,9 +35,7 @@ export const Search = () => {
         setUser(doc.data());
         setFile(doc.data().photoURL);
       });
-    } catch (error) {
-      setError(error);
-    }
+    } catch (error) {}
   };
 
   const handleSelect = async () => {
@@ -47,9 +46,9 @@ export const Search = () => {
     try {
       const res = await getDoc(doc(db, "chats", combinedId));
 
-      if (true) {
+      if (!res.exists()) {
         await setDoc(doc(db, "chats", combinedId), { messages: [] });
-        
+
         await updateDoc(doc(db, "userChats", currentUser.uid), {
           [combinedId + ".userInfo"]: {
             uid: user.uid,
@@ -58,7 +57,7 @@ export const Search = () => {
           },
           [combinedId + ".date"]: serverTimestamp(),
         });
-        
+
         await updateDoc(doc(db, "userChats", user.uid), {
           [combinedId + ".userInfo"]: {
             uid: currentUser.uid,
@@ -69,9 +68,10 @@ export const Search = () => {
         });
       }
     } catch (error) {
-      console.log(error);
+      setError(true);
     }
 
+    setError(false);
     setUser(null);
     setUsername("");
   };
@@ -91,7 +91,7 @@ export const Search = () => {
           value={username}
         />
       </div>
-      {error && <span>{error.message}</span>}
+      {error && <span>Пользователь не найден</span>}
       {user && (
         <div className="userChat" onClick={handleSelect}>
           <img src={file} style={{ width: "120px" }} alt="user-avatar" />
