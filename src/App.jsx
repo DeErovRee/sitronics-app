@@ -63,8 +63,6 @@ export const App = () => {
 
   const { currentUser } = useContext(AuthContext);
 
-  console.log(currentUser);
-
   return (
     <Router>
       <Provider store={store}>

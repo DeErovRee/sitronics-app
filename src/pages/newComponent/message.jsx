@@ -1,17 +1,22 @@
-import React, { useContext, useRef, useEffect } from "react";
+import React, { useContext, useRef, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { ChatContext } from "../../context/ChatContext";
+import { Messages } from "./messages";
 
 export const Message = ({ message }) => {
   const { currentUser } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
 
   const ref = useRef();
+  const [date, setDate] = useState()
 
   useEffect(() => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   }, [message]);
+
+
   return (
+    
     <div
       ref={ref}
       className={`message ${message.senderId === currentUser.uid && "owner"}`}
@@ -26,7 +31,7 @@ export const Message = ({ message }) => {
           alt=""
           width="35px"
         />
-        <span>just now</span>
+        <span>date</span>
       </div>
       <div className="messageContent">
         <p>{message.text}</p>

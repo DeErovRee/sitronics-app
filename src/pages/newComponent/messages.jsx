@@ -12,6 +12,10 @@ export const Messages = () => {
     const unsub = onSnapshot(doc(db, "chats", data.chatId), (doc) => {
       doc.exists() && setMessages(doc.data().messages);
     });
+
+    return()=>{
+      unsub()
+    }
   }, [data.chatId]);
   return (
     <div className="messages">

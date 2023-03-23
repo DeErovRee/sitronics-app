@@ -5,7 +5,6 @@ export const PersonalAreaPage = () => {
     try {
       await auth.signOut();
     } catch (error) {
-      console.log(error);
     }
   };
 
