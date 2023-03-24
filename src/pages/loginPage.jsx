@@ -39,7 +39,6 @@ export const LoginPage = () => {
         default:
           setError("");
       }
-      console.log(error.message);
     }
   };
 

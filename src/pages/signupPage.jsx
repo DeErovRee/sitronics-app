@@ -64,7 +64,6 @@ export const SignupPage = () => {
       email,
       password
     ).catch((error) => {
-      console.log(error.code);
       switch (error.code) {
         case "auth/email-already-in-use":
           setError("Данный email уже используется");
@@ -76,8 +75,6 @@ export const SignupPage = () => {
           setError("");
       }
     });
-
-    console.log(res.user);
 
     const date = new Date().getTime();
     const storageRef = ref(storage, `${displayName + date}`);

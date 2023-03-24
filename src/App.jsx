@@ -9,7 +9,7 @@ import { LoginPage } from "./pages/loginPage";
 import { SignupPage } from "./pages/signupPage";
 import { PersonalAreaPage } from "./pages/personalAreaPage";
 import { Page404 } from "./pages/page404";
-import { Search } from "./pages/newComponent/search";
+import { ChatsPage } from "./pages/chatsPage";
 
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase/firebase";
@@ -63,8 +63,6 @@ export const App = () => {
 
   const { currentUser } = useContext(AuthContext);
 
-  console.log(currentUser);
-
   return (
     <Router>
       <Provider store={store}>
@@ -100,10 +98,10 @@ export const App = () => {
             <Route exact path="/services" element={<ServicesPage />} />
             <Route
               exact
-              path="/chats/*"
+              path="/chats"
               element={
                 <PrivateRoute authenticated={authed}>
-                  <Search />
+                  <ChatsPage />
                 </PrivateRoute>
               }
             />
