@@ -19,6 +19,10 @@ export const Input = () => {
   const { currentUser } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
 
+  const handleKey = (e) => {
+    e.code === "Enter" && handleSend();
+  };
+
   const handleSend = async () => {
     if (file) {
       const storageRef = ref(storage, nanoid());
@@ -34,7 +38,7 @@ export const Input = () => {
               messages: arrayUnion({
                 id: nanoid(),
                 text,
-                senderId: currentUser.uid,
+                sendId: currentUser.uid,
                 date: Timestamp.now(),
                 file: downloadURL,
               }),
@@ -78,9 +82,9 @@ export const Input = () => {
         placeholder="Введите сообщение"
         onChange={(e) => setText(e.target.value)}
         value={text}
+        onKeyDown={handleKey}
       />
       <div className="send">
-        <img src="" alt="send" />
         <input
           type="file"
           style={{ display: "none" }}
@@ -88,9 +92,14 @@ export const Input = () => {
           onChange={(e) => setFile(e.target.files[0])}
         />
         <label htmlFor="file">
-          <img src="" alt="add" />
+          <img src={require("../../images/clip.png")} alt="add" />
         </label>
-        <button onClick={handleSend}>Send</button>
+        {/* <button onClick={handleSend}>Send</button> */}
+        <img
+          onClick={handleSend}
+          src={require("../../images/paper-plane.png")}
+          alt="send"
+        />
       </div>
     </div>
   );

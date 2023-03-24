@@ -9,7 +9,7 @@ export const Chat = () => {
   return (
     <div className="chat">
       <div className="chatInfo">
-        <span>{data.user?.displayName}</span>
+        <span>Чат с {data.user?.displayName}</span>
         <div className="chatIcon">
           <img src="" alt="" />
           <img src="" alt="" />

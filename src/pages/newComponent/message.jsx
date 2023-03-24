@@ -8,23 +8,22 @@ export const Message = ({ message }) => {
   const { data } = useContext(ChatContext);
 
   const ref = useRef();
-  const [date, setDate] = useState()
+  const [date, setDate] = useState();
 
   useEffect(() => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   }, [message]);
 
-
   return (
-    
     <div
       ref={ref}
-      className={`message ${message.senderId === currentUser.uid && "owner"}`}
+      className={`message ${message.sendId === currentUser.uid && "owner"}`}
     >
+      {console.log(message)}
       <div className="messageInfo">
         <img
           src={
-            message.senderId === currentUser.uid
+            message.sendId === currentUser.uid
               ? currentUser.photoURL
               : data.user.photoURL
           }
@@ -34,7 +33,7 @@ export const Message = ({ message }) => {
         <span>date</span>
       </div>
       <div className="messageContent">
-        <p>{message.text}</p>
+        {message.text && <p>{message.text}</p>}
         {message.file && <img src={message.file} alt="" width="65%" />}
       </div>
     </div>
