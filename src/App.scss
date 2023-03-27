@@ -591,3 +591,91 @@ header {
     }
   }
 }
+
+// Personal area styles
+
+.personalArea {
+  max-width: 1200px;
+  display: flex;
+  margin-bottom: 100px;
+
+  .personalSidebar {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    align-items: center;
+
+    .userPhoto {
+      border-radius: 50%;
+      width: 250px;
+      height: 250px;
+    }
+
+    .userName .userEmail {
+      font-family: 'Roboto';
+      font-style: normal;
+      font-weight: 300;
+      font-size: 24px;
+      line-height: 28px;
+    }
+
+    .userName {
+      font-size: 46px;
+      margin-bottom: 50px;
+      text-transform: capitalize;
+    }
+
+    .userEmail {
+      margin-bottom: 13px;
+    }
+
+    .userStatus {
+      font-family: 'Roboto';
+      font-style: normal;
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 19px;
+      text-transform: uppercase;
+      margin-bottom: 17px;
+    }
+
+    .client {
+      color: #ff0000;
+    }
+
+    .provider {
+      color: #4285F4;
+    }
+
+    a, button{
+      box-sizing: border-box;
+      font-family: 'Roboto';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 24px;
+      line-height: 29px;
+
+      border: none;
+      border-radius: 20px;
+      background-color: #d9d9d9;
+      width: 300px;
+      margin: 9px 0;
+      padding: 25px 16px;
+      text-transform: uppercase;
+      text-decoration: none;
+      text-align: center;
+      color: #000000;
+
+      &:hover {
+        cursor: pointer;
+        background-color: #acacac;
+      }
+    }
+  }
+
+  .optionalWindow {
+    width: 70%;
+    background-color: red;
+  }
+}
