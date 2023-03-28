@@ -593,6 +593,17 @@ header {
 }
 
 // Personal area styles
+.signupError {
+  text-transform: uppercase;
+  font-weight: 900;
+  width: 100%;
+  color: #ff0000;
+  margin-bottom: 0px;
+  position: absolute;
+  bottom: 24%;
+  left: 0;
+  text-align: center;
+}
 
 .personalArea {
   max-width: 1200px;
@@ -628,6 +639,10 @@ header {
 
     .userEmail {
       margin-bottom: 13px;
+      &:hover {
+        cursor: pointer;
+        color: #acacac;
+      }
     }
 
     .userStatus {
@@ -650,7 +665,6 @@ header {
 
     a, button{
       box-sizing: border-box;
-      font-family: 'Roboto';
       font-style: normal;
       font-weight: 400;
       font-size: 24px;
@@ -676,6 +690,83 @@ header {
 
   .optionalWindow {
     width: 70%;
-    background-color: red;
+    border: 1px solid red;
+    padding: 21px 26px;
+  }
+}
+
+//Settings styles
+
+.settings {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h1 {
+    margin-bottom: 54px;
+    text-transform: uppercase;
+  }
+
+  .defaultDiv {
+    text-align: center;
+    width: 70%;
+    background-color: #d9d9d9;
+    border-radius: 10px;
+
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 18px;
+    text-transform: uppercase;
+    padding: 15px;
+    margin: 14px 0;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    p {
+      margin-bottom: 15px;
+    }
+
+    .wrappable {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      input {
+        margin-bottom: 25px;
+        padding: 15px;
+        width: 80%;
+        border: none;
+        border-radius: 10px;
+        
+        &::placeholder {
+          text-align: center;
+        }
+      }
+
+      button {
+        border: none;
+        border-radius: 10px;
+        padding: 15px;
+        text-transform: uppercase;
+
+        font-style: normal;
+        font-weight: 400;
+        font-size: 15px;
+        line-height: 18px;
+
+        &:hover {
+          cursor: pointer;
+          background-color: #acacac;
+        }
+      }
+    }
+
+    .hide {
+      display: none;
+    }
   }
 }
