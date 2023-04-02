@@ -990,6 +990,9 @@ header ul a {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   background-color: rgba(141, 164, 241, 0.5);
   padding: 5px 10px;
   border-radius: 3px;
@@ -1001,8 +1004,6 @@ header ul a {
 
 .providerPage .card .citys .city .deleteCity {
   background-color: #fff;
-  width: 10px;
-  height: 10px;
   border: none;
   border-radius: 50%;
   width: 20px;
@@ -1121,7 +1122,7 @@ header ul a {
 .providerPage .card label {
   text-align: center;
   width: 100%;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   padding: 5px;
   border-radius: 5px;
   background-color: white;
@@ -1136,20 +1137,48 @@ header ul a {
   background-color: rgba(255, 255, 255, 0.7);
 }
 
-.providerPage .card .pinImg {
+.providerPage .card .pinImgs {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   margin-bottom: 10px;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
 }
 
-.providerPage .card .pinImg img {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  width: 50px;
-  height: 50px;
-  border: 3px solid #8da4f1;
-  border-radius: 5px;
+.providerPage .card .pinImgs .soloImg {
+  position: relative;
+  margin: 10px 20px 0 0;
+}
+
+.providerPage .card .pinImgs .soloImg video {
+  height: 75px;
+}
+
+.providerPage .card .pinImgs .soloImg img {
+  height: 75px;
+}
+
+.providerPage .card .pinImgs .soloImg .deleteCity {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+}
+
+.providerPage .card .pinImgs .soloImg .deleteCity:hover {
+  cursor: pointer;
+}
+
+.providerPage .card .pinImgs .soloImg .deleteCity img {
+  height: 10px;
 }
 
 .providerPage .fnlBtn {

@@ -3,7 +3,7 @@ import { useState } from "react";
 
 export const ProviderPage = () => {
 
-    const [files, setFiles] = useState(null)
+    const [files, setFiles] = useState([])
 
     const [text, setText] = useState('Это тестовый набор текста для проверки отображения длинного текста в поле ввода текста, а еще это поле можно растягивать вниз.')
 
@@ -71,12 +71,24 @@ export const ProviderPage = () => {
     }
 
     const handleFiles = (e) => {
-        // setFiles(e.target.files)
-        console.log(e.target.files)
+        let files = [...e.target.files]
+        for (let i = 0; i < files.length; i++) {
+            setFiles(prevState => ([...prevState, 
+                {URL: URL.createObjectURL(files[i]),
+                type: files[i].type.slice(0,files[i].type.lastIndexOf('/'))}
+            ]))
+        }
+        console.log(files)
+    }
+
+    const deleteFile = (file) => {
+        setFiles(files.filter((el) => {
+            return el !== file
+        }))
     }
 
     const deleteFiles = () => {
-        
+        setFiles([])
     }
 
     return(
@@ -96,16 +108,37 @@ export const ProviderPage = () => {
                 <p>Выберите фото или видео-файлы, которые будут 
                     отображаться на карточке поставщика услуг</p>
                 <input 
-                    type="file" 
+                    type="file"
+                    multiple="multiple"
                     style={{display: "none"}} 
-                    id="file" 
-                    onChange={e => handleFiles(e)}
+                    id="file"
+                    onChange={handleFiles}
                     autoComplete="off"/>
                 <label htmlFor="file">Прикрепить файлы</label>
-                <div className="pinImg">
-                    <img src="" alt="" />
-                    <img src="" alt="" />
-                    <img src="" alt="" />
+                <div className="pinImgs" id="pinImgs">
+                    {files && files.map((el) => {
+                        console.log(el)
+                        if (el.type === 'video') {
+                            return (<div className="soloImg" key={el.URL}>
+                                <video src={el.URL+'#t=0.5'} preload='metadata' poster={el.URL}>
+                                    <source type={el.type}/>
+                                </video>
+                                <button className='deleteCity' onClick={e => deleteFile(el)}>
+                                    <img src={require('../../images/x.png')} />
+                                </button>
+                            </div>)
+                        } else {
+                            return(
+                                <div className="soloImg" key={el.URL}>
+                                    <img src={el.URL} alt=''/>
+                                    <button className='deleteCity' onClick={e => deleteFile(el)}>
+                                        <img src={require('../../images/x.png')} />
+                                    </button>
+                                </div>
+                            )
+                        }
+                        
+                    })}
                 </div>
                 <div  className="cardBtn">
                     <div className="settingsBtn" onClick={deleteFiles}>Очистить</div>
