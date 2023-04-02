@@ -20,8 +20,6 @@ export const ProviderPage = () => {
         console.log(text)
         console.log(citys)
         console.log(services)
-        // setCitys([])
-        // setServices([])
     }
 
     const deleteText = () => {
@@ -44,9 +42,13 @@ export const ProviderPage = () => {
     }
 
     const deleteCity = (city) => {
-        setCitys(citys.filter((el) => {
-            return el !== city
-        }))
+        if (citys.length === 1) {
+            setCitys([])
+        } else {
+            setCitys(citys.filter((el) => {
+                return el !== city
+            }))
+        }
     }
 
     const deleteCitys = () => {
@@ -55,7 +57,7 @@ export const ProviderPage = () => {
 
     const handleServices = () => {
         const service = document.querySelector('#services').value
-        if (services.length > 0) {
+        if (service.length > 0) {
             setServices(prevState => ([...prevState, service]))
             setServicesInput('')
         } else {
@@ -68,9 +70,13 @@ export const ProviderPage = () => {
     }
 
     const deleteService = (service) => {
-        setServices(services.filter((el) => {
-            return el !== service
-        }))
+        if (services.length === 1) {
+            setServices([])
+        } else {
+            setServices(services.filter((el) => {
+                return el !== service
+            }))
+        }
     }
 
     const deleteServices = () => {
@@ -89,9 +95,14 @@ export const ProviderPage = () => {
     }
 
     const deleteFile = (file) => {
-        setFiles(files.filter((el) => {
-            return el !== file
-        }))
+        if (files.length === 1) {
+            setFiles([])
+        } else {
+            setFiles(files.filter((el) => {
+                return el !== file
+            }))
+        }
+        
     }
 
     const deleteFiles = () => {
@@ -131,7 +142,7 @@ export const ProviderPage = () => {
                                     <source type={el.type}/>
                                 </video>
                                 <button className='deleteCity' onClick={e => deleteFile(el)}>
-                                    <img src={require('../../images/x.png')} />
+                                    <img src={require('../../images/x.png')} alt=''/>
                                 </button>
                             </div>)
                         } else {
@@ -139,7 +150,7 @@ export const ProviderPage = () => {
                                 <div className="soloImg" key={el.URL}>
                                     <img src={el.URL} alt=''/>
                                     <button className='deleteCity' onClick={e => deleteFile(el)}>
-                                        <img src={require('../../images/x.png')} />
+                                        <img src={require('../../images/x.png')} alt=''/>
                                     </button>
                                 </div>
                             )
