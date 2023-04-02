@@ -39,6 +39,10 @@ export const ProviderPage = () => {
         }
     }
 
+    const handleKeyCitys = (e) => {
+        e.code === "Enter" && handleCitys()
+    }
+
     const deleteCity = (city) => {
         setCitys(citys.filter((el) => {
             return el !== city
@@ -57,7 +61,10 @@ export const ProviderPage = () => {
         } else {
             setError('Пустая строка')
         }
-        
+    }
+
+    const handleKeyServices = (e) => {
+        e.code === "Enter" && handleServices()
     }
 
     const deleteService = (service) => {
@@ -151,7 +158,8 @@ export const ProviderPage = () => {
                         type="text" 
                         placeholder="Введите город или регион" 
                         id="citys" 
-                        value={citysInput} 
+                        value={citysInput}
+                        onKeyDown={handleKeyCitys} 
                         onChange={(e)=>{setCitysInput(e.target.value)}}
                         autoComplete="off"/>
                     <div className="addBtn" onClick={handleCitys}>
@@ -165,8 +173,8 @@ export const ProviderPage = () => {
                             return(
                                 <div className="city" key={el}>
                                     <p>{el}</p>
-                                    <button className="deleteCity">
-                                        <img src={require('../../images/x.png')} width='10px' alt="" onClick={e => deleteCity(el)}/>
+                                    <button className="deleteCity" onClick={e => deleteCity(el)}>
+                                        <img src={require('../../images/x.png')} width='10px' alt="" />
                                     </button>
                                 </div> 
                             )
@@ -184,6 +192,7 @@ export const ProviderPage = () => {
                         placeholder="Введите название услуги" 
                         id="services" 
                         value={servicesInput} 
+                        onKeyDown={handleKeyServices}
                         onChange={(e) => {setServicesInput(e.target.value)}}
                         autoComplete="off"/>
                     <div className="addBtn" onClick={handleServices}>
@@ -197,8 +206,8 @@ export const ProviderPage = () => {
                             return(
                                 <div className="city" key={el}>
                                     <p>{el}</p>
-                                    <button className="deleteCity">
-                                        <img src={require('../../images/x.png')} width='10px' alt="" onClick={e => deleteService(el)}/>
+                                    <button className="deleteCity" onClick={e => deleteService(el)}>
+                                        <img src={require('../../images/x.png')} width='10px' alt="" />
                                     </button>
                                 </div> 
                             )
