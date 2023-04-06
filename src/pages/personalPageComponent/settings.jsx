@@ -80,7 +80,7 @@ export const Settings = () => {
             <div className="defaultDiv" >
                 <p>Изменить имя</p>
                 <div className="wrappable" >
-                    <input type="text" value={name} placeholder="Введите новое имя" onChange={handleChangeName} autoComplete="off" />
+                    <input type="text" value={name} placeholder="Введите новое имя" onChange={handleChangeName} autocomplete="off" />
                     <button type="submit" onClick={handleUpdateName}>Применить</button>
                 </div>
             </div>
@@ -88,9 +88,9 @@ export const Settings = () => {
                 <p>Сменить пароль</p>
                 <div className="wrappable" >
                     <input type="password" value={pass} placeholder="Введите пароль" onChange={handleChangePass} autoсomplete="off"/>
-                    <input type="password" value={newPass} placeholder="Введите новый пароль" onChange={handleChangeNewPass} autoсomplete="off"/>
+                    <input type="password" value={newPass} placeholder="Введите новый пароль" onChange={handleChangeNewPass} autoсomplete="new-password"/>
                     {error && <span className="signupError" style={{top: '50px', fontSize: '15px', height: '10px'}}>{error}</span>}
-                    <input type="password" value={reNewPass} placeholder="Повторите новый пароль" onChange={handleChangeReNewPass} autoсomplete="off"/>
+                    <input type="password" value={reNewPass} placeholder="Повторите новый пароль" onChange={handleChangeReNewPass} autoсomplete="new-pasword"/>
                     <button type="submit" onClick={handleUpdatePassword}>Применить</button>
                 </div>
             </div>
