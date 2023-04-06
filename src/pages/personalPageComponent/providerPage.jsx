@@ -1,9 +1,16 @@
-import React from "react";
+import { doc, setDoc, updateDoc } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytes, uploadBytesResumable } from "firebase/storage";
+import React, { useContext } from "react";
 import { useState } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import { db, storage } from "../../firebase/firebase";
 
 export const ProviderPage = () => {
 
+    const { currentUser } = useContext(AuthContext)
+
     const [files, setFiles] = useState([])
+    const [filesForView, setFilesForView] = useState([])
 
     const [text, setText] = useState('Это тестовый набор текста для проверки отображения длинного текста в поле ввода текста, а еще это поле можно растягивать вниз.')
 
@@ -15,11 +22,43 @@ export const ProviderPage = () => {
 
     const [error, setError] = useState('')
 
-    const handleSumbit = () => {
+    const handlePreview = () => {
         console.log(files)
+        console.log(filesForView)
         console.log(text)
         console.log(citys)
         console.log(services)
+    }
+
+    const handleSubmit = async () => {
+        const date = new Date().getTime();
+        const storageRef = ref(storage, `${files[0].name + date}`);
+
+        await uploadBytesResumable(storageRef, files[0])
+        .then(() => {
+            getDownloadURL(storageRef)
+            .then(async (downloadURL) => {
+                try {
+                await setDoc(doc(db, "providerPages", currentUser.uid), {
+                    uid: currentUser.uid,
+                    displayName: currentUser.displayName,
+                    email: currentUser.email,
+                    text,
+                    citys,
+                    services,
+                    photoURL: downloadURL,
+                });
+                } catch (err) {
+                setError(err);
+                }
+            })
+            .catch((error) => {
+                setError(error);
+            });
+        })
+        .catch((error) => {
+            setError(error);
+        });
     }
 
     const deleteText = () => {
@@ -84,14 +123,17 @@ export const ProviderPage = () => {
     }
 
     const handleFiles = (e) => {
+        
         let files = [...e.target.files]
         for (let i = 0; i < files.length; i++) {
-            setFiles(prevState => ([...prevState, 
+            setFiles(prevState => ([...prevState, e.target.files[i]]))
+            setFilesForView(prevState => ([...prevState, 
                 {URL: URL.createObjectURL(files[i]),
-                type: files[i].type.slice(0,files[i].type.lastIndexOf('/'))}
+                type: files[i].type.slice(0,files[i].type.lastIndexOf('/')),
+                name: files[i].name,
+                size: files[i].size}
             ]))
         }
-        console.log(files)
     }
 
     const deleteFile = (file) => {
@@ -127,15 +169,14 @@ export const ProviderPage = () => {
                     отображаться на карточке поставщика услуг</p>
                 <input 
                     type="file"
-                    multiple="multiple"
+                    // multiple="multiple"
                     style={{display: "none"}} 
                     id="file"
                     onChange={handleFiles}
                     autoComplete="off"/>
                 <label htmlFor="file">Прикрепить файлы</label>
                 <div className="pinImgs" id="pinImgs">
-                    {files && files.map((el) => {
-                        console.log(el)
+                    {files && filesForView.map((el) => {
                         if (el.type === 'video') {
                             return (<div className="soloImg" key={el.URL}>
                                 <video src={el.URL+'#t=0.5'} preload='metadata' poster={el.URL}>
@@ -228,8 +269,8 @@ export const ProviderPage = () => {
                     <div className="settingsBtn" onClick={deleteServices}>Очистить</div>
                 </div>
             </div>
-            <div className="fnlBtn" onClick={handleSumbit}>Предпросмотр</div>
-            <div className="fnlBtn submitBtn">Опубликовать</div>
+            <div className="fnlBtn" onClick={handlePreview}>Предпросмотр</div>
+            <div className="fnlBtn submitBtn" onClick={handleSubmit}>Опубликовать</div>
         </div>
     )
 }
