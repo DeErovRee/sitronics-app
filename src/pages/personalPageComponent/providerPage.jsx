@@ -1,5 +1,6 @@
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytes, uploadBytesResumable } from "firebase/storage";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { nanoid } from "nanoid";
 import React, { useContext } from "react";
 import { useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
@@ -12,12 +13,12 @@ export const ProviderPage = () => {
     const [files, setFiles] = useState([])
     const [filesForView, setFilesForView] = useState([])
 
-    const [text, setText] = useState('Это тестовый набор текста для проверки отображения длинного текста в поле ввода текста, а еще это поле можно растягивать вниз.')
+    const [text, setText] = useState('')
 
-    const [citys, setCitys] = useState(['Тюмень', 'Омск'])
+    const [citys, setCitys] = useState([])
     const [citysInput, setCitysInput] = useState('')
 
-    const [services, setServices] = useState(['Аэросъемка', 'Ультразвуковое обследование', 'Орошение полей'])
+    const [services, setServices] = useState([])
     const [servicesInput, setServicesInput] = useState('')
 
     const [error, setError] = useState('')
@@ -28,6 +29,23 @@ export const ProviderPage = () => {
         console.log(text)
         console.log(citys)
         console.log(services)
+    }
+
+    const handleData = async () => {
+        const docRef = doc(db, "providerPages", currentUser.uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            console.log("Document data:", docSnap.data());
+            setCitys(docSnap.data().citys)
+            setServices(docSnap.data().services)
+            setText(docSnap.data().text)
+            setFiles(docSnap.data().photoURLs)
+            setFilesForView(docSnap.data().photoURLs)
+        } else {
+        
+        console.log("No such document!");
+        }
     }
 
     const handleSubmit = async () => {
@@ -48,8 +66,6 @@ export const ProviderPage = () => {
           );
       
           const providerPagesRef = doc(db, "providerPages", currentUser.uid);
-          const providerPagesDoc = await getDoc(providerPagesRef);
-      
           
             await setDoc(providerPagesRef, {
               uid: currentUser.uid,
@@ -129,33 +145,42 @@ export const ProviderPage = () => {
 
     const handleFiles = (e) => {
         
-        let files = [...e.target.files]
-        for (let i = 0; i < files.length; i++) {
+        for (let i = 0; i < e.target.files.length; i++) {
             setFiles(prevState => ([...prevState, e.target.files[i]]))
             setFilesForView(prevState => ([...prevState, 
-                {URL: URL.createObjectURL(files[i]),
-                type: files[i].type.slice(0,files[i].type.lastIndexOf('/')),
-                name: files[i].name,
-                size: files[i].size}
+                {URL: URL.createObjectURL(e.target.files[i]),
+                type: e.target.files[i].type.slice(0,e.target.files[i].type.lastIndexOf('/')),
+                name: e.target.files[i].name,
+                size: e.target.files[i].size}
             ]))
         }
     }
 
     const deleteFile = (file) => {
+        
+        URL.revokeObjectURL(file.URL); // удаляем объект URL, связанный с файлом
         if (files.length === 1) {
+            console.log('все удалено')
             setFiles([])
+            setFilesForView([])
         } else {
             setFiles(files.filter((el) => {
-                return el !== file
+                return el.name !== file.name
+            }))
+            setFilesForView(filesForView.filter((el) => {
+                return el.name !== file.name
             }))
         }
-        
     }
 
     const deleteFiles = () => {
+        
+        for (let file of filesForView) {
+            URL.revokeObjectURL(file.URL)
+        }
         setFiles([])
+        setFilesForView([])
     }
-    
 
     return(
         <div className="providerPage">
@@ -184,25 +209,27 @@ export const ProviderPage = () => {
                 <div className="pinImgs" id="pinImgs">
                     {files && filesForView.map((el) => {
                         if (el.type === 'video') {
-                            return (<div className="soloImg" key={el.URL}>
+                            return (<div className="soloImg" key={nanoid()}>
                                 <video src={el.URL+'#t=0.5'} preload='metadata' poster={el.URL}>
                                     <source type={el.type}/>
                                 </video>
-                                <button className='deleteCity' onClick={e => deleteFile(el)}>
+                                <button className='deleteCity' onClick={e => deleteFile(el)} >
                                     <img src={require('../../images/x.png')} alt=''/>
                                 </button>
-                            </div>)
+                                {URL.revokeObjectURL(el.URL)}
+                            </div> )
                         } else {
                             return(
-                                <div className="soloImg" key={el.URL}>
+                                <div className="soloImg" key={nanoid()}>
                                     <img src={el.URL} alt=''/>
-                                    <button className='deleteCity' onClick={e => deleteFile(el)}>
+                                    <button className='deleteCity' onClick={e => deleteFile(el)} >
                                         <img src={require('../../images/x.png')} alt=''/>
                                     </button>
+                                    
                                 </div>
+                                
                             )
                         }
-                        
                     })}
                 </div>
                 <div  className="cardBtn">
@@ -277,6 +304,7 @@ export const ProviderPage = () => {
             </div>
             <div className="fnlBtn" onClick={handlePreview}>Предпросмотр</div>
             <div className="fnlBtn submitBtn" onClick={handleSubmit}>Опубликовать</div>
+            <div className="fnlBtn submitBtn" onClick={handleData}>Получить данные</div>
         </div>
     )
 }
