@@ -1,4 +1,4 @@
-import { doc, setDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes, uploadBytesResumable } from "firebase/storage";
 import React, { useContext } from "react";
 import { useState } from "react";
@@ -31,35 +31,40 @@ export const ProviderPage = () => {
     }
 
     const handleSubmit = async () => {
-        const date = new Date().getTime();
-        const storageRef = ref(storage, `${files[0].name + date}`);
-
-        await uploadBytesResumable(storageRef, files[0])
-        .then(() => {
-            getDownloadURL(storageRef)
-            .then(async (downloadURL) => {
-                try {
-                await setDoc(doc(db, "providerPages", currentUser.uid), {
-                    uid: currentUser.uid,
-                    displayName: currentUser.displayName,
-                    email: currentUser.email,
-                    text,
-                    citys,
-                    services,
-                    photoURL: downloadURL,
-                });
-                } catch (err) {
-                setError(err);
-                }
-            })
-            .catch((error) => {
-                setError(error);
+        try {
+          const promises = [];
+      
+          for (const file of files) {
+            const date = new Date().getTime();
+            const storageRef = ref(storage, `${file.name}_${date}`);
+            const uploadTask = uploadBytesResumable(storageRef, file);
+            promises.push(uploadTask);
+          }
+      
+          const uploadResults = await Promise.all(promises);
+      
+          const downloadURLs = await Promise.all(
+            uploadResults.map((uploadResult) => getDownloadURL(uploadResult.ref))
+          );
+      
+          const providerPagesRef = doc(db, "providerPages", currentUser.uid);
+          const providerPagesDoc = await getDoc(providerPagesRef);
+      
+          
+            await setDoc(providerPagesRef, {
+              uid: currentUser.uid,
+              displayName: currentUser.displayName,
+              email: currentUser.email,
+              text,
+              citys,
+              services,
+              photoURLs: downloadURLs,
             });
-        })
-        .catch((error) => {
-            setError(error);
-        });
-    }
+        
+        } catch (error) {
+          setError(error);
+        }
+      };
 
     const deleteText = () => {
         setText('')
@@ -150,6 +155,7 @@ export const ProviderPage = () => {
     const deleteFiles = () => {
         setFiles([])
     }
+    
 
     return(
         <div className="providerPage">
@@ -169,7 +175,7 @@ export const ProviderPage = () => {
                     отображаться на карточке поставщика услуг</p>
                 <input 
                     type="file"
-                    // multiple="multiple"
+                    multiple="multiple"
                     style={{display: "none"}} 
                     id="file"
                     onChange={handleFiles}
