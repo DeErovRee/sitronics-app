@@ -1,17 +1,15 @@
-import { auth } from "../firebase/firebase";
+import { Sidebar } from "./personalPageComponent/sidebar";
+import { OptionalWindow } from "./personalPageComponent/optionalWindow";
 
 export const PersonalAreaPage = () => {
-  const logout = async () => {
-    try {
-      await auth.signOut();
-    } catch (error) {
-    }
-  };
 
   return (
     <>
-      <h1>Personal Area Page</h1>
-      <button onClick={logout}>ВЫЙТИ</button>
+      <h1 style={{textAlign: 'center', margin: '57px 0 97px'}}>Личный кабинет</h1>
+      <div className="personalArea">
+        <Sidebar />
+        <OptionalWindow />
+      </div>
     </>
   );
 };

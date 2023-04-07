@@ -6,7 +6,7 @@ import { Chats } from "./chats";
 export const Sidebar = () => {
   return (
     <div className="sidebar">
-      <Navbar />
+      {/* <Navbar /> */}
       <Search />
       <Chats />
     </div>

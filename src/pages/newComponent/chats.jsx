@@ -41,7 +41,7 @@ export const Chats = () => {
             <img src={chat[1].userInfo.photoURL} alt="" width="32px" />
             <div className="userChatInfo">
               <span>{chat[1].userInfo.displayName}</span>
-              <p>{chat[1].lastMessage?.text}</p>
+              <p>{chat[1].lastMessage?.text.substr(0, 12) + "..."}</p>
             </div>
           </div>
         ))}

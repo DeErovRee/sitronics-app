@@ -107,7 +107,7 @@ export const App = () => {
             />
             <Route
               exact
-              path="/personalArea"
+              path="/personalArea/*"
               element={
                 <PrivateRoute authenticated={authed}>
                   <PersonalAreaPage />

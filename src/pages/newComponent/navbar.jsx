@@ -6,7 +6,6 @@ export const Navbar = () => {
 
   return (
     <div className="navbar">
-      <span className="logo">Sitronics chat</span>
       <div className="user">
         <img src={currentUser.photoURL} alt="" width="45px" />
         <span>{currentUser.displayName}</span>
