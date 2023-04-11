@@ -60,7 +60,7 @@ export const ProviderPage = () => {
     }
 
     const clearPreview = el => {
-        el.style.bottom = '4px'
+        el.style.bottom = '0px'
         el.innerHTML = '<div class="preview-info-progress"></div>'
     }
 
@@ -272,7 +272,7 @@ export const ProviderPage = () => {
                                     </div>
                                 </div>
                             )
-                    })}
+                        })}
     
                 </div> 
 
