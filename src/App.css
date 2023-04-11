@@ -1136,7 +1136,7 @@ header ul a {
   background-color: rgba(255, 255, 255, 0.7);
 }
 
-.providerPage .card .pinImgs {
+.providerPage .card .preview {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1148,36 +1148,106 @@ header ul a {
       flex-wrap: wrap;
 }
 
-.providerPage .card .pinImgs .soloImg {
+.providerPage .card .preview .preview-image {
   position: relative;
-  margin: 10px 20px 0 0;
+  margin-bottom: .5rem;
+  margin-right: .5rem;
+  margin: 10px 10px 10px 0px;
+  overflow: hidden;
 }
 
-.providerPage .card .pinImgs .soloImg video {
-  height: 75px;
+.providerPage .card .preview .preview-image img {
+  height: 120px;
+  width: auto;
 }
 
-.providerPage .card .pinImgs .soloImg img {
-  height: 75px;
+.providerPage .card .preview .preview-image:hover .preview-remove {
+  opacity: 1;
 }
 
-.providerPage .card .pinImgs .soloImg .deleteCity {
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  background-color: #fff;
-  border: none;
-  border-radius: 50%;
+.providerPage .card .preview .preview-image .preview-remove {
+  opacity: 0;
   width: 20px;
   height: 20px;
-}
-
-.providerPage .card .pinImgs .soloImg .deleteCity:hover {
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-weight: bold;
+  background-color: rgba(255, 255, 255, 0.5);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   cursor: pointer;
+  -webkit-transition: opacity .22s;
+  transition: opacity .22s;
 }
 
-.providerPage .card .pinImgs .soloImg .deleteCity img {
-  height: 10px;
+.providerPage .card .preview .preview-image.removing {
+  -webkit-transform: scale(0);
+          transform: scale(0);
+  -webkit-transition: -webkit-transform .3s;
+  transition: -webkit-transform .3s;
+  transition: transform .3s;
+  transition: transform .3s, -webkit-transform .3s;
+}
+
+.providerPage .card .preview .preview-image:hover .preview-info {
+  bottom: 4px;
+}
+
+.providerPage .card .preview .preview-image .preview-info {
+  position: absolute;
+  right: 0;
+  bottom: -30px;
+  left: 0;
+  height: 24px;
+  font-size: .8rem;
+  font-weight: bold;
+  background-color: rgba(255, 255, 255, 0.5);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 0 5px;
+  -webkit-transition: bottom .22s;
+  transition: bottom .22s;
+}
+
+.providerPage .card .preview .preview-image .preview-info .preview-info-progress {
+  height: 100%;
+  margin: 0;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(141, 164, 241, 0.5);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-transition: width .22s;
+  transition: width .22s;
+  width: 30%;
+}
+
+.providerPage .card .preview .preview-image .preview-info span {
+  margin: 0;
 }
 
 .providerPage .fnlBtn {

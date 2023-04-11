@@ -1,10 +1,21 @@
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { nanoid } from "nanoid";
 import React, { useContext } from "react";
 import { useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { db, storage } from "../../firebase/firebase";
+
+function formatBytes(bytes, decimals = 2) {
+    if (!+bytes) return '0 Bytes'
+
+    const k = 1024
+    const dm = decimals < 0 ? 0 : decimals
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+
+    const i = Math.floor(Math.log(bytes) / Math.log(k))
+
+    return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
+}
 
 export const ProviderPage = () => {
 
@@ -48,34 +59,50 @@ export const ProviderPage = () => {
         }
     }
 
+    const clearPreview = el => {
+        el.style.bottom = '4px'
+        el.innerHTML = '<div class="preview-info-progress"></div>'
+    }
+
     const handleSubmit = async () => {
+        document.querySelectorAll('.preview-remove').forEach(el => el.remove())
+        const previewInfo = document.querySelectorAll('.preview-info')
+        previewInfo.forEach(clearPreview)
+
         try {
-          const promises = [];
-      
-          for (const file of files) {
-            const date = new Date().getTime();
-            const storageRef = ref(storage, `${file.name}_${date}`);
-            const uploadTask = uploadBytesResumable(storageRef, file);
-            promises.push(uploadTask);
-          }
-      
-          const uploadResults = await Promise.all(promises);
-      
-          const downloadURLs = await Promise.all(
-            uploadResults.map((uploadResult) => getDownloadURL(uploadResult.ref))
-          );
-      
-          const providerPagesRef = doc(db, "providerPages", currentUser.uid);
-          
-            await setDoc(providerPagesRef, {
-              uid: currentUser.uid,
-              displayName: currentUser.displayName,
-              email: currentUser.email,
-              text,
-              citys,
-              services,
-              photoURLs: downloadURLs,
-            });
+            const promises = [];
+        
+            files.forEach((file, index) => {
+                const date = new Date().getTime();
+                const storageRef = ref(storage, `providersImages/${currentUser.uid}/${file.name}`);
+
+                const uploadTask = uploadBytesResumable(storageRef, file.file);
+                uploadTask.on('state_changed', (snapshot) => {
+                    const percentage = ((snapshot.bytesTransferred / snapshot.totalBytes) * 100).toFixed(0) + '%'
+                    const block = previewInfo[index].querySelector('.preview-info-progress')
+                    block.textContent = percentage
+                    block.style.width = percentage
+                })
+                promises.push(uploadTask);
+            })
+        
+            const uploadResults = await Promise.all(promises);
+        
+            const downloadURLs = await Promise.all(
+                uploadResults.map((uploadResult) => getDownloadURL(uploadResult.ref))
+            );
+        
+            const providerPagesRef = doc(db, "providerPages", currentUser.uid);
+            
+                await setDoc(providerPagesRef, {
+                uid: currentUser.uid,
+                displayName: currentUser.displayName,
+                email: currentUser.email,
+                text,
+                citys,
+                services,
+                photoURLs: downloadURLs,
+                });
         
         } catch (error) {
           setError(error);
@@ -145,41 +172,54 @@ export const ProviderPage = () => {
 
     const handleFiles = (e) => {
         
-        for (let i = 0; i < e.target.files.length; i++) {
-            setFiles(prevState => ([...prevState, e.target.files[i]]))
-            setFilesForView(prevState => ([...prevState, 
-                {URL: URL.createObjectURL(e.target.files[i]),
-                type: e.target.files[i].type.slice(0,e.target.files[i].type.lastIndexOf('/')),
-                name: e.target.files[i].name,
-                size: e.target.files[i].size}
-            ]))
+        if (!e.target.files.length) {
+            return
         }
+
+        const uploadFiles = Array.from(e.target.files)
+        
+        setFiles([])
+
+        uploadFiles.forEach(file => {
+            if(!file.type.match('image')) {
+                return
+            }
+
+            const reader = new FileReader()
+
+            reader.onload = (e) => {
+                setFiles(prev => [...prev, {
+                    file: file,
+                    url: e.target.result,
+                    name: file.name,
+                    size: file.size}
+                ])
+            }
+
+            reader.readAsDataURL(file)
+        })
     }
 
-    const deleteFile = (file) => {
-        
-        URL.revokeObjectURL(file.URL); // удаляем объект URL, связанный с файлом
-        if (files.length === 1) {
-            console.log('все удалено')
-            setFiles([])
-            setFilesForView([])
-        } else {
-            setFiles(files.filter((el) => {
-                return el.name !== file.name
-            }))
-            setFilesForView(filesForView.filter((el) => {
-                return el.name !== file.name
-            }))
+    const deleteFile = (e) => {
+        if (!e.target.dataset.name) {
+            return
         }
+
+        const name = e.target.dataset.name
+        
+        const block = document
+            .querySelector(`[data-name="${name}"]`)
+            .closest('.preview-image')
+
+        block.classList.add('removing')
+        setTimeout(() => setFiles(files.filter(file => file.name !== name)), 300)
     }
 
     const deleteFiles = () => {
         
-        for (let file of filesForView) {
-            URL.revokeObjectURL(file.URL)
-        }
-        setFiles([])
-        setFilesForView([])
+        const block = document.querySelectorAll('.preview-image')
+        block.forEach((el) => el.classList.add('removing'))
+        setTimeout(() => setFiles([]), 300)
     }
 
     return(
@@ -195,46 +235,52 @@ export const ProviderPage = () => {
                 </div>
             </div>
             <div className="card">
+
                 <p className="cardHeader">Отображаемые файлы</p>
+
                 <p>Выберите фото или видео-файлы, которые будут 
                     отображаться на карточке поставщика услуг</p>
+
                 <input 
                     type="file"
-                    multiple="multiple"
-                    style={{display: "none"}} 
                     id="file"
                     onChange={handleFiles}
-                    autoComplete="off"/>
+
+                    multiple="multiple"
+                    accept=".jpg,.jpeg,.gif,.png"
+
+                    style={{display: "none"}} 
+                />
+
                 <label htmlFor="file">Прикрепить файлы</label>
-                <div className="pinImgs" id="pinImgs">
-                    {files && filesForView.map((el) => {
-                        if (el.type === 'video') {
-                            return (<div className="soloImg" key={nanoid()}>
-                                <video src={el.URL+'#t=0.5'} preload='metadata' poster={el.URL}>
-                                    <source type={el.type}/>
-                                </video>
-                                <button className='deleteCity' onClick={e => deleteFile(el)} >
-                                    <img src={require('../../images/x.png')} alt=''/>
-                                </button>
-                                {URL.revokeObjectURL(el.URL)}
-                            </div> )
-                        } else {
-                            return(
-                                <div className="soloImg" key={nanoid()}>
-                                    <img src={el.URL} alt=''/>
-                                    <button className='deleteCity' onClick={e => deleteFile(el)} >
-                                        <img src={require('../../images/x.png')} alt=''/>
-                                    </button>
-                                    
+
+                <div className="preview" id="preview" onClick={deleteFile}>
+                    {files && files.map((file) => {
+                        return(
+                            <div className="preview-image" key={file.name}>
+                                <div 
+                                    className="preview-remove"
+                                    data-name={file.name}
+                                    >&times;</div>
+                                <img src={file.url} alt="" height='175px'/>
+                                <div className="preview-info">
+                                    <span>{file.name.substr(0, 10)}</span>
+                                    <span>{formatBytes(file.size)}</span>
                                 </div>
-                                
-                            )
-                        }
+                            </div>
+                        )
                     })}
-                </div>
+                </div> 
+
                 <div  className="cardBtn">
-                    <div className="settingsBtn" onClick={deleteFiles}>Очистить</div>
+
+                    <div 
+                        className="settingsBtn"
+                        onClick={deleteFiles}
+                    >Очистить</div>
+
                 </div>
+                
             </div>
             <div className="card">
                 <p className="cardHeader">Обслуживаемые регионы и города</p>

@@ -934,40 +934,85 @@ header {
       }
     }
 
-    .pinImgs {
+    .preview {
       display: flex;
       margin-bottom: 10px;
       justify-content: flex-start;
       flex-wrap: wrap;
 
-      .soloImg {
+      .preview-image {
         position: relative;
-        margin: 10px 20px 0 0;
+        margin-bottom: .5rem;
+        margin-right: .5rem;
+        margin: 10px 10px 10px 0px;
+        overflow: hidden;
 
-        video {
-          height: 75px;
+        & img {
+          height: 120px;
+          width: auto;
         }
 
-        img {
-          height: 75px;
+        &:hover .preview-remove {
+          opacity: 1;
         }
 
-        .deleteCity {
-          position: absolute;
-          top: -10px;
-          right: -10px;
-          background-color: #fff;
-          border: none;
-          border-radius: 50%;
+        .preview-remove {
+          opacity: 0;
           width: 20px;
           height: 20px;
+          position: absolute;
+          right: 0;
+          top: 0;
+          font-weight: bold;
+          background-color: rgba(255, 255, 255, .5);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: opacity .22s;
+        }
 
-          &:hover {
-            cursor: pointer;
+        &.removing {
+          transform: scale(0);
+          transition: transform .3s;
+        }
+
+        &:hover .preview-info {
+          bottom: 4px;
+        }
+
+        .preview-info {
+          position: absolute;
+          right: 0;
+          bottom: -30px;
+          left: 0;
+          height: 24px;
+          font-size: .8rem;
+          font-weight: bold;
+          background-color: rgba(255, 255, 255, .5);
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 5px;
+          transition: bottom .22s;
+
+          .preview-info-progress {
+            height: 100%;
+            margin: 0;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background-color: rgba(141, 164, 241, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: width .22s;
+            width: 30%;
           }
 
-          img {
-            height: 10px;
+          & span {
+            margin: 0;
           }
         }
       }
