@@ -192,7 +192,8 @@ export const ProviderPage = () => {
                     file: file,
                     url: e.target.result,
                     name: file.name,
-                    size: file.size}
+                    size: file.size,
+                    type: file.type}
                 ])
             }
 
@@ -201,6 +202,7 @@ export const ProviderPage = () => {
     }
 
     const deleteFile = (e) => {
+        document.querySelector('input[type=file]').value = ''
         if (!e.target.dataset.name) {
             return
         }
@@ -216,9 +218,11 @@ export const ProviderPage = () => {
     }
 
     const deleteFiles = () => {
-        
         const block = document.querySelectorAll('.preview-image')
-        block.forEach((el) => el.classList.add('removing'))
+        block.forEach((el) => {
+            el.classList.add('removing')
+        })
+        document.querySelector('input[type=file]').value = ''
         setTimeout(() => setFiles([]), 300)
     }
 
@@ -247,7 +251,6 @@ export const ProviderPage = () => {
                     onChange={handleFiles}
 
                     multiple="multiple"
-                    accept=".jpg,.jpeg,.gif,.png"
 
                     style={{display: "none"}} 
                 />
@@ -256,20 +259,21 @@ export const ProviderPage = () => {
 
                 <div className="preview" id="preview" onClick={deleteFile}>
                     {files && files.map((file) => {
-                        return(
-                            <div className="preview-image" key={file.name}>
-                                <div 
-                                    className="preview-remove"
-                                    data-name={file.name}
-                                    >&times;</div>
-                                <img src={file.url} alt="" height='175px'/>
-                                <div className="preview-info">
-                                    <span>{file.name.substr(0, 10)}</span>
-                                    <span>{formatBytes(file.size)}</span>
+                            return(
+                                <div className="preview-image" key={file.name}>
+                                    <div 
+                                        className="preview-remove"
+                                        data-name={file.name}
+                                        >&times;</div>
+                                    <img src={file.url} alt="" height='175px'/>
+                                    <div className="preview-info">
+                                        <span>{file.name.substr(0, 10)}</span>
+                                        <span>{formatBytes(file.size)}</span>
+                                    </div>
                                 </div>
-                            </div>
-                        )
+                            )
                     })}
+    
                 </div> 
 
                 <div  className="cardBtn">
