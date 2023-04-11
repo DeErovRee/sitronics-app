@@ -1,5 +1,5 @@
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { getDownloadURL, getStorage, list, listAll, ref, uploadBytesResumable } from "firebase/storage";
 import React, { useContext } from "react";
 import { useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
@@ -47,11 +47,11 @@ export const ProviderPage = () => {
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-            console.log("Document data:", docSnap.data());
             setCitys(docSnap.data().citys)
             setServices(docSnap.data().services)
             setText(docSnap.data().text)
-            setFiles(docSnap.data().photoURLs)
+            // setFiles(docSnap.data().photoURLs)
+            console.log(docSnap.data().photoURLs)
             setFilesForView(docSnap.data().photoURLs)
         } else {
         

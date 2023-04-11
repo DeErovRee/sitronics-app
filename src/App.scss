@@ -939,6 +939,7 @@ header {
       margin-bottom: 10px;
       justify-content: flex-start;
       flex-wrap: wrap;
+      font-size: 0;
 
       .preview-image {
         position: relative;
@@ -978,7 +979,7 @@ header {
         }
 
         &:hover .preview-info {
-          bottom: 4px;
+          bottom: 0px;
         }
 
         .preview-info {
