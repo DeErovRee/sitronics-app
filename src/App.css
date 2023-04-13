@@ -865,10 +865,6 @@ header ul a {
   margin: 14px 0;
 }
 
-.settings .defaultDiv:hover {
-  cursor: pointer;
-}
-
 .settings .defaultDiv p {
   margin-bottom: 15px;
 }

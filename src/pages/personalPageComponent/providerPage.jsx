@@ -1,6 +1,7 @@
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { getDownloadURL, getStorage, list, listAll, ref, uploadBytesResumable } from "firebase/storage";
+import { deleteObject, getDownloadURL, getStorage, list, listAll, ref, uploadBytesResumable } from "firebase/storage";
 import React, { useContext } from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { db, storage } from "../../firebase/firebase";
@@ -42,7 +43,11 @@ export const ProviderPage = () => {
         console.log(services)
     }
 
-    const handleData = async () => {
+    useEffect(() => {
+        getData()
+    }, [])
+
+    const getData = async () => {
         const docRef = doc(db, "providerPages", currentUser.uid);
         const docSnap = await getDoc(docRef);
 
@@ -50,8 +55,6 @@ export const ProviderPage = () => {
             setCitys(docSnap.data().citys)
             setServices(docSnap.data().services)
             setText(docSnap.data().text)
-            // setFiles(docSnap.data().photoURLs)
-            console.log(docSnap.data().photoURLs)
             setFilesForView(docSnap.data().photoURLs)
         } else {
         
@@ -73,14 +76,12 @@ export const ProviderPage = () => {
             const promises = [];
         
             files.forEach((file, index) => {
-                const date = new Date().getTime();
                 const storageRef = ref(storage, `providersImages/${currentUser.uid}/${file.name}`);
 
                 const uploadTask = uploadBytesResumable(storageRef, file.file);
                 uploadTask.on('state_changed', (snapshot) => {
                     const percentage = ((snapshot.bytesTransferred / snapshot.totalBytes) * 100).toFixed(0) + '%'
                     const block = previewInfo[index].querySelector('.preview-info-progress')
-                    block.textContent = percentage
                     block.style.width = percentage
                 })
                 promises.push(uploadTask);
@@ -94,7 +95,7 @@ export const ProviderPage = () => {
         
             const providerPagesRef = doc(db, "providerPages", currentUser.uid);
             
-                await setDoc(providerPagesRef, {
+            await setDoc(providerPagesRef, {
                 uid: currentUser.uid,
                 displayName: currentUser.displayName,
                 email: currentUser.email,
@@ -102,12 +103,18 @@ export const ProviderPage = () => {
                 citys,
                 services,
                 photoURLs: downloadURLs,
-                });
+            });
+            
+            filesForView.forEach((file) => {
+                deleteObject(ref(storage, `providersImages/${currentUser.uid}/${file}`))
+            })
+            setTimeout(deleteFiles(),5000)
+            getData()
         
         } catch (error) {
           setError(error);
         }
-      };
+    };
 
     const deleteText = () => {
         setText('')
@@ -241,9 +248,16 @@ export const ProviderPage = () => {
             <div className="card">
 
                 <p className="cardHeader">Отображаемые файлы</p>
-
+                
+                {filesForView && filesForView.map((file) => {
+                    return(
+                        <div className="loaded-image" key={file}>
+                            <img src={file} alt="" />
+                        </div>
+                    )
+                })}
                 <p>Выберите фото или видео-файлы, которые будут 
-                    отображаться на карточке поставщика услуг</p>
+                    отображаться на карточке поставщика услуг. Новые файлы заменят собой старые</p>
 
                 <input 
                     type="file"
@@ -259,20 +273,20 @@ export const ProviderPage = () => {
 
                 <div className="preview" id="preview" onClick={deleteFile}>
                     {files && files.map((file) => {
-                            return(
-                                <div className="preview-image" key={file.name}>
-                                    <div 
-                                        className="preview-remove"
-                                        data-name={file.name}
-                                        >&times;</div>
-                                    <img src={file.url} alt="" height='175px'/>
-                                    <div className="preview-info">
-                                        <span>{file.name.substr(0, 10)}</span>
-                                        <span>{formatBytes(file.size)}</span>
-                                    </div>
+                        return(
+                            <div className="preview-image" key={file.name}>
+                                <div 
+                                    className="preview-remove"
+                                    data-name={file.name}
+                                    >&times;</div>
+                                <img src={file.url} alt="" />
+                                <div className="preview-info">
+                                    <span>{file.name.substr(0, 10)}</span>
+                                    <span>{formatBytes(file.size)}</span>
                                 </div>
-                            )
-                        })}
+                            </div>
+                        )
+                    })}
     
                 </div> 
 
@@ -354,7 +368,7 @@ export const ProviderPage = () => {
             </div>
             <div className="fnlBtn" onClick={handlePreview}>Предпросмотр</div>
             <div className="fnlBtn submitBtn" onClick={handleSubmit}>Опубликовать</div>
-            <div className="fnlBtn submitBtn" onClick={handleData}>Получить данные</div>
+            <div className="fnlBtn submitBtn" onClick={getData}>Получить данные</div>
         </div>
     )
 }
