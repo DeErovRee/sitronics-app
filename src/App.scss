@@ -83,14 +83,13 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
 
-    &:hover {
-      color: #000000;
-      background-color: #c4c4c4;
-    }
+  &:hover {
+    border: 1px solid #999999;
 
-    &:active {
-      background-color: #999999;
+    a {
+      color: #999999;
     }
   }
 }
@@ -190,6 +189,7 @@ header {
     font-size: 25px;
     border: none;
     margin: 0;
+    cursor: pointer;
 
     svg {
       width: 42px;
@@ -337,11 +337,16 @@ header {
     padding: 12px 46px;
     font-size: 20px;
     font-weight: 200;
+    cursor: pointer;
 
     svg {
       width: 25px;
       height: auto;
       margin: 0 0 0 8px;
+    }
+
+    &:hover {
+      border: 1px solid #999999;
     }
   }
 }
