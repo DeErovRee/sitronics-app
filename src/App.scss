@@ -153,6 +153,7 @@ header {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: flex-end;
 
     img {
       border-radius: 20px;
