@@ -1,7 +1,5 @@
 import { nanoid } from "nanoid";
-import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 export const ServicesPage = () => {
   const url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address";
@@ -15,8 +13,6 @@ export const ServicesPage = () => {
 
   const [requestReg, setRequestReg] = useState([])
   const [requestCity, setRequestCity] = useState([])
-
-  const [result, setResult] = useState('')
 
   const getOptions = (request) => {
     console.log(choiceRegion.split(' ')[0])
@@ -62,13 +58,8 @@ export const ServicesPage = () => {
         const answer = JSON.parse(result)
         if (param === requestReg) {
           setRegions(answer.suggestions)
-          console.log(answer.suggestions)
         } else if (param === requestCity) {
-          answer.suggestions.filter((el) => 
-            el.settlement == true
-          )
           setCitys(answer.suggestions)
-          console.log(answer.suggestions)
         }
         
       })

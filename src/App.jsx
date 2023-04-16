@@ -1,5 +1,5 @@
 import "./App.scss";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 import { ServicesPage } from "./pages/servicesPage";
@@ -19,8 +19,7 @@ import { store } from "./redux/store";
 
 import { PublicRoute } from "./hocs/publicRoute";
 import { PrivateRoute } from "./hocs/privateRoute";
-
-import { AuthContext } from "./context/AuthContext";
+import { ContactsPage } from "./pages/contactsPage";
 
 export const App = () => {
   const [authed, setAuthed] = useState(false);
@@ -61,8 +60,6 @@ export const App = () => {
     AuthedCheck();
   }, []);
 
-  const { currentUser } = useContext(AuthContext);
-
   return (
     <Router>
       <Provider store={store}>
@@ -72,7 +69,7 @@ export const App = () => {
               <li>
                 <Link to="/">
                   <img
-                    src={require("../src/images/free-icon-camera-drone.png")}
+                    src={require('./images/logo.png')}
                     className="logo"
                     alt="logo"
                   />
@@ -86,6 +83,9 @@ export const App = () => {
                   <Link to="/services">Услуги</Link>
                 </li>
                 <Chats />
+                <li>
+                  <Link to="/contacts">Контакты</Link>
+                </li>
               </div>
               <Component />
             </ul>
@@ -96,6 +96,7 @@ export const App = () => {
             <Route exact path="/" element={<MainPage />} />
             <Route exact path="/drons" element={<DronsPage />} />
             <Route exact path="/services" element={<ServicesPage />} />
+            <Route exact path="/contacts" element={<ContactsPage />} />
             <Route
               exact
               path="/chats"

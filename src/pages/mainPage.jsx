@@ -3,47 +3,97 @@ export const MainPage = () => {
     <>
     <div className="mainPage first">
       <div className="serviceName">
-        <h1>Услуги аэрофотосъемки
-          и видеомониторинга</h1>
-      </div>
-      <div className="companyImage">
-        <img src={require("../images/geoscan_logo.png")} alt="geoscan_logo" />
-        <img src={require("../images/albatros_logo.png")} alt="albatros_logo" />
-        <img src={require("../images/drone_center_logo.png")} alt="drone_center_logo" />
-        <img src={require("../images/geoscan_logo.png")} alt="geoscan_logo" />
-      </div>
-    </div>
-    <div className="mainPage second">
-      <div className="serviceName">
-        <h1>Тепловизионная съемка</h1>
-      </div>
-      <div className="companyImage">
-        <img src={require("../images/geoscan_logo.png")} alt="geoscan_logo" />
-        <img src={require("../images/albatros_logo.png")} alt="albatros_logo" />
-        <img src={require("../images/aerodyne_logo.png")} alt="aerodyne_logo" />
-        <img src={require("../images/supercam_logo.png")} alt="supercam_logo" />
+        <p>Широкий спектр услуг в области беспилотных технологий.</p>
+        <p>Получи <span className="textDecoration">профессиональную</span> съемку уже сейчас!</p>
+        <button className="consulBtn">Оставить заявку
+          <svg width="43" height="19" viewBox="0 0 43 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M25.5208 18.2916C24.9791 17.9583 24.7191 17.5555 24.7408 17.0833C24.7624 16.611 25.045 16.2083 25.5885 15.8749L33.2395 11.1666H3.04159C2.27423 11.1666 1.63055 11.0066 1.11055 10.6866C0.590553 10.3666 0.331456 9.97103 0.333261 9.49992C0.333261 9.0277 0.593262 8.63159 1.11326 8.31159C1.63326 7.99159 2.27604 7.83214 3.04159 7.83325H33.2395L25.5208 3.08325C24.9791 2.74992 24.7083 2.35381 24.7083 1.89492C24.7083 1.43603 24.9791 1.04047 25.5208 0.708252C26.0624 0.374918 26.7061 0.208252 27.4518 0.208252C28.1975 0.208252 28.8403 0.374918 29.3801 0.708252L41.7707 8.33325C42.0416 8.49992 42.2339 8.68048 42.3476 8.87492C42.4614 9.06936 42.5173 9.2777 42.5155 9.49992C42.5155 9.72214 42.4587 9.93048 42.3449 10.1249C42.2312 10.3194 42.0398 10.4999 41.7707 10.6666L29.3124 18.3333C28.8159 18.6388 28.1957 18.7916 27.4518 18.7916C26.7079 18.7916 26.0642 18.6249 25.5208 18.2916Z" fill="white"/>
+          </svg>  
+        </button>
       </div>
     </div>
-    <div className="mainPage third">
-      <div className="serviceName">
-        <h1>О компании</h1>
+    <div className='mainPage second'>
+      <div className='about-header'>О проекте</div>
+      <div className='about-text'><span className="textDecoration">Sitronics Drones</span> – инновационный проект, раскрывающий потенциал 
+        использования беспилотных летательных аппаратов в самых разнообразных 
+        сферах деятельности.</div>
+    </div>
+    <div className='mainPage third'>
+      <div>
+        <h4>
+          <img src={require('../images/arrow-small-right.png')} alt="" />
+          Кому подойдет?
+        </h4>
+        <p>Мы в равной степени ориентированы на профессионалов и новичков, 
+          только открывающих для себя и своего бизнеса мир беспилотных технологий. </p>
       </div>
-      <div className="thirdDescription">
-        <div className="companyDescription background">
+      <div>
+        <h4>
+          <img src={require('../images/arrow-small-right.png')} alt="" />
+          для чего?
+        </h4>
+        <p>Быстро и эффективно решаем задачи, связанные с аэрофотосъемкой, геодезией, трехмерным 
+          моделированием и визуализацией объектов исторического наследия, предприятий, и городов т.д. </p>
+      </div>
+    </div>
+    <div className='mainPage second'>
+      <div className='provider'><span className="textDecoration">Основные поставщики услуг</span></div>
+      <div className='provider-image'>
+        <img src={require("../images/albatros_logo.png")} alt="" />
+        <img src={require("../images/coex_logo.png")} alt="" />
+        <img src={require("../images/geoscan_logo.png")} alt="" />
+        <img src={require("../images/supercam_logo.png")} alt="" />
+        <img src={require("../images/drone_center_logo.png")} alt="" />
+        <img src={require("../images/aerodyne_logo.png")} alt="" />
+      </div>
+    </div>
+    <div className='mainPage four'>
+      <h3>Почему мы?</h3>
+      <div className='four-row'>
+        <div className='card'>
+          <h5>Профессиональный подход</h5>
+          <p>сотрудники центра досконально разбираются в беспилотных технологиях, 
+            поэтому могут посоветовать оптимальную модель дрона, выполнить ремонт любой сложности и осуществить съемку.</p>
         </div>
-        <div className="companyDescription">
-        Группа компаний &laquo;Ситроникс&raquo;&nbsp;&mdash; российская многопрофильная ИТ-компания 
-        с&nbsp;большим опытом разработки цифровых решений и&nbsp;реализации масштабных 
-        проектов для бизнеса и&nbsp;правительства <br /><br /><br />
-        В&nbsp;2008 году признана крупнейшей в&nbsp;России компанией высоких технологий 
-        в&nbsp;рейтинге &laquo;Эксперт 400&raquo;. По&nbsp;итогам 2010 года заняла по&nbsp;объёму выручки 
-        97&nbsp;место в&nbsp;рейтинге ста крупнейших высокотехнологичных компаний мира 
-        (1&nbsp;место среди компаний Восточной Европы), формируемом аналитической 
-        группой &laquo;ТАСС-Телеком&raquo;
+        <div className='card'>
+          <h5>Большой опыт</h5>
+          <p>Начиная аэросъемкой и заканчивая обнаружением пожаров. Каждый клиент для нас важен и может 
+            рассчитывать на внимательное отношение и компетентную помощь наших специалистов.</p>
+        </div>
+      </div>
+      <div className='four-row'>
+        <div className='card'>
+          <h5>Постоянное развитие</h5>
+          <p>Индустрия беспилотных технологий очень динамична, и мы всегда в курсе новинок и совершенствуем 
+            свои навыки, чтобы оправдывать ожидания клиентов.</p>
+        </div>
+        <div className='card'>
+          <h5>Адекватная ценовая политика</h5>
+          <p>Как непосредственный партнер известных брендов-производителей центр может устанавливать наиболее 
+            привлекательные цены, а стоимость услуг определяется в индивидуальном порядке.</p>
         </div>
       </div>
     </div>
-    
+    <div className='mainPage second'>
+      <div className='any-question'>
+        <h4>Возникли вопросы?</h4>
+        <p>Обращайтесь к нам с <span className="textDecoration">любой проблемой</span> – команда опытных инженеров, 
+          пилотов, менеджеров и геодезистов найдет оптимальное решение.</p>
+      </div>
+      <button>связаться с нами
+        <svg width="43" height="19" viewBox="0 0 43 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M25.5208 18.2916C24.9791 17.9583 24.7191 17.5555 24.7408 17.0833C24.7624 16.611 25.045 16.2083 25.5885 15.8749L33.2395 11.1666H3.04159C2.27423 11.1666 1.63055 11.0066 1.11055 10.6866C0.590553 10.3666 0.331456 9.97103 0.333261 9.49992C0.333261 9.0277 0.593262 8.63159 1.11326 8.31159C1.63326 7.99159 2.27604 7.83214 3.04159 7.83325H33.2395L25.5208 3.08325C24.9791 2.74992 24.7083 2.35381 24.7083 1.89492C24.7083 1.43603 24.9791 1.04047 25.5208 0.708252C26.0624 0.374918 26.7061 0.208252 27.4518 0.208252C28.1975 0.208252 28.8403 0.374918 29.3801 0.708252L41.7707 8.33325C42.0416 8.49992 42.2339 8.68048 42.3476 8.87492C42.4614 9.06936 42.5173 9.2777 42.5155 9.49992C42.5155 9.72214 42.4587 9.93048 42.3449 10.1249C42.2312 10.3194 42.0398 10.4999 41.7707 10.6666L29.3124 18.3333C28.8159 18.6388 28.1957 18.7916 27.4518 18.7916C26.7079 18.7916 26.0642 18.6249 25.5208 18.2916Z" fill="white"/>
+        </svg>
+      </button>
+    </div>
+    <div className='application'>
+      <a href="">
+        <svg width="31" height="52" viewBox="0 0 31 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4.73141 51.8334L0.145996 47.248L21.3939 26.0001L0.145996 4.75217L4.73141 0.166748L30.5647 26.0001L4.73141 51.8334Z" fill="#4285F4"/>
+        </svg>
+        <h2>Оставьте заявку уже сейчас</h2>
+      </a>
+    </div>
     </>
   );
 };

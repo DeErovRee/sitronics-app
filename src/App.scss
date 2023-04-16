@@ -1,14 +1,24 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+$linear-gradient: linear-gradient(45deg, rgba(11, 14, 88, 0.61), rgba(11, 14, 88, 0.61));
 
 * {
   padding: 0px;
   margin: 0 auto;
-  font-family: Roboto;
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 200;
+}
+
+// Общие стили
+
+.textDecoration {
+  font-weight: 700;
+  color: #4285F4;
 }
 
 header {
-  background-color: #000000;
-  padding: 16px;
+  background-color: #1E1E1E;
+  padding: 24px 100px;
 
   ul {
     max-width: 1600px;
@@ -18,6 +28,7 @@ header {
     text-decoration: none;
 
     li {
+      margin: 0;
       color: white;
       text-decoration: none;
       text-transform: uppercase;
@@ -50,8 +61,8 @@ header {
 }
 
 .loginBtn {
+  padding: 8px 24px;
   text-align: center;
-  width: 160px;
   border: 1px solid #ffffff;
   border-radius: 5px;
 
@@ -74,12 +85,14 @@ header {
 }
 
 .mainPage {
+  padding: 0 96px;
   max-width: 1920px;
   display: flex;
-  padding: 261px 160px 140px;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+  align-items: center;
+  justify-content: flex-start;
 
   h1 {
     width: 550px;
@@ -94,70 +107,234 @@ header {
 }
 
 .first {
-  background-image: url(./images/white-drone-hovering-bright-blue-sky.png);
+  height: 744px;
+  background-image: 
+    $linear-gradient,
+    url(./images/white-drone-hovering-bright-blue-sky.png);
 }
 
 .second {
-  background-image: url(./images/mainpage-second-background-image.png);
+  display: flex;
+  background-color: #1E1E1E;
+  color: white;
+  padding: 77px 96px;
+  justify-content: space-between;
+  
+  .about-header {
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 48px;
+    width: 30%;
+  }
 
-  h1 {
-    color: #ffffff;
+  .about-text {
+    font-size: 25px;
+    width: 60%;
+  }
+
+  .provider {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 60px;
+    text-transform: uppercase;
+  }
+
+  .provider-image {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    img {
+      border-radius: 20px;
+      width: 220px;
+      height: auto;
+    }
+  }
+
+  .any-question {
+    width: 59%;
+    font-size: 25px;
+    line-height: 28px;
+    margin: 0;
+    
+    h4 {
+      font-weight: 500;
+      margin-bottom: 30px;
+    }
+    p {
+      font-weight: 200;
+    }
+  }
+
+  button {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 39%;
+    padding: 19px 105px;
+    border-radius: 19px;
+    color: white;
+    background-color: #4285F4;
+    font-size: 25px;
+    border: none;
+    margin: 0;
+
+    svg {
+      width: 42px;
+      height: auto;
+      margin: 0 0 0 23px;
+    }
   }
 }
 
 .third {
-  background-position-x: 70px;
-  background-size: contain;
-  flex-direction: column;
-  padding: 37px 0 0 0;
+  box-sizing: border-box;
+  background-image: 
+    $linear-gradient,
+    url('./images/Sitronics-1.png');
+  padding: 104px 96px;
+  height: 343px;
+  display: flex;
+  justify-content: space-between;
+  height: 634px;
+  align-items: flex-start;
 
-  .thirdDescription {
+  div {
     display: flex;
-  }
+    flex-direction: column;
+    width: 45%;
+    margin: 0;
 
-  .companyDescription {
-    width: 660px;
-    padding: 147px 0 200px 0;
-    font-size: 24px;
-    font-weight: 400;
-    line-height: 28px;
-  }
-
-  .background {
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-image: url(./images/sitronics_company.png);
+    h4 {
+      font-size: 32px;
+      font-weight: 400;
+      color: white;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      margin: 0 0 24px 0;
+    }
+    img {
+      height: 40px;
+      width: auto;
+      margin: 0 20px 0 0;
+    }
+    p{
+      color: white;
+      font-size: 20px;
+      font-weight: 200;
+    }
   }
 }
 
-.companyImage {
-  width: 50%;
+.four {
+  box-sizing: border-box;
+  height: 889px;
+  background-image: 
+    $linear-gradient,
+    url('./images/Rectangle.png');
+  padding: 75px 98px;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
 
-  img:hover {
-    filter: brightness(0.8);
-    cursor: pointer;
+  h3 {
+    font-size: 48px;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: white;
+    margin-bottom: 41px;
+  }
+  .four-row {
+    display: flex;
+    margin: 0;
+    .card {
+      box-sizing: border-box;
+      margin: 24px 50px;
+      width: 540px;
+      height: 220px;
+      padding: 41px 26px 36px;
+      border-radius: 23px;
+      background-image: linear-gradient(45deg, rgba(30, 30, 30, 0.72), rgba(30, 30, 30, 0.72));
+      color:  white;
+      h5 {
+        font-size: 20px;
+        font-weight: 500;
+        margin-bottom: 15px;
+      }
+      p {
+
+      }
+    }
+
+    &:nth-child(2n+1) {
+      margin-left: 220px;
+    }
+    &:nth-child(2n+2) {
+      margin-right: 220px;
+    }
+  }
+}
+
+.application {
+  padding: 33px 96px;
+
+  a {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-decoration: none;
+    color: #4285F4;
+
+    svg {
+      margin: 0 30px 0 0;
+    }
+
+    h2 {
+      margin: 0;
+      text-transform: uppercase;
+      font-size: 40px;
+      font-weight: 400;
+    }
   }
 }
 
 .serviceName {
-  padding: 37px 0 0 0;
+  margin: 0;
   width: 50%;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  font-size: 38px;
+
+  p {
+    text-align: start;
+    line-height: 47.12px;
+    color: white;
+    margin: 0;
+  }
+
+  .consulBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid white;
+    border-radius: 10px;
+    margin: 35px 0 0 0;
+    background: rgba(0,0,0,0);
+    color: white;
+    padding: 12px 46px;
+    font-size: 20px;
+    font-weight: 200;
+
+    svg {
+      width: 25px;
+      height: auto;
+      margin: 0 0 0 8px;
+    }
+  }
 }
 
-.serviceName h1 {
-  text-align: center;
-}
-
-.third .serviceName h1 {
-  font-size: 64px;
-  line-height: 75px;
-  font-weight: 300;
-}
 
 .footer {
   background-color: #222224;
@@ -171,14 +348,9 @@ header {
     list-style-type: none;
     padding: 35px 0 78px;
 
-    li {
-      font-family: "Lato";
-    }
-
     p {
       margin: 5px;
       color: #ffffff;
-      font-family: "Roboto";
       font-style: normal;
       font-weight: 400;
       font-size: 16px;
@@ -233,7 +405,6 @@ header {
   background-color: #f2f2f2;
 
   h3 {
-    font-family: "Roboto";
     font-style: normal;
     font-weight: 400;
     font-size: 32px;
@@ -242,7 +413,6 @@ header {
   }
 
   h4 {
-    font-family: "Roboto";
     font-style: normal;
     font-weight: 400;
     font-size: 20px;
@@ -280,7 +450,6 @@ header {
     padding: 0 42px;
     box-sizing: border-box;
 
-    font-family: "Roboto";
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
@@ -367,7 +536,6 @@ header {
     button {
       margin: 0;
       border: none;
-      font-family: "Roboto";
       font-style: normal;
       font-weight: 400;
       font-size: 16px;
@@ -378,7 +546,6 @@ header {
     p {
       margin: 0;
       padding-bottom: 0;
-      font-family: "Roboto";
       font-style: normal;
       font-weight: 400;
       font-size: 16px;
@@ -624,7 +791,6 @@ header {
     }
 
     .userName .userEmail {
-      font-family: 'Roboto';
       font-style: normal;
       font-weight: 300;
       font-size: 24px;
@@ -646,7 +812,6 @@ header {
     }
 
     .userStatus {
-      font-family: 'Roboto';
       font-style: normal;
       font-weight: 300;
       font-size: 16px;
@@ -667,7 +832,7 @@ header {
       box-sizing: border-box;
       font-style: normal;
       font-weight: 400;
-      font-size: 24px;
+      font-size: 22px;
       line-height: 29px;
 
       border: none;
@@ -776,7 +941,6 @@ header {
   justify-content: center;
   align-content: center;
   
-  font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
 
