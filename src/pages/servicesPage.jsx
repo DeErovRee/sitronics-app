@@ -166,6 +166,20 @@ export const ServicesPage = () => {
               return(<div className="serviceCard" key={nanoid()}>
                 <div className="serviceCard-info">
                   <h5>{service.displayName}</h5>
+                  <div className="rateDron">
+                    <img className='rateImg' src={require('../images/rate-dron-enable.png')} alt="" height='25px'/>
+                    <img className='rateImg' src={require('../images/rate-dron-enable.png')} alt="" height='25px'/>
+                    <img className='rateImg' src={require('../images/rate-dron-enable.png')} alt="" height='25px'/>
+                    <img className='rateImg' src={require('../images/rate-dron-enable.png')} alt="" height='25px'/>
+                    <img className='rateImg' src={require('../images/rate-dron-disable.png')} alt="" height='25px'/>
+                  </div>
+                  <div className="rateRub">
+                    <img className='rateImg' src={require('../images/rate-ruble-enable.png')} alt="" height='25px'/>
+                    <img className='rateImg' src={require('../images/rate-ruble-enable.png')} alt="" height='25px'/>
+                    <img className='rateImg' src={require('../images/rate-ruble-enable.png')} alt="" height='25px'/>
+                    <img className='rateImg' src={require('../images/rate-ruble-enable.png')} alt="" height='25px'/>
+                    <img className='rateImg' src={require('../images/rate-ruble-disable.png')} alt="" height='25px'/>
+                  </div>
                   <p>{service.services.join(', ')}</p>
                   <p>{service.citys.join(', ')}</p>
                 </div>

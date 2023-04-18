@@ -33,6 +33,7 @@ header {
   background-color: #1E1E1E;
   padding: 24px 100px;
   position: sticky;
+  z-index: 99;
   top: 0;
 
   ul {
@@ -1283,6 +1284,10 @@ header {
   flex-direction: column;
   align-items: center;
   padding: 0 349px 0;
+  background-image: 
+    $linear-gradient,
+    // linear-gradient(45deg, rgba(255, 255, 255, 0.61), rgba(255, 255, 255, 0.61)),
+    url('./images/back.png');
 
   h2 {
     font-size: 40px;
@@ -1320,6 +1325,8 @@ header {
     .filters {
       background-color: #d9d9d9;
       padding: 24px 15px 14px;
+      position: sticky;
+      top: 150px;
       border-radius: 24px;
       box-sizing: border-box;
       margin: 0;
@@ -1413,6 +1420,11 @@ header {
         img {
           margin: 0 0 0 10px;
           border-radius: 20px;
+        }
+
+        .rateImg {
+          border-radius: 0px;
+          margin: 0 10px 0 0;
         }
       }
     }
