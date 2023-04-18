@@ -17,7 +17,7 @@ import { AuthContext } from "../../context/AuthContext";
 export const Search = () => {
   const [username, setUsername] = useState("");
   const [user, setUser] = useState(null);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(false);
   const [file, setFile] = useState(null);
 
   const { currentUser } = useContext(AuthContext);
@@ -35,7 +35,9 @@ export const Search = () => {
         setUser(doc.data());
         setFile(doc.data().photoURL);
       });
-    } catch (error) {}
+    } catch (error) {
+      setError(true)
+    }
   };
 
   const handleSelect = async () => {
@@ -94,7 +96,7 @@ export const Search = () => {
       {error && <span>Пользователь не найден</span>}
       {user && (
         <div className="userChat" onClick={handleSelect}>
-          <img src={file} style={{ width: "120px" }} alt="user-avatar" />
+          <img src={file} alt="user-avatar" />
           <div className="userChatInfo">
             <span>{user.displayName}</span>
           </div>

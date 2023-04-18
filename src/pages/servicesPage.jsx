@@ -1,12 +1,9 @@
 import { nanoid } from "nanoid";
 import React, { useState, useEffect } from "react";
-import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from '../firebase/firebase'
-import { useContext } from "react";
-import { AuthContext } from '../context/AuthContext'
 
 export const ServicesPage = () => {
-  const { currentUser } = useContext(AuthContext)
 
   const url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address";
   const token = "d0b5a21192e9fd28af54b1e555b7d09ae00a34c7";

@@ -1,5 +1,5 @@
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { deleteObject, getDownloadURL, getStorage, list, listAll, ref, uploadBytesResumable } from "firebase/storage";
+import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import React, { useContext } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -44,7 +44,6 @@ export const ProviderPage = () => {
     }
 
     useEffect(() => {
-        console.log('GET DATA!!!')
         getData()
     }, [])
 
