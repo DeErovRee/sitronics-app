@@ -164,26 +164,45 @@ export const ServicesPage = () => {
         <div className="servicesSpace">
             {servicesList && servicesList.map((service) => {
               return(<div className="serviceCard" key={nanoid()}>
+                <div className="container">
+                  <img className='providerImg' src={`${service.userPhoto}`} alt="" />
+                </div>
                 <div className="serviceCard-info">
                   <h5>{service.displayName}</h5>
                   <div className="rateDron">
-                    <img className='rateImg' src={require('../images/rate-dron-enable.png')} alt="" height='25px'/>
-                    <img className='rateImg' src={require('../images/rate-dron-enable.png')} alt="" height='25px'/>
-                    <img className='rateImg' src={require('../images/rate-dron-enable.png')} alt="" height='25px'/>
-                    <img className='rateImg' src={require('../images/rate-dron-enable.png')} alt="" height='25px'/>
-                    <img className='rateImg' src={require('../images/rate-dron-disable.png')} alt="" height='25px'/>
+                    <img className='rateImg' src={require('../images/rate-dron-enable.png')} alt="" width='12px'/>
+                    <img className='rateImg' src={require('../images/rate-dron-enable.png')} alt="" width='12px'/>
+                    <img className='rateImg' src={require('../images/rate-dron-enable.png')} alt="" width='12px'/>
+                    <img className='rateImg' src={require('../images/rate-dron-enable.png')} alt="" width='12px'/>
+                    <img className='rateImg' src={require('../images/rate-dron-disable.png')} alt="" width='12px'/>
                   </div>
                   <div className="rateRub">
-                    <img className='rateImg' src={require('../images/rate-ruble-enable.png')} alt="" height='25px'/>
-                    <img className='rateImg' src={require('../images/rate-ruble-enable.png')} alt="" height='25px'/>
-                    <img className='rateImg' src={require('../images/rate-ruble-enable.png')} alt="" height='25px'/>
-                    <img className='rateImg' src={require('../images/rate-ruble-enable.png')} alt="" height='25px'/>
-                    <img className='rateImg' src={require('../images/rate-ruble-disable.png')} alt="" height='25px'/>
+                    <img className='rateImg' src={require('../images/rate-ruble-enable.png')} alt="" width='12px'/>
+                    <img className='rateImg' src={require('../images/rate-ruble-enable.png')} alt="" width='12px'/>
+                    <img className='rateImg' src={require('../images/rate-ruble-enable.png')} alt="" width='12px'/>
+                    <img className='rateImg' src={require('../images/rate-ruble-enable.png')} alt="" width='12px'/>
+                    <img className='rateImg' src={require('../images/rate-ruble-disable.png')} alt="" width='12px'/>
                   </div>
-                  <p>{service.services.join(', ')}</p>
-                  <p>{service.citys.join(', ')}</p>
+                  <div className="services">{service.services.map((el) => {
+                    return(
+                      <div className="serviceCard">
+                          {el}
+                      </div>
+                    )
+                  })}
+                  </div>
+                  <hr />
+                  <div className="citys">{service.citys.map((el) => {
+                      return(
+                        <div className="cityCard">
+                          {el}
+                        </div>
+                      )
+                    })}
+                  </div>
                 </div>
-                <img src={`${service.userPhoto}`} height='90px' alt="" /></div>
+                </div>
+                
               )
           })}
         </div>

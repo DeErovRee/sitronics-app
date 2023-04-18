@@ -249,14 +249,14 @@ export const ProviderPage = () => {
             <div className="card">
 
                 <p className="cardHeader">Отображаемые файлы</p>
-                
-                {filesForView && filesForView.map((file) => {
+                <div className="images">{filesForView && filesForView.map((file) => {
                     return(
-                        <div className="loaded-image" key={file}>
-                            <img src={file} alt="" />
-                        </div>
+                        
+                        <img src={file} alt="" key={file}/>
+                        
                     )
-                })}
+                })}</div>
+                
                 <p>Выберите фото или видео-файлы, которые будут 
                     отображаться на карточке поставщика услуг. Новые файлы заменят собой старые</p>
 
@@ -264,9 +264,7 @@ export const ProviderPage = () => {
                     type="file"
                     id="file"
                     onChange={handleFiles}
-
                     multiple="multiple"
-
                     style={{display: "none"}} 
                 />
 
