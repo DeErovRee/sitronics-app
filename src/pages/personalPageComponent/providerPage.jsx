@@ -44,6 +44,7 @@ export const ProviderPage = () => {
     }
 
     useEffect(() => {
+        console.log('GET DATA!!!')
         getData()
     }, [])
 
@@ -57,8 +58,7 @@ export const ProviderPage = () => {
             setText(docSnap.data().text)
             setFilesForView(docSnap.data().photoURLs)
         } else {
-        
-        console.log("No such document!");
+            console.log("No such document!");
         }
     }
 
@@ -97,12 +97,14 @@ export const ProviderPage = () => {
             
             await setDoc(providerPagesRef, {
                 uid: currentUser.uid,
+                userPhoto: currentUser.photoURL,
                 displayName: currentUser.displayName,
                 email: currentUser.email,
                 text,
                 citys,
                 services,
                 photoURLs: downloadURLs,
+                visibility: true,
             });
             
             filesForView.forEach((file) => {
