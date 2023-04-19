@@ -1,12 +1,19 @@
-import { getByText } from "@testing-library/react";
 import React from "react";
-import { TextPage } from "./textPage";
+import DOMPurify from 'dompurify'
 
 export const ServicePage = () => {
     
     const url = document.location.pathname.split('/')[2]
     const provider = JSON.parse(localStorage.getItem(`${url}`))
 
+    const TextPage = ({text}) => {
+        console.log(text)
+        const sanitizedText = DOMPurify.sanitize(text); // очистка текста от потенциально опасных элементов
+    
+        return (
+            <div dangerouslySetInnerHTML={{ __html: sanitizedText }} className='text'></div>
+        );
+    }
 
     return(
         <div className="providerServicePage">
@@ -25,10 +32,10 @@ export const ServicePage = () => {
                     })}
                 </div>
                 <div className="providerTextInfo" id="providerTextInfo">
-                    {/* текст тут */}
                     <TextPage text={provider.text} />
                     <div className="citys">
                         <p>Города:</p>
+                        <div>
                         {provider.citys && provider.citys.map((el) => {
                             return(
                                 <div className="cityCard">
@@ -36,9 +43,11 @@ export const ServicePage = () => {
                                 </div>
                             )
                         })}
+                        </div>
                     </div>
                     <div className="services">
                         <p>Услуги:</p>
+                        <div>
                         {provider.services && provider.services.map((el) => {
                             return(
                                 <div className="serviceCard">
@@ -46,6 +55,7 @@ export const ServicePage = () => {
                                 </div>
                             )
                         })}
+                        </div>
                     </div>
                 </div>
             </div>

@@ -7,7 +7,7 @@ export const PersonalAreaPage = () => {
     <>
       
       <div className="personalArea">
-        <h1 style={{textAlign: 'center', margin: '0 0 97px', fontWeight: '500', color: 'white'}}>Личный кабинет</h1>
+        <h1 style={{textAlign: 'center', margin: '0 0 97px', fontWeight: '500', color: 'white', paddingTop: '50px'}}>Личный кабинет</h1>
         <div className="personalAreaW">
           <Sidebar />
           <OptionalWindow />

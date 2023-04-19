@@ -37,13 +37,9 @@ export const App = () => {
 
   const Component = () => {
     return authed ? (
-      <li className="loginBtn">
-        <Link to="/personalArea">Личный кабинет</Link>
-      </li>
+        <Link to="/personalArea" className="loginBtn">Личный кабинет</Link>
     ) : (
-      <li className="loginBtn">
-        <Link to="/login">Войти</Link>
-      </li>
+        <Link to="/login" className="loginBtn">Войти</Link>
     );
   };
 
