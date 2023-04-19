@@ -10,6 +10,7 @@ import { SignupPage } from "./pages/signupPage";
 import { PersonalAreaPage } from "./pages/personalAreaPage";
 import { Page404 } from "./pages/page404";
 import { ChatsPage } from "./pages/chatsPage";
+import { ServicePage } from "./pages/servicePage";
 
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase/firebase";
@@ -136,6 +137,7 @@ export const App = () => {
               }
             />
             <Route exact path="*" element={<Page404 />} />
+            <Route exact path='services/*' element={<ServicePage />} />
           </Routes>
         </main>
         <footer>

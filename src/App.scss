@@ -18,6 +18,54 @@ $linear-gradient: linear-gradient(45deg, rgba(241, 2, 2, 0.61), rgba(0, 8, 255, 
   }
 }
 
+main {
+  background-color: #1e1e1e;
+}
+
+.citys {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin-top: 5px;
+  align-items: center;
+
+  p {
+    margin: 0 10px 0 0;
+    font-weight: 500;
+  }
+
+  .cityCard {
+    background-color: rgba(141, 164, 241, 0.502);
+    border-radius: 5px;
+    padding: 3px 10px;
+    margin: 3px 5px 3px 0px;
+  }
+}
+
+.services {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin-bottom: 5px;
+  align-items: center;
+
+  p {
+    margin: 0 10px 0 0;
+    font-weight: 500;
+  }
+
+  .serviceCard {
+    background-color: #aa9bcab2;
+    border-radius: 5px;
+    padding: 3px 10px;
+    margin: 3px 5px 3px 0px;
+  }
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
 
 
 // Общие стили
@@ -28,7 +76,7 @@ $linear-gradient: linear-gradient(45deg, rgba(241, 2, 2, 0.61), rgba(0, 8, 255, 
 }
 
 
-// Щапка 
+// Шапка 
 header {
   background-color: #1E1E1E;
   padding: 24px 100px;
@@ -102,6 +150,7 @@ header {
 // Главная страница
 
 .mainPage {
+  box-sizing: border-box;
   padding: 0 96px;
   max-width: 1920px;
   display: flex;
@@ -1296,7 +1345,6 @@ header {
   padding: 0 349px 0;
   background-image: 
     $linear-gradient,
-    // linear-gradient(45deg, rgba(255, 255, 255, 0.61), rgba(255, 255, 255, 0.61)),
     url('./images/back.png');
 
   h2 {
@@ -1465,7 +1513,6 @@ header {
             margin-bottom: 5px;
 
             .serviceCard {
-              // background-color: #D9C7FF;
               background-color: #aa9bcab2;
               border-radius: 5px;
               padding: 3px 10px;
@@ -1480,6 +1527,75 @@ header {
           margin: 0 3px 0 0;
         }
       }
+    }
+  }
+}
+
+.providerServicePage {
+  max-width: 1920px;
+  padding: 0 96px;
+  display: flex;
+  flex-direction: column;
+  background-image: 
+    $linear-gradient,
+    url('./images/back.png');
+  
+  .providerMainInfo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 50px 0 50px 0;
+
+    .container {
+      position: relative;
+      margin: 0;
+
+      .providerImg {
+        width: 90px;
+        height: 90px;
+        object-fit: cover;
+        border-radius: 20px;
+      }
+    }
+
+    h2 {
+      font-size: 25px;
+      font-weight: 500;
+      color: white;
+      margin: 0 0 0 10px;
+    }
+  }
+
+  .providerInfo {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 50px;
+
+    .providerPhoto {
+      width: 50%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      background-color: #1e1e1e;
+      border-radius: 20px;
+      margin: 0 20px;
+      img {
+        border: 5px solid rgba(141, 164, 241, 0.5019607843);
+        border-radius: 10px;
+        height: 125px;
+        width: auto;
+        margin: 10px;
+      }
+    }
+
+    .providerTextInfo {
+      width: 50%;
+      flex-wrap: wrap;
+      background-color: #1e1e1e;
+      border-radius: 20px;
+      padding: 10px 20px;
+      color: white;
     }
   }
 }
