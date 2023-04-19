@@ -170,7 +170,7 @@ export const ServicesPage = () => {
                 pathname: service.uid
               }} key={nanoid()}>
                 <div className="serviceCard" >
-                  <div className="container" >
+                  <div className="containerImg" >
                     <img className='providerImg' src={`${service.userPhoto}`} alt="" />
                   </div>
                   <div className="serviceCard-info">

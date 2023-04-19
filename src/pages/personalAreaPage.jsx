@@ -5,10 +5,13 @@ export const PersonalAreaPage = () => {
 
   return (
     <>
-      <h1 style={{textAlign: 'center', margin: '57px 0 97px'}}>Личный кабинет</h1>
+      
       <div className="personalArea">
-        <Sidebar />
-        <OptionalWindow />
+        <h1 style={{textAlign: 'center', margin: '0 0 97px', fontWeight: '500', color: 'white'}}>Личный кабинет</h1>
+        <div className="personalAreaW">
+          <Sidebar />
+          <OptionalWindow />
+        </div>
       </div>
     </>
   );

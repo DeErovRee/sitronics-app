@@ -5,6 +5,8 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { db, storage } from "../../firebase/firebase";
+import ReactQuill from 'react-quill'
+import 'react-quill/dist/quill.snow.css';
 
 function formatBytes(bytes, decimals = 2) {
     if (!+bytes) return '0 Bytes'
@@ -241,7 +243,8 @@ export const ProviderPage = () => {
                 <p className="cardHeader">Отображаемый текст</p>
                 <p>В окне ниже введите текст, который будет
                     отображаться на карточке поставщика услуг </p>  
-                <textarea placeholder="Введите текст" onChange={e => setText(e.target.value)} value={text}/>
+                {/* <textarea placeholder="Введите текст" onChange={e => setText(e.target.value)} value={text}/> */}
+                <ReactQuill value={text} placeholder="Введите текст" onChange={setText} />
                 <div  className="cardBtn">
                     <div className="settingsBtn" onClick={deleteText}>Очистить</div>
                 </div>

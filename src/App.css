@@ -43,7 +43,7 @@ main {
 }
 
 .citys .cityCard {
-  background-color: rgba(141, 164, 241, 0.502);
+  background-color: #8da4f1;
   border-radius: 5px;
   padding: 3px 10px;
   margin: 3px 5px 3px 0px;
@@ -71,7 +71,7 @@ main {
 }
 
 .services .serviceCard {
-  background-color: #aa9bcab2;
+  background-color: #aa9bca;
   border-radius: 5px;
   padding: 3px 10px;
   margin: 3px 5px 3px 0px;
@@ -80,6 +80,26 @@ main {
 a {
   text-decoration: none;
   color: black;
+}
+
+.ql-toolbar.ql-snow + .ql-container.ql-snow {
+  border-top: 0px;
+  background-color: white;
+}
+
+.ql-toolbar.ql-snow {
+  border-radius: 10px 10px 0 0;
+  border: 1px solid #ccc;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  padding: 8px;
+}
+
+.ql-toolbar.ql-snow + .ql-container.ql-snow {
+  border-top: 0px;
+  border-radius: 0 0 10px 10px;
+  margin-bottom: 10px;
 }
 
 .textDecoration {
@@ -768,7 +788,9 @@ header ul a {
 }
 
 .container {
-  max-width: 1600px;
+  max-width: 1920px;
+  padding: 50px 0 50px;
+  background: linear-gradient(45deg, rgba(241, 2, 2, 0.61), rgba(0, 8, 255, 0.61));
 }
 
 .container .workSpace {
@@ -780,8 +802,6 @@ header ul a {
           justify-content: center;
   width: 80vh;
   background-color: #f2f2f2;
-  margin-top: 50px;
-  margin-bottom: 50px;
   border-radius: 50px;
 }
 
@@ -1089,14 +1109,18 @@ header ul a {
 }
 
 .personalArea {
+  background: linear-gradient(45deg, rgba(241, 2, 2, 0.61), rgba(0, 8, 255, 0.61));
+}
+
+.personalArea .personalAreaW {
   max-width: 1200px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  margin-bottom: 100px;
+  padding-bottom: 100px;
 }
 
-.personalArea .personalSidebar {
+.personalArea .personalAreaW .personalSidebar {
   width: 30%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1111,51 +1135,54 @@ header ul a {
           align-items: center;
 }
 
-.personalArea .personalSidebar .userPhoto {
+.personalArea .personalAreaW .personalSidebar .userPhoto {
   width: 85%;
   height: auto;
 }
 
-.personalArea .personalSidebar .userName .userEmail {
+.personalArea .personalAreaW .personalSidebar .userName .userEmail {
   font-style: normal;
   font-weight: 300;
   font-size: 24px;
   line-height: 28px;
 }
 
-.personalArea .personalSidebar .userName {
+.personalArea .personalAreaW .personalSidebar .userName {
   font-size: 46px;
   margin-bottom: 50px;
   text-transform: capitalize;
+  font-weight: 500;
+  color: white;
 }
 
-.personalArea .personalSidebar .userEmail {
+.personalArea .personalAreaW .personalSidebar .userEmail {
   margin-bottom: 13px;
+  color: white;
 }
 
-.personalArea .personalSidebar .userEmail:hover {
+.personalArea .personalAreaW .personalSidebar .userEmail:hover {
   cursor: pointer;
   color: #acacac;
 }
 
-.personalArea .personalSidebar .userStatus {
+.personalArea .personalAreaW .personalSidebar .userStatus {
   font-style: normal;
-  font-weight: 300;
+  font-weight: 400;
   font-size: 16px;
   line-height: 19px;
   text-transform: uppercase;
   margin-bottom: 17px;
 }
 
-.personalArea .personalSidebar .client {
+.personalArea .personalAreaW .personalSidebar .client {
   color: #ff0000;
 }
 
-.personalArea .personalSidebar .provider {
+.personalArea .personalAreaW .personalSidebar .provider {
   color: #4285F4;
 }
 
-.personalArea .personalSidebar a, .personalArea .personalSidebar button {
+.personalArea .personalAreaW .personalSidebar a, .personalArea .personalAreaW .personalSidebar button {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   font-style: normal;
@@ -1174,14 +1201,13 @@ header ul a {
   color: #000000;
 }
 
-.personalArea .personalSidebar a:hover, .personalArea .personalSidebar button:hover {
+.personalArea .personalAreaW .personalSidebar a:hover, .personalArea .personalAreaW .personalSidebar button:hover {
   cursor: pointer;
   background-color: #acacac;
 }
 
-.personalArea .optionalWindow {
+.personalArea .personalAreaW .optionalWindow {
   width: 70%;
-  border: 1px solid red;
   padding: 21px 26px;
 }
 
@@ -1300,6 +1326,7 @@ header ul a {
 }
 
 .providerPage h1 {
+  color: white;
   text-transform: uppercase;
 }
 
@@ -1643,11 +1670,11 @@ header ul a {
 }
 
 .providerPage .submitBtn {
-  background-color: rgba(141, 164, 241, 0.502);
+  background-color: #8da4f1;
 }
 
 .providerPage .submitBtn:hover {
-  background-color: rgba(141, 164, 241, 0.7);
+  background-color: #8da4f1;
 }
 
 .providerPage .submitBtn:active {
@@ -1666,7 +1693,7 @@ header ul a {
       -ms-flex-align: center;
           align-items: center;
   padding: 0 349px 0;
-  background-image: linear-gradient(45deg, rgba(241, 2, 2, 0.61), rgba(0, 8, 255, 0.61)), url("./images/back.png");
+  background-image: linear-gradient(45deg, rgba(241, 2, 2, 0.61), rgba(0, 8, 255, 0.61));
 }
 
 .servicePage h2 {
@@ -1832,14 +1859,14 @@ header ul a {
   margin-bottom: 20px;
 }
 
-.servicePage .servicesRender .servicesSpace .serviceCard .container {
+.servicePage .servicesRender .servicesSpace .serviceCard .containerImg {
   position: relative;
   margin: 0 14px 0 0;
 }
 
-.servicePage .servicesRender .servicesSpace .serviceCard .container .providerImg {
-  width: 90px;
-  height: 90px;
+.servicePage .servicesRender .servicesSpace .serviceCard .containerImg .providerImg {
+  width: 200px;
+  height: 200px;
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: 20px;
@@ -1931,12 +1958,12 @@ header ul a {
   margin: 50px 0 50px 0;
 }
 
-.providerServicePage .providerMainInfo .container {
+.providerServicePage .providerMainInfo .containerImg {
   position: relative;
   margin: 0;
 }
 
-.providerServicePage .providerMainInfo .container .providerImg {
+.providerServicePage .providerMainInfo .containerImg .providerImg {
   width: 90px;
   height: 90px;
   -o-object-fit: cover;

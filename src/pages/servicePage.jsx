@@ -1,15 +1,17 @@
+import { getByText } from "@testing-library/react";
 import React from "react";
+import { TextPage } from "./textPage";
 
 export const ServicePage = () => {
     
     const url = document.location.pathname.split('/')[2]
     const provider = JSON.parse(localStorage.getItem(`${url}`))
-    console.log(provider)
+
 
     return(
         <div className="providerServicePage">
             <div className="providerMainInfo">
-                <div className="container" >
+                <div className="containerImg" >
                     <img className='providerImg' src={provider.userPhoto} alt="" />
                 </div>
                 <h2>{provider.displayName}</h2>
@@ -22,8 +24,9 @@ export const ServicePage = () => {
                         )
                     })}
                 </div>
-                <div className="providerTextInfo">
-                    <p>{provider.text}</p>
+                <div className="providerTextInfo" id="providerTextInfo">
+                    {/* текст тут */}
+                    <TextPage text={provider.text} />
                     <div className="citys">
                         <p>Города:</p>
                         {provider.citys && provider.citys.map((el) => {

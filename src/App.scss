@@ -22,6 +22,8 @@ main {
   background-color: #1e1e1e;
 }
 
+// Общие стили
+
 .citys {
   display: flex;
   flex-wrap: wrap;
@@ -35,7 +37,7 @@ main {
   }
 
   .cityCard {
-    background-color: rgba(141, 164, 241, 0.502);
+    background-color: rgba(141, 164, 241, 1);
     border-radius: 5px;
     padding: 3px 10px;
     margin: 3px 5px 3px 0px;
@@ -55,7 +57,7 @@ main {
   }
 
   .serviceCard {
-    background-color: #aa9bcab2;
+    background-color: rgba(170, 155, 202, 1);
     border-radius: 5px;
     padding: 3px 10px;
     margin: 3px 5px 3px 0px;
@@ -67,8 +69,26 @@ a {
   color: black;
 }
 
+// Стили QuillJS
 
-// Общие стили
+.ql-toolbar.ql-snow + .ql-container.ql-snow {
+  border-top: 0px;
+  background-color: white;
+}
+
+.ql-toolbar.ql-snow {
+  border-radius: 10px 10px 0 0;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  padding: 8px;
+}
+
+.ql-toolbar.ql-snow + .ql-container.ql-snow {
+  border-top: 0px;
+  border-radius: 0 0 10px 10px;
+  margin-bottom: 10px;
+}
 
 .textDecoration {
   font-weight: 700;
@@ -329,9 +349,6 @@ header {
         font-size: 20px;
         font-weight: 500;
         margin-bottom: 15px;
-      }
-      p {
-
       }
     }
 
@@ -639,15 +656,15 @@ header {
 
 // Chat styles
 .container {
-  max-width: 1600px;
+  max-width: 1920px;
+  padding: 50px 0 50px;
+  background: linear-gradient(45deg, rgba(241, 2, 2, 0.61), rgba(0, 8, 255, 0.61));
 
   .workSpace {
     display: flex;
     justify-content: center;
     width: 80vh;
     background-color: #f2f2f2;
-    margin-top: 50px;
-    margin-bottom: 50px;
     border-radius: 50px;
 
     .sidebar {
@@ -818,8 +835,6 @@ header {
                 color: white;
                 border-radius: 10px 0px 10px 10px;
               }
-              img {
-              }
             }
           }
         }
@@ -885,11 +900,15 @@ header {
 }
 
 .personalArea {
-  max-width: 1200px;
-  display: flex;
-  margin-bottom: 100px;
+  background: 
+    $linear-gradient;
 
-  .personalSidebar {
+  .personalAreaW {
+    max-width: 1200px;
+    display: flex;
+    padding-bottom: 100px;
+
+    .personalSidebar {
     width: 30%;
     display: flex;
     flex-direction: column;
@@ -912,10 +931,13 @@ header {
       font-size: 46px;
       margin-bottom: 50px;
       text-transform: capitalize;
+      font-weight: 500;
+      color: white;
     }
 
     .userEmail {
       margin-bottom: 13px;
+      color: white;
       &:hover {
         cursor: pointer;
         color: #acacac;
@@ -924,7 +946,7 @@ header {
 
     .userStatus {
       font-style: normal;
-      font-weight: 300;
+      font-weight: 400;
       font-size: 16px;
       line-height: 19px;
       text-transform: uppercase;
@@ -966,9 +988,11 @@ header {
 
   .optionalWindow {
     width: 70%;
-    border: 1px solid red;
     padding: 21px 26px;
   }
+  }
+
+  
 }
 
 //Settings styles
@@ -1056,6 +1080,7 @@ header {
   font-weight: 400;
 
   h1 {
+    color: white;
     text-transform: uppercase;
   }
 
@@ -1326,9 +1351,9 @@ header {
   }
 
   .submitBtn {
-    background-color: rgba(141, 164, 241, 0.502);
+    background-color: rgba(141, 164, 241, 1);
     &:hover {
-      background-color: rgba(141, 164, 241, 0.7);
+      background-color: rgba(141, 164, 241, 1);
     }
     &:active {
       background-color: rgba(141, 164, 241, 1);
@@ -1344,8 +1369,7 @@ header {
   align-items: center;
   padding: 0 349px 0;
   background-image: 
-    $linear-gradient,
-    url('./images/back.png');
+    $linear-gradient;
 
   h2 {
     font-size: 40px;
@@ -1466,13 +1490,13 @@ header {
         padding: 14px;
         margin-bottom: 20px;
 
-        .container {
+        .containerImg {
           position: relative;
           margin: 0 14px 0 0;
 
           .providerImg {
-            width: 90px;
-            height: 90px;
+            width: 200px;
+            height: 200px;
             object-fit: cover;
             border-radius: 20px;
           }
@@ -1546,7 +1570,7 @@ header {
     justify-content: center;
     margin: 50px 0 50px 0;
 
-    .container {
+    .containerImg {
       position: relative;
       margin: 0;
 
