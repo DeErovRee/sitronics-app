@@ -1687,6 +1687,7 @@ header {
   }
 
   .order {
+    max-width: 500px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -1695,6 +1696,7 @@ header {
     border-radius: 20px;
     padding: 20px 29px;
     margin-bottom: 10px;
+    box-sizing: border-box;
     
     h3 {
       margin: 0 0 8px;
@@ -1741,28 +1743,46 @@ header {
       font-weight: 300;
       line-height: 18px;
       margin: 0;
-
-      &:last-child {
-        margin-top: 13px;
-      }
     }
 
     .yellow {
       background-color: #FBBC05;
+      margin: 3px;
+      padding: 5px 13px 7px;
+      border-radius: 5px;
     }
 
     .red {
       background-color: #FF0000;
+      margin: 3px;
+      padding: 5px 13px 7px;
+      border-radius: 5px;
     }
 
     .green {
       background-color: #34A853;
-    }
-
-    .status {
       margin: 3px;
       padding: 5px 13px 7px;
       border-radius: 5px;
+    }
+
+    .status {
+      margin: 10px 0 15px;
+    }
+
+    .providerTools {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      margin: 0 0 12px;
+      justify-content: space-between;
+    }
+
+    .toolsBtn {
+      background-color: rgb(141, 164, 241);
+      border-radius: 5px;
+      padding: 5px 9px;
+      font-weight: 300;
     }
   }
 }

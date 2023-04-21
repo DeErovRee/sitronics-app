@@ -2109,6 +2109,7 @@ header ul a {
 }
 
 .orders .order {
+  max-width: 500px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2126,6 +2127,8 @@ header ul a {
   border-radius: 20px;
   padding: 20px 29px;
   margin-bottom: 10px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
 .orders .order h3 {
@@ -2185,25 +2188,50 @@ header ul a {
   margin: 0;
 }
 
-.orders .order p:last-child {
-  margin-top: 13px;
-}
-
 .orders .order .yellow {
   background-color: #FBBC05;
+  margin: 3px;
+  padding: 5px 13px 7px;
+  border-radius: 5px;
 }
 
 .orders .order .red {
   background-color: #FF0000;
+  margin: 3px;
+  padding: 5px 13px 7px;
+  border-radius: 5px;
 }
 
 .orders .order .green {
   background-color: #34A853;
-}
-
-.orders .order .status {
   margin: 3px;
   padding: 5px 13px 7px;
   border-radius: 5px;
+}
+
+.orders .order .status {
+  margin: 10px 0 15px;
+}
+
+.orders .order .providerTools {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  margin: 0 0 12px;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.orders .order .toolsBtn {
+  background-color: #8da4f1;
+  border-radius: 5px;
+  padding: 5px 9px;
+  font-weight: 300;
 }
 /*# sourceMappingURL=App.css.map */

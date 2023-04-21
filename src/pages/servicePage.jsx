@@ -48,7 +48,7 @@ export const ServicePage = () => {
                 phone: e.target[5].value,
                 email: e.target[6].value,
                 note: e.target[7].value,
-                status: 'на рассмотрении'
+                status: 'На рассмотрении'
             })
             console.log("заявка отправлена")
             form.reset()

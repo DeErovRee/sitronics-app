@@ -1,4 +1,4 @@
-import { collection, doc, getDocs, onSnapshot, query, where } from "firebase/firestore";
+import { collection, doc, getDocs, onSnapshot, query, updateDoc, where } from "firebase/firestore";
 import React, { useState } from "react";
 import { useContext } from "react";
 import { useEffect } from "react";
@@ -11,28 +11,26 @@ export const OrdersAll = () => {
     const { currentUser } = useContext(AuthContext)
 
     const [orders, setOrders] = useState([])
-    const [isProvider, setIsProvider] = useState(false)
+    const [isProvider, setIsProvider] = useState(null)
 
     const getOrders = async () => {
-        console.log(currentUser)
+        
+        if(isProvider === null) {
+            return
+        }
+
+        let q
         if (isProvider) {
             // При React.strictMode в index.js функция вызывается 2 раза
-            const q = query(collection(db, "orders"), where("providerID", "==", currentUser.uid));
-    
-            const querySnapshot = await getDocs(q);
-            querySnapshot.forEach((doc) => {
-            setOrders(prevState => ([...prevState, doc.data()]))
-            console.log(doc.data())
-            })
+            q = query(collection(db, "orders"), where("providerID", "==", currentUser.uid));
         } else {
-            const q = query(collection(db, "orders"), where("clientID", "==", currentUser.uid));
-        
-            const querySnapshot = await getDocs(q);
-            querySnapshot.forEach((doc) => {
-            setOrders(prevState => ([...prevState, doc.data()]))
-            console.log(doc.data())
-            })
+            q = query(collection(db, "orders"), where("clientID", "==", currentUser.uid));
         }
+
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+        setOrders(prevState => ([doc.data()]))
+        })
         
     }
 
@@ -40,13 +38,39 @@ export const OrdersAll = () => {
         const unsub =  onSnapshot(doc(db, "users", currentUser.uid), (doc) => {
             doc.exists() && setIsProvider(doc.data().isProvider);
         });
-      
-        getOrders()
 
         return()=>{
             unsub()
         }
     }, [])
+
+    useEffect(() => {
+        getOrders()
+    }, [isProvider])
+
+    const answerOrders = async (e, orderID) => {
+        console.log(orderID)
+        console.log(e.target.innerText)
+        if (!orderID) {
+            return
+        }
+
+        let query
+        if (e.target.innerText === 'Принять') {
+            query = 'Принята'
+        } else if (e.target.innerText === 'Отклонить') {
+            query = 'Отклонена'
+        }
+
+        const orderRef = doc(db, "orders", orderID);
+
+        await updateDoc(orderRef, {
+        status: query
+        });
+
+        getOrders()
+    }
+    
     return(
         <div className="orders">
             <h1>Мои заявки</h1>
@@ -74,10 +98,22 @@ export const OrdersAll = () => {
                         <p><span>Телефон: </span>{order.phone}</p>
                         <p><span>Почта: </span>{order.email}</p>
                         <p><span>Примечание: </span>{order.note}</p>
-                        {/* <p className="status"><span>Статус: </span>{order.status}</p> */}
-                        {order.status === 'на рассмотрении' && <p><span>Статус: </span><span className="status yellow">{order.status}</span></p> }
-                        {order.status === 'принята' && <p><span>Статус: </span><span className="status green">{order.status}</span></p> }
-                        {order.status === 'отклонена' && <p><span>Статус: </span><span className="status red">{order.status}</span></p> }
+                        {order.status === 'На рассмотрении' && <p className="status"><span>Статус: </span><span className="yellow">{order.status}</span></p> }
+                        {order.status === 'Принята' && <p className="status"><span>Статус: </span><span className="green">{order.status}</span></p> }
+                        {order.status === 'Отклонена' && <p className="status"><span>Статус: </span><span className="red">{order.status}</span></p> }
+                        {isProvider && order.status === 'На рассмотрении' &&
+                            <>
+                                <div className="providerTools">
+                                    <div className="toolsBtn" onClick={e => answerOrders(e, order.orderID)}>Принять</div>
+                                    <div className="toolsBtn" onClick={e => answerOrders(e, order.orderID)}>Отклонить</div>
+                                </div>
+                            </>
+                        }
+                        {isProvider && 
+                            <>
+                                <div className="toolsBtn">Связь с пользователем</div>
+                            </>
+                        }
                     </div>
                 )
             })}
