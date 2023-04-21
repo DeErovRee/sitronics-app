@@ -64,16 +64,7 @@ export const SignupPage = () => {
       email,
       password
     ).catch((error) => {
-      switch (error.code) {
-        case "auth/email-already-in-use":
-          setError("Данный email уже используется");
-          break;
-        case "auth/weak-password":
-          setError("Слабый пароль");
-          break;
-        default:
-          setError("");
-      }
+      console.log(error)
     });
 
     const date = new Date().getTime();

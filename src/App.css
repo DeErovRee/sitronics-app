@@ -2097,4 +2097,113 @@ header ul a {
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
 }
+
+.orders {
+  text-align: center;
+}
+
+.orders h1 {
+  margin-bottom: 20px;
+  color: white;
+  font-weight: 500;
+}
+
+.orders .order {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  background-color: white;
+  border-radius: 20px;
+  padding: 20px 29px;
+  margin-bottom: 10px;
+}
+
+.orders .order h3 {
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.orders .order .info {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  margin: 0 0 8px;
+}
+
+.orders .order .info .containerImg {
+  position: relative;
+  margin: 0;
+}
+
+.orders .order .info .containerImg img {
+  width: 35px;
+  height: 35px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 50%;
+  margin: 0 7px 0 0;
+}
+
+.orders .order .info .name {
+  font-size: 24px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.orders .order span {
+  font-size: 14px;
+  font-weight: 400;
+  margin: 0;
+  color: #000000;
+}
+
+.orders .order p {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 18px;
+  margin: 0;
+}
+
+.orders .order p:last-child {
+  margin-top: 13px;
+}
+
+.orders .order .yellow {
+  background-color: #FBBC05;
+}
+
+.orders .order .red {
+  background-color: #FF0000;
+}
+
+.orders .order .green {
+  background-color: #34A853;
+}
+
+.orders .order .status {
+  margin: 3px;
+  padding: 5px 13px 7px;
+  border-radius: 5px;
+}
 /*# sourceMappingURL=App.css.map */

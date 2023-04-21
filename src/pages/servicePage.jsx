@@ -32,12 +32,16 @@ export const ServicePage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         const form = document.getElementById('serviceForm')
+        const orderID = nanoid()
         try {
-            await setDoc(doc(db, 'orders', nanoid()), {
+            await setDoc(doc(db, 'orders', orderID), {
+                orderID: orderID,
                 clientID: currentUser.uid,
                 clientName: currentUser.displayName,
+                clientPhoto: currentUser.photoURL,
                 providerID: provider.uid,
                 providerName: provider.displayName,
+                providerPhoto: provider.userPhoto,
                 service: e.target[0].value,
                 address: `${e.target[1].value}, ул.${e.target[2].value}, д.${e.target[3].value}`,
                 date: e.target[4].value,
