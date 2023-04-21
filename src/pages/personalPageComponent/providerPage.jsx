@@ -242,8 +242,7 @@ export const ProviderPage = () => {
             <div className="card">
                 <p className="cardHeader">Отображаемый текст</p>
                 <p>В окне ниже введите текст, который будет
-                    отображаться на карточке поставщика услуг </p>  
-                {/* <textarea placeholder="Введите текст" onChange={e => setText(e.target.value)} value={text}/> */}
+                    отображаться на карточке поставщика услуг </p>
                 <ReactQuill value={text} placeholder="Введите текст" onChange={setText} />
                 <div  className="cardBtn">
                     <div className="settingsBtn" onClick={deleteText}>Очистить</div>

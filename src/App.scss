@@ -1551,6 +1551,8 @@ header {
   }
 }
 
+// Страница поставщика
+
 .providerServicePage {
   max-width: 1920px;
   padding: 0 96px;
@@ -1591,25 +1593,43 @@ header {
     align-items: flex-start;
     margin-bottom: 50px;
 
-    .providerPhoto {
+    .left {
       width: 50%;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
-      background-color: #1e1e1e;
-      border-radius: 20px;
-      margin: 0 20px;
-      img {
-        border: 5px solid rgba(141, 164, 241, 0.5019607843);
-        border-radius: 10px;
-        height: 125px;
-        width: auto;
-        margin: 10px;
+
+      .providerPhoto {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        background-color: #1e1e1e;
+        border-radius: 20px;
+        margin: 0 10px 10px;
+        img {
+          border: 5px solid rgba(141, 164, 241, 0.5019607843);
+          border-radius: 10px;
+          height: 125px;
+          width: auto;
+          margin: 10px;
+        }
+      }
+
+      .serviceForm {
+        display: flex;
+        flex-direction: column;
+        border-radius: 20px;
+        margin: 0 10px;
+        background-color: #1e1e1e;
+        padding: 20px;
+
+        input, select, textarea {
+          width: 100%;
+          box-sizing: border-box;
+          margin-bottom: 5px;
+        }
       }
     }
 
-    .providerTextInfo {
+    .right {
       width: 50%;
       color: white;
 

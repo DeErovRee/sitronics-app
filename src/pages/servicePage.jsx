@@ -1,18 +1,57 @@
-import React from "react";
+import React, { useContext } from "react";
 import DOMPurify from 'dompurify'
+import { nanoid } from "nanoid";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../firebase/firebase";
+import { AuthContext } from '../context/AuthContext'
 
 export const ServicePage = () => {
-    
-    const url = document.location.pathname.split('/')[2]
-    const provider = JSON.parse(localStorage.getItem(`${url}`))
+
+    const getDate = () => {
+        let today = new Date();
+        const dd = String(today.getDate() + 4).padStart(2, '0');
+        const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        const yyyy = today.getFullYear();
+        today = yyyy + '-' + mm + '-' + dd;
+        return today
+    }
+
+    const { currentUser } = useContext(AuthContext)
+
+    const pageUrl = document.location.pathname.split('/')[2]
+    const provider = JSON.parse(localStorage.getItem(`${pageUrl}`))
 
     const TextPage = ({text}) => {
-        console.log(text)
         const sanitizedText = DOMPurify.sanitize(text); // очистка текста от потенциально опасных элементов
     
         return (
             <div dangerouslySetInnerHTML={{ __html: sanitizedText }} className='text'></div>
         );
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        const form = document.getElementById('serviceForm')
+        try {
+            await setDoc(doc(db, 'orders', nanoid()), {
+                clientID: currentUser.uid,
+                clientName: currentUser.displayName,
+                providerID: provider.uid,
+                providerName: provider.displayName,
+                service: e.target[0].value,
+                address: `${e.target[1].value}, ул.${e.target[2].value}, д.${e.target[3].value}`,
+                date: e.target[4].value,
+                phone: e.target[5].value,
+                email: e.target[6].value,
+                note: e.target[7].value,
+                status: 'на рассмотрении'
+            })
+            console.log("заявка отправлена")
+            form.reset()
+        } catch(error) {
+            console.log(error)
+        }
+        
     }
 
     return(
@@ -24,14 +63,41 @@ export const ServicePage = () => {
                 <h2>{provider.displayName}</h2>
             </div>
             <div className="providerInfo">
-                <div className="providerPhoto">
-                    {provider.photoURLs && provider.photoURLs.map((img) => {
-                        return(
-                            <img src={img} alt="" key={img} width='100px'/>
-                        )
-                    })}
+                <div className="left">
+                    <div className="providerPhoto">
+                        {provider.photoURLs && provider.photoURLs.map((img) => {
+                            return(
+                                <img src={img} alt="" key={img} width='100px'/>
+                            )
+                        })}
+                    </div>
+                    <form id="serviceForm" className="serviceForm" onSubmit={handleSubmit}>
+                        <select>
+                            <option value="">Выберите услугу</option>
+                            {provider && provider.services.map((service) => {
+                                return(
+                                    <option value={service}>{service}</option>
+                                )
+                            })}
+                        </select>
+                        <select>
+                            <option value="">Выберите город</option>
+                            {provider && provider.citys.map((city) => {
+                                return(
+                                    <option value={city}>{city}</option>
+                                )
+                            })}
+                        </select>
+                        <input type="text" placeholder="Введите улицу"/>
+                        <input type="text" placeholder="Введите номер дома"/>
+                        <input type="date" placeholder="Выберите дату" min={getDate()}/>
+                        <input type="phone" placeholder="Введите номер телефона"/>
+                        <input type="email" placeholder="Введите эл.почту"/>
+                        <textarea style={{resize: 'none'}} placeholder="Опишите требуемую задачу"/>
+                        <button type="submit">Отправить заявку</button>
+                    </form>
                 </div>
-                <div className="providerTextInfo" id="providerTextInfo">
+                <div className="right" id="providerTextInfo">
                     <TextPage text={provider.text} />
                     <div className="citys">
                         <p>Города:</p>

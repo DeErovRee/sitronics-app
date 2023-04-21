@@ -81,7 +81,7 @@ export const ServicesPage = () => {
       localStorage.setItem(`${doc.data().uid}`, JSON.stringify(doc.data()))
     })
   }
-
+  
   const handleChangeReg = (e) => {
     setRequestReg(e.target.value)
     setRequestCity('')

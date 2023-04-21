@@ -97,11 +97,6 @@ export const SignupPage = () => {
                 photoURL: downloadURL,
               });
               await setDoc(doc(db, "userChats", res.user.uid), {});
-              if (isProvider) {
-                await setDoc(doc(db, "providerOrders", res.user.uid), {});
-              } else {
-                await setDoc(doc(db, "userOrders", res.user.uid), {});
-              }
             } catch (err) {
               setError(err);
             }

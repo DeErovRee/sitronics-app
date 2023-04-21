@@ -1984,8 +1984,11 @@ header ul a {
   margin-bottom: 50px;
 }
 
-.providerServicePage .providerInfo .providerPhoto {
+.providerServicePage .providerInfo .left {
   width: 50%;
+}
+
+.providerServicePage .providerInfo .left .providerPhoto {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1999,10 +2002,10 @@ header ul a {
           align-items: center;
   background-color: #1e1e1e;
   border-radius: 20px;
-  margin: 0 20px;
+  margin: 0 10px 10px;
 }
 
-.providerServicePage .providerInfo .providerPhoto img {
+.providerServicePage .providerInfo .left .providerPhoto img {
   border: 5px solid rgba(141, 164, 241, 0.501961);
   border-radius: 10px;
   height: 125px;
@@ -2010,19 +2013,40 @@ header ul a {
   margin: 10px;
 }
 
-.providerServicePage .providerInfo .providerTextInfo {
+.providerServicePage .providerInfo .left .serviceForm {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  border-radius: 20px;
+  margin: 0 10px;
+  background-color: #1e1e1e;
+  padding: 20px;
+}
+
+.providerServicePage .providerInfo .left .serviceForm input, .providerServicePage .providerInfo .left .serviceForm select, .providerServicePage .providerInfo .left .serviceForm textarea {
+  width: 100%;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin-bottom: 5px;
+}
+
+.providerServicePage .providerInfo .right {
   width: 50%;
   color: white;
 }
 
-.providerServicePage .providerInfo .providerTextInfo .text {
+.providerServicePage .providerInfo .right .text {
   background-color: #1E1E1E;
   padding: 10px 20px;
   border-radius: 20px;
   margin-bottom: 10px;
 }
 
-.providerServicePage .providerInfo .providerTextInfo .services {
+.providerServicePage .providerInfo .right .services {
   background-color: #1E1E1E;
   padding: 10px 20px;
   border-radius: 20px;
@@ -2039,7 +2063,7 @@ header ul a {
           align-items: flex-start;
 }
 
-.providerServicePage .providerInfo .providerTextInfo .services div {
+.providerServicePage .providerInfo .right .services div {
   margin: 5px 5px 5px 0;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -2048,7 +2072,7 @@ header ul a {
       flex-wrap: wrap;
 }
 
-.providerServicePage .providerInfo .providerTextInfo .citys {
+.providerServicePage .providerInfo .right .citys {
   background-color: #1E1E1E;
   padding: 10px 20px;
   border-radius: 20px;
@@ -2065,7 +2089,7 @@ header ul a {
           align-items: flex-start;
 }
 
-.providerServicePage .providerInfo .providerTextInfo .citys div {
+.providerServicePage .providerInfo .right .citys div {
   margin: 5px 5px 5px 0;
   display: -webkit-box;
   display: -ms-flexbox;
