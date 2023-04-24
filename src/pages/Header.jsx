@@ -29,11 +29,11 @@ const ListItem = styled.li`
   flex-direction: row;
   margin: 0 20px;
   text-decoration: none;
-
+  
   & a {
     text-decoration: none;
     color: white;
-  }
+  };
 `
 
 const LoginButton = styled.button`
@@ -42,6 +42,9 @@ const LoginButton = styled.button`
   padding: 8px 28px;
   border-radius: 5px;
   background: transparent;
+  &:hover {
+    cursor: pointer;
+  };
 `
 
 const Component = ({authenticated}) => {
