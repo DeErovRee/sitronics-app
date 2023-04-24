@@ -424,62 +424,6 @@ header {
   }
 }
 
-// Подвал
-
-.footer {
-  background-color: #222224;
-  .footerMaxWidth {
-    max-width: 1600px;
-  }
-
-  ul {
-    display: flex;
-    align-items: flex-end;
-    list-style-type: none;
-    padding: 35px 0 78px;
-
-    p {
-      margin: 5px;
-      color: #ffffff;
-      font-style: normal;
-      font-weight: 400;
-      font-size: 16px;
-      line-height: 19px;
-    }
-  }
-}
-
-.socialNetwork {
-  display: flex;
-  list-style-type: none;
-
-  .cube {
-    margin: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    background-color: #ffffff;
-
-    &:hover {
-      cursor: pointer;
-      background-color: #999999;
-    }
-  }
-
-  li {
-    img {
-      margin: 5px;
-
-      &:hover {
-        filter: brightness(0.8);
-        cursor: pointer;
-      }
-    }
-  }
-}
-
 // Страница регистрации
 
 .loginPage {

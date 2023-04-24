@@ -15,42 +15,23 @@ import { ServicePage } from "./pages/servicePage";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase/firebase";
 
-import { Provider } from "react-redux";
-import { store } from "./redux/store";
-
 import { PublicRoute } from "./hocs/publicRoute";
 import { PrivateRoute } from "./hocs/privateRoute";
 import { ContactsPage } from "./pages/contactsPage";
+import { Header } from "./pages/Header";
+import { Footer } from "./pages/Footer"
 
 export const App = () => {
   const [authed, setAuthed] = useState(false);
 
   const AuthedCheck = () => {
-    onAuthStateChanged(auth, (user) => {
+      onAuthStateChanged(auth, (user) => {
       if (user) {
         setAuthed(true);
       } else {
         setAuthed(false);
       }
-    });
-  };
-
-  const Component = () => {
-    return authed ? (
-        <Link to="/personalArea" className="loginBtn">Личный кабинет</Link>
-    ) : (
-        <Link to="/login" className="loginBtn">Войти</Link>
-    );
-  };
-
-  const Chats = () => {
-    return authed ? (
-      <li>
-        <Link to="/chats">Чат</Link>
-      </li>
-    ) : (
-      <></>
-    );
+      });
   };
 
   useEffect(() => {
@@ -59,35 +40,7 @@ export const App = () => {
 
   return (
     <Router>
-      <Provider store={store}>
-        <header>
-          <nav>
-            <ul className="header">
-              <li>
-                <Link to="/">
-                  <img
-                    src={require('./images/logo.png')}
-                    className="logo"
-                    alt="logo"
-                  />
-                </Link>
-              </li>
-              <div className="headerCenter">
-                <li>
-                  <Link to="/drons">Дроны</Link>
-                </li>
-                <li>
-                  <Link to="/services">Услуги</Link>
-                </li>
-                <Chats />
-                <li>
-                  <Link to="/contacts">Контакты</Link>
-                </li>
-              </div>
-              <Component />
-            </ul>
-          </nav>
-        </header>
+        <Header authenticated={authed}/>
         <main>
           <Routes>
             <Route exact path="/" element={<MainPage />} />
@@ -136,43 +89,7 @@ export const App = () => {
             <Route exact path='services/*' element={<ServicePage />} />
           </Routes>
         </main>
-        <footer>
-          <div className="footer">
-            <ul className="footerMaxWidth">
-              <li>
-                <p>&copy;&nbsp;2023 Все права защищены</p>
-              </li>
-              <li>
-                <div className="socialNetwork">
-                  <div className="cube">
-                    <img
-                      src={require("./images/facebook-f-brands.png")}
-                      alt="facebook-f-brands"
-                    />
-                  </div>
-                  <div className="cube">
-                    <img
-                      src={require("./images/instagram-brands.png")}
-                      alt="instagram-brands"
-                    />
-                  </div>
-                  <div className="cube">
-                    <img
-                      src={require("./images/twitter-brands.png")}
-                      alt="twitter-brands"
-                    />
-                  </div>
-                </div>
-              </li>
-              <li>
-                <p>+7 (495) 685-53-53</p>
-                <p>sitronicsgroup@mail.ru</p>
-                <p>г. Тюмень</p>
-              </li>
-            </ul>
-          </div>
-        </footer>
-      </Provider>
+      <Footer />
     </Router>
   );
 };
