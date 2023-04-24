@@ -1,12 +1,9 @@
 export function getCurrentDate(separator = ":") {
-  let newDate = new Date();
+  const newDate = new Date();
 
-  // let date = newDate.getDate();
-  // let month = newDate.getMonth() + 1;
-  // let year = newDate.getFullYear();
-  let hours = newDate.getHours();
-  let minute = newDate.getMinutes();
-  let seconds = newDate.getSeconds();
+  const hours = newDate.getHours();
+  const minute = newDate.getMinutes();
+  const seconds = newDate.getSeconds();
 
   if (hours < 10) {
     hours = "0" + hours;
