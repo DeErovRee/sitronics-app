@@ -1,55 +1,55 @@
 import { React } from 'react'
 import styled from 'styled-components'
 
+const FooterStyled = styled.div`
+    background-color: #1E1E1E;
+    color: white;
+`
+
+const Wrapper = styled.div`
+    max-width: 1920px;
+    padding: 50px 96px;
+`
+
+const First = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 200px;
+`
+
+const List = styled.ul`
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: ${props => props.justifyContent || 'flex-start'};
+    align-items: flex-start;
+    margin: 0;
+`
+
+const ListItem = styled.li`
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    font-size: 16px;
+    font-weight: 200;
+    line-height: 20px;
+    margin: 0 0 4px 0;
+    text-transform: ${props => props.textTransform || 'none'};
+    &:hover {
+        cursor: pointer;
+    } 
+`
+
+const ListImg = styled.div`
+    height: ${props => props.height || 'auto'}
+    width: ${props => props.width || 'auto'};
+    margin: 0 10px 0 0;
+`
+
 export const Footer = () => {
-
-    const Footer = styled.div`
-        background-color: #1E1E1E;
-        color: white;
-    `
-
-    const Wrapper = styled.div`
-        max-width: 1920px;
-        padding: 50px 96px;
-    `
-
-    const First = styled.div`
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        height: 200px;
-    `
-
-    const List = styled.ul`
-        list-style-type: none;
-        display: flex;
-        flex-direction: column;
-        justify-content: ${props => props.justifyContent || 'flex-start'};
-        align-items: flex-start;
-        margin: 0;
-    `
-
-    const ListItem = styled.li`
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        font-size: 16px;
-        font-weight: 200;
-        line-height: 20px;
-        margin: 0 0 4px 0;
-        text-transform: ${props => props.textTransform || 'none'} 
-    `
-
-    const ListImg = styled.div`
-        height: ${props => props.height || 'auto'}
-        width: ${props => props.width || 'auto'};
-        margin: 0 10px 0 0;
-    `
-
-
     return(
-
-        <Footer>
+        <FooterStyled>
             <Wrapper>
                 <First>
                     <List>
@@ -109,43 +109,6 @@ export const Footer = () => {
                 </First>
                 <p style={{marginTop: '20px'}}>&copy;&nbsp;2023 Все права защищены</p>
             </Wrapper>
-        </Footer>
-
-        // <footer>
-        //   <div className="footer">
-        //     <ul className="footerMaxWidth">
-        //       <li>
-        //         <p>&copy;&nbsp;2023 Все права защищены</p>
-        //       </li>
-        //       <li>
-        //         <div className="socialNetwork">
-        //           <div className="cube">
-        //             <img
-        //               src={require("../images/facebook-f-brands.png")}
-        //               alt="facebook-f-brands"
-        //             />
-        //           </div>
-        //           <div className="cube">
-        //             <img
-        //               src={require("../images/instagram-brands.png")}
-        //               alt="instagram-brands"
-        //             />
-        //           </div>
-        //           <div className="cube">
-        //             <img
-        //               src={require("../images/twitter-brands.png")}
-        //               alt="twitter-brands"
-        //             />
-        //           </div>
-        //         </div>
-        //       </li>
-        //       <li>
-        //         <p>+7 (495) 685-53-53</p>
-        //         <p>sitronicsgroup@mail.ru</p>
-        //         <p>г. Тюмень</p>
-        //       </li>
-        //     </ul>
-        //   </div>
-        // </footer>
+        </FooterStyled>
     )
 }
