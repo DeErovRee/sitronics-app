@@ -25,6 +25,16 @@ export const Form = styled.form`
   border-radius: 80px;
   background-color: #f2f2f2;
   max-width: 642px;
+
+  @media ${props => props.theme.media.tablet} {
+    
+  }
+
+  @media ${props => props.theme.media.phone} {
+    border-radius: 0;
+    margin: 0;
+    padding: 40px;
+  }
 `
 
 export const H3 = styled.h3`

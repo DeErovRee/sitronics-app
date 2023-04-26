@@ -30,8 +30,9 @@ const theme = {
     gradient: 'linear-gradient(45deg, rgba(241, 2, 2, 0.61), rgba(0, 8, 255, 0.61))',
   },
   media: {
-    phone: '(max-width: 375px)',
-    tablet: '(max-width: 1156px) and (min-width: 375px)'
+    phone: '(max-width: 425px)',
+    tablet: '(max-width: 768px) and (min-width: 425px)',
+    desktop: '(min-width: 768px)'
   }
 }
 

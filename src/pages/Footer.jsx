@@ -9,22 +9,48 @@ const FooterStyled = styled.div`
 const Wrapper = styled.div`
     max-width: 1920px;
     padding: 50px 96px;
+
+    @media ${props => props.theme.media.tablet} {
+    
+    }
+
+    @media ${props => props.theme.media.phone} {
+        padding: 37px 48px;
+    }
 `
 
 const First = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    height: 200px;
+
+    @media ${props => props.theme.media.tablet} {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    @media ${props => props.theme.media.phone} {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 `
 
 const List = styled.ul`
     list-style-type: none;
     display: flex;
     flex-direction: column;
+    width: ${props => props.width || 'auto'};
     justify-content: ${props => props.justifyContent || 'flex-start'};
     align-items: flex-start;
     margin: 0;
+
+    @media ${props => props.theme.media.tablet} {
+        margin: 0 0 25px 0;
+    }
+
+    @media ${props => props.theme.media.phone} {
+        margin: 0 0 25px 0;
+    }
 `
 
 const ListItem = styled.li`
@@ -38,7 +64,15 @@ const ListItem = styled.li`
     text-transform: ${props => props.textTransform || 'none'};
     &:hover {
         cursor: pointer;
-    } 
+    }
+
+    @media ${props => props.theme.media.tablet} {
+        margin: 0 0 11px 0;
+    }
+
+    @media ${props => props.theme.media.phone} {
+        margin: 0 0 11px 0;
+    }
 `
 
 const ListImg = styled.div`
@@ -80,7 +114,7 @@ export const Footer = () => {
                         <ListItem>Услуги</ListItem>
                         <ListItem>Контакты</ListItem>
                     </List>
-                    <List justifyContent={'space-between'}>
+                    <List justifyContent={'space-between'} width={'33%'}>
                         <ListItem>
                             <ListImg width={'20px'}>
                                 <svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">

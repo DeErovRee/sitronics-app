@@ -10,13 +10,39 @@ const HeaderStyled = styled.div`
 const Wrapper = styled.nav`
   max-width: 1920px;
   padding: 32px 96px;
+
+  @media ${props => props.theme.media.tablet} {
+
+  }
+
+  @media ${props => props.theme.media.phone} {
+    padding: 28px 40px;
+  }
 `
 
 const List = styled.ul`
   display: flex;
   flex-direction: row;
-  margin: 0;
   justify-content: space-between;
+  align-items: center;
+`
+
+const BurgerBtn = styled.div`
+  background-color: red;
+  display: none;
+
+  @media ${props => props.theme.media.tablet} {
+    display: unset;
+  }
+
+  @media ${props => props.theme.media.phone} {
+    display: unset;
+  }
+`
+
+const BurgerMenu = styled.div`
+  display: flex;
+  flex-direction: column;
   align-items: center;
 `
 
@@ -30,6 +56,16 @@ const ListItem = styled.li`
     text-decoration: none;
     color: white;
   };
+
+  @media ${props => props.theme.media.tablet} {
+    display: ${props => props.noHidden || 'none'};
+  }
+
+  @media ${props => props.theme.media.phone} {
+    display: ${props => props.noHidden || 'none'};
+  }
+
+
 `
 
 const LoginButton = styled.button`
@@ -67,18 +103,20 @@ const Chats = ({authenticated}) => {
 
 export const Header = ({authenticated}) => {
 
+  const openMenu = () => {
+    
+  }
+
     return(
       <HeaderStyled>
         <Wrapper>
           <List>
-            <ListItem>
-              <Link to="/">
-                <img
-                  src={require('../images/logo.png')}
-                  className="logo"
-                  alt="logo"/>
-              </Link>
-            </ListItem>
+            <Link to="/">
+              <img
+                src={require('../images/logo.png')}
+                className="logo"
+                alt="logo"/>
+            </Link>
             <ListItem>
               <List>
                 <ListItem>
@@ -93,38 +131,24 @@ export const Header = ({authenticated}) => {
                 <Chats authenticated={authenticated}/>
               </List>
             </ListItem>
-            <Component authenticated={authenticated}/>
+            <ListItem>
+              <Component authenticated={authenticated}/>
+            </ListItem>
+            <BurgerBtn onClick={openMenu}>|||</BurgerBtn>
           </List>
+          <BurgerMenu id='burgerMenu'>
+            <ListItem noHidden={'flex'}>
+              <Link to="/drons">Дроны</Link>
+            </ListItem>
+            <ListItem noHidden={'flex'}>
+              <Link to="/services">Услуги</Link>
+            </ListItem>
+            <ListItem noHidden={'flex'}>
+              <Link to="/contacts">Контакты</Link>
+            </ListItem>
+            <Chats authenticated={authenticated}/>
+          </BurgerMenu>
         </Wrapper>
       </HeaderStyled>
-
-        // <header>
-        //   <nav>
-        //     <ul className="header">
-        //       <li>
-        //         <Link to="/">
-        //           <img
-        //             src={require('../images/logo.png')}
-        //             className="logo"
-        //             alt="logo"
-        //           />
-        //         </Link>
-        //       </li>
-        //       <div className="headerCenter">
-        //         <li>
-        //           <Link to="/drons">Дроны</Link>
-        //         </li>
-        //         <li>
-        //           <Link to="/services">Услуги</Link>
-        //         </li>
-        //         <Chats authenticated={authenticated}/>
-        //         <li>
-        //           <Link to="/contacts">Контакты</Link>
-        //         </li>
-        //       </div>
-        //       <Component authenticated={authenticated}/>
-        //     </ul>
-        //   </nav>
-        // </header>
     )
 }

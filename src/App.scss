@@ -3,7 +3,9 @@
 $linear-gradient: linear-gradient(45deg, rgba(241, 2, 2, 0.61), rgba(0, 8, 255, 0.61));
 
 // Общие стили
-
+.hidden {
+  display: none;
+}
 .citys {
   display: flex;
   flex-wrap: wrap;
