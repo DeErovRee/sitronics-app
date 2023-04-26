@@ -1,23 +1,5 @@
 @charset "UTF-8";
 @import url("https://fonts.googleapis.com/css2?family=Unbounded:wght@100;200;300;400;500;600;700;800;900&display=swap");
-* {
-  padding: 0px;
-  margin: 0px;
-  font-family: "Unbounded", sans-serif;
-  font-weight: 200;
-  /* Скрываем scrollbar для IE, Edge и Firefox */
-  -ms-overflow-style: none; /* IE и Edge */
-  scrollbar-width: none; /* Firefox */
-  /* Скрываем scrollbar для Chrome, Safari и Opera */
-}
-*::-webkit-scrollbar {
-  display: none;
-}
-
-main {
-  background-color: #1e1e1e;
-}
-
 .citys {
   display: flex;
   flex-wrap: wrap;
@@ -93,7 +75,7 @@ main {
   font-weight: 300;
 }
 .mainPage img {
-  margin: 21px;
+  margin: 15px;
   height: 180px;
 }
 
@@ -113,7 +95,6 @@ main {
   text-transform: uppercase;
   font-weight: 500;
   font-size: 48px;
-  width: 30%;
 }
 .second .about-text {
   font-size: 25px;
@@ -227,9 +208,8 @@ main {
 }
 .four .four-row .card {
   box-sizing: border-box;
-  margin: 24px 50px;
-  width: 540px;
-  height: 220px;
+  margin: 12px 25px;
+  width: 50%;
   padding: 41px 26px 36px;
   border-radius: 23px;
   background-image: linear-gradient(45deg, rgba(30, 30, 30, 0.72), rgba(30, 30, 30, 0.72));
@@ -239,12 +219,6 @@ main {
   font-size: 20px;
   font-weight: 500;
   margin-bottom: 15px;
-}
-.four .four-row:nth-child(2n+1) {
-  margin-left: 220px;
-}
-.four .four-row:nth-child(2n+2) {
-  margin-right: 220px;
 }
 
 .application {
@@ -302,149 +276,6 @@ main {
 }
 .serviceName .consulBtn:hover {
   border: 1px solid #999999;
-}
-
-.loginPage {
-  background-color: #ffffff;
-  display: flex;
-  padding: 176px 0;
-}
-
-.loginForm {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 36px 66px 38px;
-  border-radius: 80px;
-  background-color: #f2f2f2;
-}
-.loginForm h3 {
-  font-style: normal;
-  font-weight: 400;
-  font-size: 32px;
-  line-height: 38px;
-  margin-bottom: 22.26px;
-}
-.loginForm h4 {
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 24px;
-  padding-bottom: 25.72px;
-}
-.loginForm p {
-  margin-bottom: 22px;
-}
-.loginForm button:hover {
-  filter: brightness(0.8);
-  cursor: pointer;
-}
-.loginForm .forgotPassword:hover {
-  filter: none;
-  cursor: pointer;
-}
-.loginForm .input {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 512px;
-  height: 70px;
-  border: none;
-  border-radius: 10px;
-  background-color: #ffffff;
-  margin: 26px 0;
-  padding: 0 42px;
-  box-sizing: border-box;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 19px;
-  color: #000842;
-}
-.loginForm .input::-moz-placeholder {
-  color: #000842;
-}
-.loginForm .input::placeholder {
-  color: #000842;
-}
-.loginForm .input img {
-  margin: 0;
-}
-.loginForm .input span {
-  margin: 0 0 0 10px;
-}
-.loginForm label:hover {
-  cursor: pointer;
-}
-.loginForm .checkbox {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.loginForm .checkbox input {
-  margin: -15px;
-  width: 35px;
-  transform: scale(2);
-}
-.loginForm .checkbox p {
-  margin: 0px;
-}
-.loginForm .loginError {
-  text-transform: uppercase;
-  font-weight: 900;
-  width: 100%;
-  color: #ff0000;
-  margin-bottom: 0px;
-  position: absolute;
-  bottom: 40.5%;
-  left: 0;
-  text-align: center;
-}
-.loginForm .signupError {
-  text-transform: uppercase;
-  font-weight: 900;
-  width: 100%;
-  color: #ff0000;
-  margin-bottom: 0px;
-  position: absolute;
-  bottom: 24%;
-  left: 0;
-  text-align: center;
-}
-.loginForm .submitButton {
-  width: 512px;
-  height: 70px;
-  border: none;
-  background-color: #ffffff;
-}
-.loginForm .restore {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  margin-bottom: 22px;
-}
-.loginForm .restore button {
-  margin: 0;
-  border: none;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 19px;
-  color: #000842;
-}
-.loginForm .restore p {
-  margin: 0;
-  padding-bottom: 0;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 19px;
-  margin-bottom: 0px;
-}
-.loginForm .restore p a {
-  text-decoration: none;
-  color: #000842;
 }
 
 .container {

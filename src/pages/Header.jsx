@@ -5,8 +5,6 @@ import styled from 'styled-components'
 const HeaderStyled = styled.div`
   background-color: #1E1E1E;
   color: white;
-  position: sticky;
-  top: 0;
 `
 
 const Wrapper = styled.nav`
@@ -23,8 +21,6 @@ const List = styled.ul`
 `
 
 const ListItem = styled.li`
-  //привязано к стилю тега "а" в App.scss
-
   display: flex;
   flex-direction: row;
   margin: 0 20px;

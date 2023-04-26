@@ -5,6 +5,7 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../firebase/firebase";
+import { Button, Checkbox, Container, Error, Form, H3, Input, Label, LoginStyled, P } from "./loginPage";
 
 export const SignupPage = () => {
   const [displayName, setDisplayName] = useState("");
@@ -41,7 +42,7 @@ export const SignupPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    document.getElementById('form')
     if (!displayName) {
       setError("Введите имя");
       return;
@@ -64,7 +65,8 @@ export const SignupPage = () => {
       email,
       password
     ).catch((error) => {
-      console.log(error)
+      setError('')
+      setError(`${error.message}`);
     });
 
     const date = new Date().getTime();
@@ -88,117 +90,91 @@ export const SignupPage = () => {
                 photoURL: downloadURL,
               });
               await setDoc(doc(db, "userChats", res.user.uid), {});
-            } catch (err) {
-              setError(err);
+            } catch (error) {
+              setError('')
+              setError(`${error.message}`);
             }
           })
           .catch((error) => {
-            setError(error);
+            setError('')
+            setError(`${error.message}`);
           });
       })
       .catch((error) => {
-        setError(error);
+        setError('')
+        setError(`${error.message}`);
       });
   };
 
-  return (
-    <div className="loginPage">
-      <form onSubmit={handleSubmit} className="loginForm">
-        <h3>Зарегестрируйтесь</h3>
-        <h4>И получите доступ ко всем услугам нашего сервиса</h4>
-        <div>
-          <input
-            className="input"
-            type="name"
-            placeholder="Введите имя"
-            name="name"
-            onChange={handleNameChange}
-            value={displayName}
+  return(
+    <LoginStyled>
+      <Form onSubmit={handleSubmit} id='form'>
+        <H3>Зарегестрируйтесь</H3>
+        <P>И получите доступ ко всем услугам нашего сервиса</P>
+        <Input
+          type="name"
+          placeholder="Введите имя"
+          onChange={handleNameChange}
+          value={displayName}
           />
-        </div>
-        <div>
-          <input
-            className="input"
-            type="email"
-            placeholder="Введите свой email"
-            name="email"
-            onChange={handleEmailChange}
-            value={email}
-          />
-        </div>
-        <div>
-          <input
-            className="input"
-            type="password"
-            placeholder="Введите пароль"
-            name="password"
-            onChange={handlePassChange}
-            value={password}
-          />
-        </div>
-        <div>
-          <input
-            className="input"
-            type="password"
-            placeholder="Повторите пароль"
-            name="RePassword"
-            onChange={handleRePassChange}
-            value={rePassword}
-          />
-        </div>
-        <div>
-          <input
+        <Input
+          type="email"
+          placeholder="Введите свой email"
+          onChange={handleEmailChange}
+          value={email}
+        />
+        <Input
+          type="password"
+          placeholder="Введите пароль"
+          onChange={handlePassChange}
+          value={password}
+        />
+        <Input
+          type="password"
+          placeholder="Повторите пароль"
+          onChange={handleRePassChange}
+          value={rePassword}
+        />
+          <Input
             style={{ display: "none" }}
-            className="input"
             type="file"
-            name="file"
             id="file"
             onChange={handleFileChange}
           />
-          <label htmlFor="file" className="input">
+          <Label htmlFor="file" className="input">
             <img
               style={{ width: "25px" }}
               src="https://cdn-icons-png.flaticon.com/512/1091/1091916.png"
               alt=""
             />
-            <span>Добавьте аватар</span>
-          </label>
-        </div>
-        <div className="input checkbox">
-          <input
+            Добавьте аватар
+          </Label>
+        <Label>
+          <Checkbox
             type="checkbox"
-            name="provider"
             id="provider"
             onChange={handleIsProviderChange}
           />
-          <p>Я поставщик услуг</p>
-          <p></p>
-        </div>
-        {error && <p className="signupError">{error}</p>}
-        <button className="input" type="submit">
+          Я поставщик услуг
+        </Label>
+        {error && <Error bottom={'18.5%'}>{error}</Error>}
+        <Button cursor={'pointer'} type="submit">
           Зарегестрироваться
-        </button>
-        <div className="restore">
-          <p>
-            <Link to="/login">У меня есть аккаунт</Link>
-          </p>
-        </div>
-        <p>или войдите с помощью</p>
-        <ul className="socialNetwork">
-          <li>
+        </Button>
+        <P>
+          <Link to="/login">У меня есть аккаунт</Link>
+        </P>
+        <P>или войдите с помощью</P>
+        <Container justifyContent={'center'}>
             <img src={require("../images/google_logo.png")} alt="google_logo" />
-          </li>
-          <li>
+          
             <img src={require("../images/vk_logo.png")} alt="vk_logo" />
-          </li>
-          <li>
             <img
               src={require("../images/microsoft_logo.png")}
               alt="microsoft_logo"
             />
-          </li>
-        </ul>
-      </form>
-    </div>
-  );
-};
+        </Container>
+      </Form>
+    </LoginStyled>
+  )
+}

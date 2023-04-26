@@ -1,6 +1,6 @@
 import "./App.scss";
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import { ServicesPage } from "./pages/servicesPage";
 import { MainPage } from "./pages/mainPage";
