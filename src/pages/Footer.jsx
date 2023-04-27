@@ -2,11 +2,14 @@ import { React } from 'react'
 import styled from 'styled-components'
 
 const FooterStyled = styled.div`
+    display: flex;
+    justify-content: center;
     background-color: #1E1E1E;
     color: white;
 `
 
 const Wrapper = styled.div`
+    width: 100%;
     max-width: 1920px;
     padding: 50px 96px;
 

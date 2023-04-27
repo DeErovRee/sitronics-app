@@ -8,9 +8,12 @@ const HeaderStyled = styled.div`
   color: white;
   position: relative;
   z-index: 99;
+  display: flex;
+  justify-content: center;
 `
 
 const Wrapper = styled.nav`
+  width: 100%;
   max-width: 1920px;
   padding: 32px 96px;
 
@@ -81,13 +84,13 @@ const ListItem = styled.li`
 
   @media ${props => props.theme.media.tablet} {
     display: ${props => props.noHidden || 'none'};
-    margin: 0 0 7px;
+    margin: 0 0 15px;
     
   }
 
   @media ${props => props.theme.media.phone} {
     display: ${props => props.noHidden || 'none'};
-    margin: 0 0 7px;
+    margin: 0 0 15px;
   }
 
 
