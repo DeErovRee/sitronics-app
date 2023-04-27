@@ -1,10 +1,13 @@
-import { React } from 'react'
+import { React, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { useOnClickOutSide } from '../hooks/useOnClickOutSide'
 
 const HeaderStyled = styled.div`
   background-color: #1E1E1E;
   color: white;
+  position: relative;
+  z-index: 99;
 `
 
 const Wrapper = styled.nav`
@@ -12,7 +15,7 @@ const Wrapper = styled.nav`
   padding: 32px 96px;
 
   @media ${props => props.theme.media.tablet} {
-
+    padding: 28px 40px;
   }
 
   @media ${props => props.theme.media.phone} {
@@ -28,8 +31,16 @@ const List = styled.ul`
 `
 
 const BurgerBtn = styled.div`
-  background-color: red;
+  background-color: transparent;
+  color: white;
   display: none;
+  position: absolute;
+  font-size: 30px;
+  top: 28px;
+  right: 40px;
+  z-index: 110;
+  transform: ${({isOpen}) => isOpen ? 'rotate(0)' : 'rotate(90deg)'};
+  transition: transform 0.3s ease-in-out;
 
   @media ${props => props.theme.media.tablet} {
     display: unset;
@@ -41,9 +52,20 @@ const BurgerBtn = styled.div`
 `
 
 const BurgerMenu = styled.div`
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  padding: 10px 0 10px 0px;
+  background: #1e1e1e;
   display: flex;
   flex-direction: column;
   align-items: center;
+  transform: ${({isOpen}) => isOpen ? 'translateY(0px)' : 'translateY(-100%)'};
+  transition: transform 0.3s ease-in-out;
+
+  @media ${props => props.theme.media.desktop} {
+    display: none;
+  }
 `
 
 const ListItem = styled.li`
@@ -59,10 +81,13 @@ const ListItem = styled.li`
 
   @media ${props => props.theme.media.tablet} {
     display: ${props => props.noHidden || 'none'};
+    margin: 0 0 7px;
+    
   }
 
   @media ${props => props.theme.media.phone} {
     display: ${props => props.noHidden || 'none'};
+    margin: 0 0 7px;
   }
 
 
@@ -102,12 +127,12 @@ const Chats = ({authenticated}) => {
 };
 
 export const Header = ({authenticated}) => {
-
-  const openMenu = () => {
-    
-  }
+  const node = useRef()
+  useOnClickOutSide(node, () => setIsOpen(false))
+  const [isOpen, setIsOpen] = useState(false)
 
     return(
+      <>
       <HeaderStyled>
         <Wrapper>
           <List>
@@ -134,21 +159,25 @@ export const Header = ({authenticated}) => {
             <ListItem>
               <Component authenticated={authenticated}/>
             </ListItem>
-            <BurgerBtn onClick={openMenu}>|||</BurgerBtn>
           </List>
-          <BurgerMenu id='burgerMenu'>
-            <ListItem noHidden={'flex'}>
-              <Link to="/drons">Дроны</Link>
-            </ListItem>
-            <ListItem noHidden={'flex'}>
-              <Link to="/services">Услуги</Link>
-            </ListItem>
-            <ListItem noHidden={'flex'}>
-              <Link to="/contacts">Контакты</Link>
-            </ListItem>
-            <Chats authenticated={authenticated}/>
-          </BurgerMenu>
         </Wrapper>
       </HeaderStyled>
+      <div ref={node}>
+      <BurgerBtn isOpen={isOpen} onClick={() => setIsOpen(!isOpen)}>|||</BurgerBtn>
+      <BurgerMenu id='burgerMenu' isOpen={isOpen} >
+        <ListItem noHidden={'flex'}>
+          <Link to="/drons">Дроны</Link>
+        </ListItem>
+        <ListItem noHidden={'flex'}>
+          <Link to="/services">Услуги</Link>
+        </ListItem>
+        <ListItem noHidden={'flex'}>
+          <Link to="/contacts">Контакты</Link>
+        </ListItem>
+        <Chats authenticated={authenticated}/>
+        <Component />
+      </BurgerMenu>
+      </div>
+      </>
     )
 }
