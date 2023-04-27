@@ -109,7 +109,7 @@ export const SignupPage = () => {
   return(
     <LoginStyled>
       <Form onSubmit={handleSubmit} id='form'>
-        <H3>Зарегестрируйтесь</H3>
+        <H3>Создайте аккаунт</H3>
         <P>И получите доступ ко всем услугам нашего сервиса</P>
         <Input
           type="name"
@@ -159,7 +159,7 @@ export const SignupPage = () => {
         </Label>
         {error && <Error bottom={'18.5%'}>{error}</Error>}
         <Button cursor={'pointer'} type="submit">
-          Зарегестрироваться
+          Создать аккаунт
         </Button>
         <P>
           <Link to="/login">У меня есть аккаунт</Link>

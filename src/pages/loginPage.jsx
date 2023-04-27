@@ -43,6 +43,7 @@ export const H3 = styled.h3`
   font-size: 32px;
   line-height: 38px;
   margin-bottom: 22.26px;
+  text-align: center;
 `
 
 export const P = styled.p`
