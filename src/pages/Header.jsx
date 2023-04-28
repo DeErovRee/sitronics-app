@@ -20,10 +20,6 @@ const Wrapper = styled.nav`
   @media ${props => props.theme.media.tablet} {
     padding: 28px 28px;
   }
-
-  @media ${props => props.theme.media.phone} {
-    padding: 28px 40px;
-  }
 `
 
 const List = styled.ul`
@@ -46,10 +42,6 @@ const BurgerBtn = styled.div`
   transition: transform 0.3s ease-in-out;
 
   @media ${props => props.theme.media.tablet} {
-    display: unset;
-  }
-
-  @media ${props => props.theme.media.phone} {
     display: unset;
   }
 `
@@ -87,13 +79,6 @@ const ListItem = styled.li`
     margin: 0 0 15px;
     
   }
-
-  @media ${props => props.theme.media.phone} {
-    display: ${props => props.noHidden || 'none'};
-    margin: 0 0 15px;
-  }
-
-
 `
 
 const LoginButton = styled.button`

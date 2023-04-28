@@ -31,8 +31,8 @@ const theme = {
   },
   media: {
     phone: '(max-width: 425px)',
-    tablet: '(max-width: 768px)',
-    desktop: '(min-width: 768px)'
+    tablet: '(max-width: 769px)',
+    desktop: '(min-width: 769px)'
   }
 }
 
