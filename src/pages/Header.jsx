@@ -18,7 +18,7 @@ const Wrapper = styled.nav`
   padding: 32px 96px;
 
   @media ${props => props.theme.media.tablet} {
-    padding: 28px 40px;
+    padding: 28px 28px;
   }
 
   @media ${props => props.theme.media.phone} {
