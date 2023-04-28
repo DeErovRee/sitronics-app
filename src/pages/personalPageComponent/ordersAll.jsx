@@ -78,7 +78,7 @@ export const OrdersAll = () => {
                 return(
                     <div className="order" key={nanoid()}>
                         <h3>ID заявки: {order.orderID}</h3>
-                        {isProvider === true ? 
+                        {order.providerID === currentUser.uid ? 
                             <div className="info">
                                 <div className="containerImg">
                                     <img src={order.clientPhoto} alt="" />
