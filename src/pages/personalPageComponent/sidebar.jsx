@@ -18,7 +18,7 @@ export const Sidebar = () => {
         return()=>{
           unsub()
         }
-      }, []);
+    }, []);
 
     const logout = async () => {
         try {

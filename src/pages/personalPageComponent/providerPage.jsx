@@ -1,10 +1,24 @@
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { nanoid } from "nanoid";
+import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import React, { useContext } from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { db, storage } from "../../firebase/firebase";
+import ReactQuill from 'react-quill'
+import 'react-quill/dist/quill.snow.css';
+
+function formatBytes(bytes, decimals = 2) {
+    if (!+bytes) return '0 Bytes'
+
+    const k = 1024
+    const dm = decimals < 0 ? 0 : decimals
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+
+    const i = Math.floor(Math.log(bytes) / Math.log(k))
+
+    return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
+}
 
 export const ProviderPage = () => {
 
@@ -31,56 +45,79 @@ export const ProviderPage = () => {
         console.log(services)
     }
 
-    const handleData = async () => {
+    useEffect(() => {
+        getData()
+    }, [])
+
+    const getData = async () => {
         const docRef = doc(db, "providerPages", currentUser.uid);
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-            console.log("Document data:", docSnap.data());
             setCitys(docSnap.data().citys)
             setServices(docSnap.data().services)
             setText(docSnap.data().text)
-            setFiles(docSnap.data().photoURLs)
             setFilesForView(docSnap.data().photoURLs)
         } else {
-        
-        console.log("No such document!");
+            console.log("No such document!");
         }
     }
 
+    const clearPreview = el => {
+        el.style.bottom = '0px'
+        el.innerHTML = '<div class="preview-info-progress"></div>'
+    }
+
     const handleSubmit = async () => {
+        document.querySelectorAll('.preview-remove').forEach(el => el.remove())
+        const previewInfo = document.querySelectorAll('.preview-info')
+        previewInfo.forEach(clearPreview)
+
         try {
-          const promises = [];
-      
-          for (const file of files) {
-            const date = new Date().getTime();
-            const storageRef = ref(storage, `${file.name}_${date}`);
-            const uploadTask = uploadBytesResumable(storageRef, file);
-            promises.push(uploadTask);
-          }
-      
-          const uploadResults = await Promise.all(promises);
-      
-          const downloadURLs = await Promise.all(
-            uploadResults.map((uploadResult) => getDownloadURL(uploadResult.ref))
-          );
-      
-          const providerPagesRef = doc(db, "providerPages", currentUser.uid);
-          
+            const promises = [];
+        
+            files.forEach((file, index) => {
+                const storageRef = ref(storage, `providersImages/${currentUser.uid}/${file.name}`);
+
+                const uploadTask = uploadBytesResumable(storageRef, file.file);
+                uploadTask.on('state_changed', (snapshot) => {
+                    const percentage = ((snapshot.bytesTransferred / snapshot.totalBytes) * 100).toFixed(0) + '%'
+                    const block = previewInfo[index].querySelector('.preview-info-progress')
+                    block.style.width = percentage
+                })
+                promises.push(uploadTask);
+            })
+        
+            const uploadResults = await Promise.all(promises);
+        
+            const downloadURLs = await Promise.all(
+                uploadResults.map((uploadResult) => getDownloadURL(uploadResult.ref))
+            );
+        
+            const providerPagesRef = doc(db, "providerPages", currentUser.uid);
+            
             await setDoc(providerPagesRef, {
-              uid: currentUser.uid,
-              displayName: currentUser.displayName,
-              email: currentUser.email,
-              text,
-              citys,
-              services,
-              photoURLs: downloadURLs,
+                uid: currentUser.uid,
+                userPhoto: currentUser.photoURL,
+                displayName: currentUser.displayName,
+                email: currentUser.email,
+                text,
+                citys,
+                services,
+                photoURLs: downloadURLs,
+                visibility: true,
             });
+            
+            filesForView.forEach((file) => {
+                deleteObject(ref(storage, `providersImages/${currentUser.uid}/${file}`))
+            })
+            setTimeout(deleteFiles(),5000)
+            getData()
         
         } catch (error) {
           setError(error);
         }
-      };
+    };
 
     const deleteText = () => {
         setText('')
@@ -145,41 +182,58 @@ export const ProviderPage = () => {
 
     const handleFiles = (e) => {
         
-        for (let i = 0; i < e.target.files.length; i++) {
-            setFiles(prevState => ([...prevState, e.target.files[i]]))
-            setFilesForView(prevState => ([...prevState, 
-                {URL: URL.createObjectURL(e.target.files[i]),
-                type: e.target.files[i].type.slice(0,e.target.files[i].type.lastIndexOf('/')),
-                name: e.target.files[i].name,
-                size: e.target.files[i].size}
-            ]))
+        if (!e.target.files.length) {
+            return
         }
+
+        const uploadFiles = Array.from(e.target.files)
+        
+        setFiles([])
+
+        uploadFiles.forEach(file => {
+            if(!file.type.match('image')) {
+                return
+            }
+
+            const reader = new FileReader()
+
+            reader.onload = (e) => {
+                setFiles(prev => [...prev, {
+                    file: file,
+                    url: e.target.result,
+                    name: file.name,
+                    size: file.size,
+                    type: file.type}
+                ])
+            }
+
+            reader.readAsDataURL(file)
+        })
     }
 
-    const deleteFile = (file) => {
-        
-        URL.revokeObjectURL(file.URL); // удаляем объект URL, связанный с файлом
-        if (files.length === 1) {
-            console.log('все удалено')
-            setFiles([])
-            setFilesForView([])
-        } else {
-            setFiles(files.filter((el) => {
-                return el.name !== file.name
-            }))
-            setFilesForView(filesForView.filter((el) => {
-                return el.name !== file.name
-            }))
+    const deleteFile = (e) => {
+        document.querySelector('input[type=file]').value = ''
+        if (!e.target.dataset.name) {
+            return
         }
+
+        const name = e.target.dataset.name
+        
+        const block = document
+            .querySelector(`[data-name="${name}"]`)
+            .closest('.preview-image')
+
+        block.classList.add('removing')
+        setTimeout(() => setFiles(files.filter(file => file.name !== name)), 300)
     }
 
     const deleteFiles = () => {
-        
-        for (let file of filesForView) {
-            URL.revokeObjectURL(file.URL)
-        }
-        setFiles([])
-        setFilesForView([])
+        const block = document.querySelectorAll('.preview-image')
+        block.forEach((el) => {
+            el.classList.add('removing')
+        })
+        document.querySelector('input[type=file]').value = ''
+        setTimeout(() => setFiles([]), 300)
     }
 
     return(
@@ -188,53 +242,64 @@ export const ProviderPage = () => {
             <div className="card">
                 <p className="cardHeader">Отображаемый текст</p>
                 <p>В окне ниже введите текст, который будет
-                    отображаться на карточке поставщика услуг </p>  
-                <textarea placeholder="Введите текст" onChange={e => setText(e.target.value)} value={text}/>
+                    отображаться на карточке поставщика услуг </p>
+                <ReactQuill value={text} placeholder="Введите текст" onChange={setText} />
                 <div  className="cardBtn">
                     <div className="settingsBtn" onClick={deleteText}>Очистить</div>
                 </div>
             </div>
             <div className="card">
+
                 <p className="cardHeader">Отображаемые файлы</p>
+                <div className="images">{filesForView && filesForView.map((file) => {
+                    return(
+                        
+                        <img src={file} alt="" key={file}/>
+                        
+                    )
+                })}</div>
+                
                 <p>Выберите фото или видео-файлы, которые будут 
-                    отображаться на карточке поставщика услуг</p>
+                    отображаться на карточке поставщика услуг. Новые файлы заменят собой старые</p>
+
                 <input 
                     type="file"
-                    multiple="multiple"
-                    style={{display: "none"}} 
                     id="file"
                     onChange={handleFiles}
-                    autoComplete="off"/>
+                    multiple="multiple"
+                    style={{display: "none"}} 
+                />
+
                 <label htmlFor="file">Прикрепить файлы</label>
-                <div className="pinImgs" id="pinImgs">
-                    {files && filesForView.map((el) => {
-                        if (el.type === 'video') {
-                            return (<div className="soloImg" key={nanoid()}>
-                                <video src={el.URL+'#t=0.5'} preload='metadata' poster={el.URL}>
-                                    <source type={el.type}/>
-                                </video>
-                                <button className='deleteCity' onClick={e => deleteFile(el)} >
-                                    <img src={require('../../images/x.png')} alt=''/>
-                                </button>
-                                {URL.revokeObjectURL(el.URL)}
-                            </div> )
-                        } else {
-                            return(
-                                <div className="soloImg" key={nanoid()}>
-                                    <img src={el.URL} alt=''/>
-                                    <button className='deleteCity' onClick={e => deleteFile(el)} >
-                                        <img src={require('../../images/x.png')} alt=''/>
-                                    </button>
-                                    
+
+                <div className="preview" id="preview" onClick={deleteFile}>
+                    {files && files.map((file) => {
+                        return(
+                            <div className="preview-image" key={file.name}>
+                                <div 
+                                    className="preview-remove"
+                                    data-name={file.name}
+                                    >&times;</div>
+                                <img src={file.url} alt="" />
+                                <div className="preview-info">
+                                    <span>{file.name.substr(0, 10)}</span>
+                                    <span>{formatBytes(file.size)}</span>
                                 </div>
-                                
-                            )
-                        }
+                            </div>
+                        )
                     })}
-                </div>
+    
+                </div> 
+
                 <div  className="cardBtn">
-                    <div className="settingsBtn" onClick={deleteFiles}>Очистить</div>
+
+                    <div 
+                        className="settingsBtn"
+                        onClick={deleteFiles}
+                    >Очистить</div>
+
                 </div>
+                
             </div>
             <div className="card">
                 <p className="cardHeader">Обслуживаемые регионы и города</p>
@@ -304,7 +369,7 @@ export const ProviderPage = () => {
             </div>
             <div className="fnlBtn" onClick={handlePreview}>Предпросмотр</div>
             <div className="fnlBtn submitBtn" onClick={handleSubmit}>Опубликовать</div>
-            <div className="fnlBtn submitBtn" onClick={handleData}>Получить данные</div>
+            <div className="fnlBtn submitBtn" onClick={getData}>Получить данные</div>
         </div>
     )
 }

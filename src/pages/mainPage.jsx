@@ -1,49 +1,46 @@
+import React from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components"
+import { MainComponent1 } from "./mainPageComponent/MainComponent1";
+import { MainComponent2 } from "./mainPageComponent/MainComponent2";
+import { MainComponent3 } from "./mainPageComponent/MainComponent3";
+import { MainComponent4 } from "./mainPageComponent/MainComponent4";
+import { MainComponent5 } from "./mainPageComponent/MainComponent5";
+import { MainComponent6 } from "./mainPageComponent/MainComponent6";
+import { MainComponent7 } from "./mainPageComponent/MainComponent7";
+
+const MainStyled = styled.div`
+  display: flex;
+  justify-content: center;
+  background-color: #1E1E1E;
+  color: white;
+`
+
+const Wrapper = styled.div`
+  width: 100%;
+  max-width: 1920px;
+`
+
 export const MainPage = () => {
   return (
-    <>
-    <div className="mainPage first">
-      <div className="serviceName">
-        <h1>Услуги аэрофотосъемки
-          и видеомониторинга</h1>
-      </div>
-      <div className="companyImage">
-        <img src={require("../images/geoscan_logo.png")} alt="geoscan_logo" />
-        <img src={require("../images/albatros_logo.png")} alt="albatros_logo" />
-        <img src={require("../images/drone_center_logo.png")} alt="drone_center_logo" />
-        <img src={require("../images/geoscan_logo.png")} alt="geoscan_logo" />
-      </div>
-    </div>
-    <div className="mainPage second">
-      <div className="serviceName">
-        <h1>Тепловизионная съемка</h1>
-      </div>
-      <div className="companyImage">
-        <img src={require("../images/geoscan_logo.png")} alt="geoscan_logo" />
-        <img src={require("../images/albatros_logo.png")} alt="albatros_logo" />
-        <img src={require("../images/aerodyne_logo.png")} alt="aerodyne_logo" />
-        <img src={require("../images/supercam_logo.png")} alt="supercam_logo" />
-      </div>
-    </div>
-    <div className="mainPage third">
-      <div className="serviceName">
-        <h1>О компании</h1>
-      </div>
-      <div className="thirdDescription">
-        <div className="companyDescription background">
-        </div>
-        <div className="companyDescription">
-        Группа компаний &laquo;Ситроникс&raquo;&nbsp;&mdash; российская многопрофильная ИТ-компания 
-        с&nbsp;большим опытом разработки цифровых решений и&nbsp;реализации масштабных 
-        проектов для бизнеса и&nbsp;правительства <br /><br /><br />
-        В&nbsp;2008 году признана крупнейшей в&nbsp;России компанией высоких технологий 
-        в&nbsp;рейтинге &laquo;Эксперт 400&raquo;. По&nbsp;итогам 2010 года заняла по&nbsp;объёму выручки 
-        97&nbsp;место в&nbsp;рейтинге ста крупнейших высокотехнологичных компаний мира 
-        (1&nbsp;место среди компаний Восточной Европы), формируемом аналитической 
-        группой &laquo;ТАСС-Телеком&raquo;
-        </div>
-      </div>
-    </div>
-    
-    </>
+    <MainStyled>
+      <Wrapper>
+
+        <MainComponent1 />
+
+        <MainComponent2 />
+
+        <MainComponent3 />
+
+        <MainComponent4 />
+
+        <MainComponent5 />
+
+        <MainComponent6 />
+
+        <MainComponent7 />
+        
+      </Wrapper>
+    </MainStyled>
   );
 };

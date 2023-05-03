@@ -1,6 +1,6 @@
 import "./App.scss";
-import React, { useState, useEffect, useContext } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import { ServicesPage } from "./pages/servicesPage";
 import { MainPage } from "./pages/mainPage";
@@ -10,92 +10,43 @@ import { SignupPage } from "./pages/signupPage";
 import { PersonalAreaPage } from "./pages/personalAreaPage";
 import { Page404 } from "./pages/page404";
 import { ChatsPage } from "./pages/chatsPage";
+import { ServicePage } from "./pages/servicePage";
 
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase/firebase";
 
-import { Provider } from "react-redux";
-import { store } from "./redux/store";
-
 import { PublicRoute } from "./hocs/publicRoute";
 import { PrivateRoute } from "./hocs/privateRoute";
-
-import { AuthContext } from "./context/AuthContext";
+import { ContactsPage } from "./pages/contactsPage";
+import { Header } from "./pages/Header";
+import { Footer } from "./pages/Footer"
 
 export const App = () => {
   const [authed, setAuthed] = useState(false);
 
   const AuthedCheck = () => {
-    onAuthStateChanged(auth, (user) => {
+      onAuthStateChanged(auth, (user) => {
       if (user) {
         setAuthed(true);
       } else {
         setAuthed(false);
       }
-    });
-  };
-
-  const Component = () => {
-    return authed ? (
-      <li className="loginBtn">
-        <Link to="/personalArea">Личный кабинет</Link>
-      </li>
-    ) : (
-      <li className="loginBtn">
-        <Link to="/login">Войти</Link>
-      </li>
-    );
-  };
-
-  const Chats = () => {
-    return authed ? (
-      <li>
-        <Link to="/chats">Чат</Link>
-      </li>
-    ) : (
-      <></>
-    );
+      });
   };
 
   useEffect(() => {
     AuthedCheck();
   }, []);
 
-  const { currentUser } = useContext(AuthContext);
-
   return (
     <Router>
-      <Provider store={store}>
-        <header>
-          <nav>
-            <ul className="header">
-              <li>
-                <Link to="/">
-                  <img
-                    src={require("../src/images/free-icon-camera-drone.png")}
-                    className="logo"
-                    alt="logo"
-                  />
-                </Link>
-              </li>
-              <div className="headerCenter">
-                <li>
-                  <Link to="/drons">Дроны</Link>
-                </li>
-                <li>
-                  <Link to="/services">Услуги</Link>
-                </li>
-                <Chats />
-              </div>
-              <Component />
-            </ul>
-          </nav>
-        </header>
+        <Header authenticated={authed}/>
         <main>
           <Routes>
             <Route exact path="/" element={<MainPage />} />
             <Route exact path="/drons" element={<DronsPage />} />
             <Route exact path="/services" element={<ServicesPage />} />
+            <Route exact path="/contacts" element={<ContactsPage />} />
             <Route
               exact
               path="/chats"
@@ -135,45 +86,10 @@ export const App = () => {
               }
             />
             <Route exact path="*" element={<Page404 />} />
+            <Route exact path='services/*' element={<ServicePage />} />
           </Routes>
         </main>
-        <footer>
-          <div className="footer">
-            <ul className="footerMaxWidth">
-              <li>
-                <p>&copy;&nbsp;2023 Все права защищены</p>
-              </li>
-              <li>
-                <div className="socialNetwork">
-                  <div className="cube">
-                    <img
-                      src={require("./images/facebook-f-brands.png")}
-                      alt="facebook-f-brands"
-                    />
-                  </div>
-                  <div className="cube">
-                    <img
-                      src={require("./images/instagram-brands.png")}
-                      alt="instagram-brands"
-                    />
-                  </div>
-                  <div className="cube">
-                    <img
-                      src={require("./images/twitter-brands.png")}
-                      alt="twitter-brands"
-                    />
-                  </div>
-                </div>
-              </li>
-              <li>
-                <p>+7 (495) 685-53-53</p>
-                <p>sitronicsgroup@mail.ru</p>
-                <p>г. Тюмень</p>
-              </li>
-            </ul>
-          </div>
-        </footer>
-      </Provider>
+      <Footer />
     </Router>
   );
 };

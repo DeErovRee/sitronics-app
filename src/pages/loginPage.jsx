@@ -3,8 +3,147 @@ import { auth } from "../firebase/firebase";
 import { Link } from "react-router-dom";
 import {
   signInWithEmailAndPassword,
-  sendPasswordResetEmail,
+  sendPasswordResetEmail
 } from "firebase/auth";
+import styled from 'styled-components'
+
+export const LoginStyled = styled.div`
+  background-color: white;
+  background-image: linear-gradient(45deg, rgba(241, 2, 2, 0.61), rgba(0, 8, 255, 0.61));
+  display: flex;
+  justify-content: center;
+`
+
+export const Form = styled.form`
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 36px 66px 38px;
+  margin: 20px 0;
+  border-radius: 80px;
+  background-color: #f2f2f2;
+  max-width: 642px;
+
+  @media ${props => props.theme.media.tablet} {
+    
+  }
+
+  @media ${props => props.theme.media.phone} {
+    border-radius: 0;
+    margin: 0;
+    padding: 40px;
+  }
+`
+
+export const H3 = styled.h3`
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 38px;
+  margin-bottom: 22.26px;
+  text-align: center;
+`
+
+export const P = styled.p`
+  line-height: 24px;
+  padding-bottom: 25.72px;
+  text-align: center;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  cursor: ${props => props.cursor || 'auto'};
+  color: ${props => props.color || 'auto'};
+
+  a {
+    text-decoration: none;
+    color: inherit;
+    font-weight: inherit;
+  }
+`
+
+export const Input = styled.input`
+  width: 100%;
+  height: 70px;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 10px;
+  background-color: #ffffff;
+  margin: 0 0 20px;
+  padding: 0 42px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+`
+
+export const Checkbox = styled.input`
+  margin: 0 20px 0 5px;
+  -ms-transform: scale(2);
+  -moz-transform: scale(2);
+  -webkit-transform: scale(2);
+  -o-transform: scale(2);
+  transform: scale(2);
+`
+
+export const Label = styled.label`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 70px;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 10px;
+  background-color: #ffffff;
+  margin: 0 0 20px;
+  padding: 0 42px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+
+  img {
+    margin: 0 10px 0 0;
+  }
+`
+
+export const Button = styled.button`
+  width: 100%;
+  height: 70px;
+  border: none;
+  border-radius: 10px;
+  background-color: #ffffff;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  margin: 0 0 40px;
+  cursor: pointer;
+  color: #000842;
+`
+
+export const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: ${props => props.justifyContent || 'space-between'};
+  width: 100%;
+
+  img {
+    margin: 5px;
+    cursor: pointer;
+  }
+`
+
+export const Error = styled.p`
+  text-transform: uppercase;
+  font-weight: 900;
+  width: 100%;
+  color: #ff0000;
+  margin-bottom: 0px;
+  position: absolute;
+  bottom: ${props => props.bottom || '29%'};
+  left: 0;
+  text-align: center;
+`
 
 export const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -12,10 +151,12 @@ export const LoginPage = () => {
   const [error, setError] = useState("");
 
   const handlePassChange = (e) => {
+    setError('');
     setPassword(e.target.value);
   };
 
   const handleEmailChange = (e) => {
+    setError('');
     setEmail(e.target.value);
   };
 
@@ -57,54 +198,40 @@ export const LoginPage = () => {
   };
 
   return (
-    <div className="loginPage">
-      <form onSubmit={handleSubmit} className="loginForm">
-        <h3>Войдите в аккаунт</h3>
-        <h4>И получите доступ ко всем услугам нашего сервиса</h4>
-        <input
-          className="input"
-          type="email"
-          placeholder="Введите свой email"
-          name="email"
-          onChange={handleEmailChange}
+    <LoginStyled>
+      <Form onSubmit={handleSubmit}>
+        <H3>Войдите</H3>
+        <P color={'#000842'}>И получите доступ ко всем услугам нашего сервиса</P>
+        <Input 
+          type='email' 
+          placeholder='Введите свой email' 
           value={email}
-        />
-        <input
-          className="input"
-          type="password"
-          placeholder="Введите свой пароль"
-          name="password"
-          onChange={handlePassChange}
+          onChange={handleEmailChange} />
+        <Input 
+          type='password' 
+          placeholder='Введите свой пароль' 
           value={password}
-        />
-        {error && <p className="loginError">{error}</p>}
-        <button className="input" type="submit">
-          Войти
-        </button>
-        <div className="restore">
-          <button className="forgotPassword" onClick={handleForgotPassword}>
-            Не помню пароль
-          </button>
-          <p>
+          onChange={handlePassChange} />
+        {error && <Error>{error}</Error>}
+        <Button type='submit'>Войти</Button>
+        <Container>
+          <P 
+            color={'#000842'} 
+            cursor={'pointer'} 
+            onClick={handleForgotPassword}>Не помню пароль</P>
+          <P 
+            color={'#000842'} 
+            cursor={'pointer'}>
             <Link to="/signup">Создать аккаунт</Link>
-          </p>
-        </div>
-        <p>или войдите с помощью</p>
-        <ul className="socialNetwork">
-          <li>
-            <img src={require("../images/google_logo.png")} alt="google_logo" />
-          </li>
-          <li>
-            <img src={require("../images/vk_logo.png")} alt="vk_logo" />
-          </li>
-          <li>
-            <img
-              src={require("../images/microsoft_logo.png")}
-              alt="microsoft_logo"
-            />
-          </li>
-        </ul>
-      </form>
-    </div>
+          </P>
+        </Container>
+        <P>Или войдите с помощью</P>
+        <Container justifyContent={'center'}>
+          <img src={require("../images/google_logo.png")} alt="" />
+          <img src={require("../images/vk_logo.png")} alt="" />
+          <img src={require("../images/microsoft_logo.png")} alt="" />
+        </Container>
+      </Form>
+    </LoginStyled>
   );
 };

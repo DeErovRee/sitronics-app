@@ -80,17 +80,17 @@ export const Settings = () => {
             <div className="defaultDiv" >
                 <p>Изменить имя</p>
                 <div className="wrappable" >
-                    <input type="text" value={name} placeholder="Введите новое имя" onChange={handleChangeName} autoComplete="off" />
+                    <input type="text" value={name} placeholder="Введите новое имя" onChange={handleChangeName} autoComplete="new-password" />
                     <button type="submit" onClick={handleUpdateName}>Применить</button>
                 </div>
             </div>
             <div className="defaultDiv" >
                 <p>Сменить пароль</p>
                 <div className="wrappable" >
-                    <input type="password" value={pass} placeholder="Введите пароль" onChange={handleChangePass} autoComplete="off"/>
-                    <input type="password" value={newPass} placeholder="Введите новый пароль" onChange={handleChangeNewPass} autoComplete="off"/>
+                    <input type="password" value={pass} placeholder="Введите пароль" onChange={handleChangePass} autoComplete="new-password"/>
+                    <input type="password" value={newPass} placeholder="Введите новый пароль" onChange={handleChangeNewPass} autoComplete="new-password"/>
                     {error && <span className="signupError" style={{top: '50px', fontSize: '15px', height: '10px'}}>{error}</span>}
-                    <input type="password" value={reNewPass} placeholder="Повторите новый пароль" onChange={handleChangeReNewPass} autoComplete="off"/>
+                    <input type="password" value={reNewPass} placeholder="Повторите новый пароль" onChange={handleChangeReNewPass} autoComplete="new-password"/>
                     <button type="submit" onClick={handleUpdatePassword}>Применить</button>
                 </div>
             </div>
