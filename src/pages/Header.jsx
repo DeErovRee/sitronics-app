@@ -163,7 +163,7 @@ export const Header = ({authenticated}) => {
           <Link to="/contacts">Контакты</Link>
         </ListItem>
         <Chats authenticated={authenticated}/>
-        <Component />
+        <Component authenticated={authenticated}/>
       </BurgerMenu>
       </div>
       </>

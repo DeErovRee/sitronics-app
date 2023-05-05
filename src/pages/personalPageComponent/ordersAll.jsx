@@ -29,9 +29,9 @@ export const OrdersAll = () => {
 
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-        setOrders([doc.data()])
+        setOrders(prevState => [...prevState, doc.data()])
+        console.log(doc.data())
         })
-        
     }
 
     useEffect(() => {

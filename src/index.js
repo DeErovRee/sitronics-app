@@ -4,7 +4,7 @@ import "./index.css";
 import { App } from "./App";
 import { AuthContextProvider } from "./context/AuthContext";
 import { ChatContextProvider } from "./context/ChatContext";
-import styled, { createGlobalStyle, ThemeProvider } from 'styled-components'
+import { createGlobalStyle, ThemeProvider } from 'styled-components'
 
 const Global = createGlobalStyle`
 * {
