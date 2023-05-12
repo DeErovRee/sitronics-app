@@ -15,6 +15,7 @@ export const OrdersAll = () => {
 
     const getOrders = async () => {
         
+        setOrders([])
         if(isProvider === null) {
             return
         }
@@ -30,7 +31,6 @@ export const OrdersAll = () => {
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
         setOrders(prevState => [...prevState, doc.data()])
-        console.log(doc.data())
         })
     }
 
@@ -49,8 +49,6 @@ export const OrdersAll = () => {
     }, [isProvider])
 
     const answerOrders = async (e, orderID) => {
-        console.log(orderID)
-        console.log(e.target.innerText)
         if (!orderID) {
             return
         }
@@ -70,13 +68,29 @@ export const OrdersAll = () => {
 
         getOrders()
     }
+
+    const hiddenOrder = async (orderID) => {
+
+        if (!orderID) {
+            return
+        }
+        const orderRef = doc(db, 'orders', orderID);
+
+        await updateDoc(orderRef, {
+            visible: false
+        });
+
+        getOrders()
+    }
     
     return(
         <div className="orders">
             <h1>Мои заявки</h1>
             {orders && orders.map((order) => {
                 return(
-                    <div className="order" key={nanoid()}>
+                    <React.Fragment key={nanoid()}>
+                    {order.visible === true && 
+                        <div className="order">
                         <h3>ID заявки: {order.orderID}</h3>
                         {order.providerID === currentUser.uid ? 
                             <div className="info">
@@ -109,12 +123,20 @@ export const OrdersAll = () => {
                                 </div>
                             </>
                         }
+                        {isProvider && order.status === 'Принята' && 
+                            <>
+                                <div className="providerTools">
+                                    <div className='toolsBtn' onClick={e => hiddenOrder(order.orderID)}>Скрыть</div>
+                                </div>
+                            </>
+                        }
                         {isProvider && 
                             <>
                                 <div className="toolsBtn">Связь с пользователем</div>
                             </>
                         }
-                    </div>
+                    </div>}
+                    </React.Fragment>
                 )
             })}
         </div>

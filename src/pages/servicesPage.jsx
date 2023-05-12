@@ -1,8 +1,4 @@
-import { nanoid } from "nanoid";
-import React, { useState, useEffect } from "react";
-import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from '../firebase/firebase'
-import { Link } from "react-router-dom";
+import React from "react";
 import styled from "styled-components";
 import { Sort } from './servicePageComponent/sort'
 import { Filters } from "./servicePageComponent/filters";
