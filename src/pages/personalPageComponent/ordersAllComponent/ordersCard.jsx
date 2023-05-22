@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
-import { nanoid } from 'nanoid';
 import styled from 'styled-components';
 import { AuthContext } from '../../../context/AuthContext';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../../firebase/firebase';
+import { Link } from 'react-router-dom';
 
 const OrderCard = styled.div`
     max-width: 500px;
@@ -148,6 +148,7 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
                 providerDate: date,
                 providerTime: time,
             });
+            return
         }
 
         if (requestAnswer === true) {
@@ -156,6 +157,7 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
                 orderStatus: queryStatus,
                 providerNote: text,
             });
+            return
         }
 
         getOrders()
@@ -253,7 +255,9 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
                     
                     {isProvider && 
                         <>
-                            <ToolsBtn>Связь с пользователем</ToolsBtn>
+                            <Link to="/chats">
+                                <ToolsBtn>Связь с пользователем</ToolsBtn>
+                            </Link>
                         </>
                     }
                 </OrderCard>}

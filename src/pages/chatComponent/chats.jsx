@@ -6,6 +6,7 @@ import { ChatContext } from "../../context/ChatContext";
 
 export const Chats = () => {
   const [chats, setChats] = useState("");
+  console.log(chats)
 
   const { currentUser } = useContext(AuthContext);
   const { dispatch } = useContext(ChatContext);
@@ -33,11 +34,13 @@ export const Chats = () => {
       {Object.entries(chats)
         ?.sort((a, b) => b[1].date - a[1].date)
         .map((chat) => (
+          
           <div
             className="userChat"
             key={chat[0]}
             onClick={() => handleSelect(chat[1].userInfo)}
           >
+            {console.log(chat)}
             <img src={chat[1].userInfo.photoURL} alt="" width="32px" />
             <div className="userChatInfo">
               <span>{chat[1].userInfo.displayName}</span>

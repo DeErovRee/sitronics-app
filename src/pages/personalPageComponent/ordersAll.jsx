@@ -1,4 +1,4 @@
-import { collection, doc, getDocs, onSnapshot, query, updateDoc, where } from "firebase/firestore";
+import { collection, doc, getDocs, onSnapshot, query, where } from "firebase/firestore";
 import React, { useState } from "react";
 import { useContext } from "react";
 import { useEffect } from "react";
@@ -14,8 +14,6 @@ export const OrdersAll = () => {
 
     const [orders, setOrders] = useState([]);
     const [isProvider, setIsProvider] = useState(null);
-    const [requestTime, setRequestTime] = useState(true);
-    const [requestAnswer, setRequestAnswer] = useState(false);
 
     const getOrders = async () => {
         
@@ -46,10 +44,13 @@ export const OrdersAll = () => {
         return()=>{
             unsub()
         }
-    }, [])
+        //eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [getOrders])
 
     useEffect(() => {
         getOrders()
+
+        //eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isProvider])
     
     return(

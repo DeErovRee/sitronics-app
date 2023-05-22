@@ -170,10 +170,14 @@ export const Filters = () => {
     
     useEffect(() => {
         getData(getOptions(requestReg, choiceRegion), requestReg)
+
+        //eslint-disable-next-line react-hooks/exhaustive-deps
     },[requestReg])
     
     useEffect(() => {
         getData(getOptions(requestCity, choiceCity), requestCity)
+
+        //eslint-disable-next-line react-hooks/exhaustive-deps
     },[requestCity])
 
     return(
