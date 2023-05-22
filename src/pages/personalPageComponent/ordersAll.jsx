@@ -5,13 +5,17 @@ import { useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { db } from "../../firebase/firebase";
 import { nanoid } from "nanoid";
+import { OrdersCard } from "./ordersAllComponent/ordersCard";
+
 
 export const OrdersAll = () => {
 
     const { currentUser } = useContext(AuthContext)
 
-    const [orders, setOrders] = useState([])
-    const [isProvider, setIsProvider] = useState(null)
+    const [orders, setOrders] = useState([]);
+    const [isProvider, setIsProvider] = useState(null);
+    const [requestTime, setRequestTime] = useState(true);
+    const [requestAnswer, setRequestAnswer] = useState(false);
 
     const getOrders = async () => {
         
@@ -47,96 +51,17 @@ export const OrdersAll = () => {
     useEffect(() => {
         getOrders()
     }, [isProvider])
-
-    const answerOrders = async (e, orderID) => {
-        if (!orderID) {
-            return
-        }
-
-        let query
-        if (e.target.innerText === 'Принять') {
-            query = 'Принята'
-        } else if (e.target.innerText === 'Отклонить') {
-            query = 'Отклонена'
-        }
-
-        const orderRef = doc(db, "orders", orderID);
-
-        await updateDoc(orderRef, {
-        status: query
-        });
-
-        getOrders()
-    }
-
-    const hiddenOrder = async (orderID) => {
-
-        if (!orderID) {
-            return
-        }
-        const orderRef = doc(db, 'orders', orderID);
-
-        await updateDoc(orderRef, {
-            visible: false
-        });
-
-        getOrders()
-    }
     
     return(
         <div className="orders">
             <h1>Мои заявки</h1>
             {orders && orders.map((order) => {
                 return(
-                    <React.Fragment key={nanoid()}>
-                    {order.visible === true && 
-                        <div className="order">
-                        <h3>ID заявки: {order.orderID}</h3>
-                        {order.providerID === currentUser.uid ? 
-                            <div className="info">
-                                <div className="containerImg">
-                                    <img src={order.clientPhoto} alt="" />
-                                </div>
-                                <p className="name">{order.clientName}</p>
-                            </div> : 
-                            <div className="info">
-                                <div className="containerImg">
-                                    <img src={order.providerPhoto} alt="" />
-                                </div>
-                                <p className="name">{order.providerName}</p>
-                            </div>
-                        }
-                        <p><span>Услуга: </span>{order.service}</p>
-                        <p><span>Адрес: </span>{order.address}</p>
-                        <p><span>Дата: </span>{order.date}</p>
-                        <p><span>Телефон: </span>{order.phone}</p>
-                        <p><span>Почта: </span>{order.email}</p>
-                        <p><span>Примечание: </span>{order.note}</p>
-                        {order.status === 'На рассмотрении' && <p className="status"><span>Статус: </span><span className="yellow">{order.status}</span></p> }
-                        {order.status === 'Принята' && <p className="status"><span>Статус: </span><span className="green">{order.status}</span></p> }
-                        {order.status === 'Отклонена' && <p className="status"><span>Статус: </span><span className="red">{order.status}</span></p> }
-                        {isProvider && order.status === 'На рассмотрении' &&
-                            <>
-                                <div className="providerTools">
-                                    <div className="toolsBtn" onClick={e => answerOrders(e, order.orderID)}>Принять</div>
-                                    <div className="toolsBtn" onClick={e => answerOrders(e, order.orderID)}>Отклонить</div>
-                                </div>
-                            </>
-                        }
-                        {isProvider && order.status === 'Принята' && 
-                            <>
-                                <div className="providerTools">
-                                    <div className='toolsBtn' onClick={e => hiddenOrder(order.orderID)}>Скрыть</div>
-                                </div>
-                            </>
-                        }
-                        {isProvider && 
-                            <>
-                                <div className="toolsBtn">Связь с пользователем</div>
-                            </>
-                        }
-                    </div>}
-                    </React.Fragment>
+                    <OrdersCard 
+                        order={order}
+                        isProvider={isProvider}
+                        key={nanoid()}
+                        getOrders={getOrders}/>
                 )
             })}
         </div>

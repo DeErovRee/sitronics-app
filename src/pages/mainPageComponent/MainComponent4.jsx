@@ -71,12 +71,12 @@ export const MainComponent4 = () => {
     return(
         <Content backgroundColor={'background-color: #1E1E1E'} padding={'120px 89px'}>
           <Container alignItems={'center'}>
-            <Container width={'30%'}>
+            <Container width={'50%'}>
               <H2>
                 <TextDecor>Основные поставщики услуг</TextDecor>
               </H2>
             </Container>
-            <Container wrap={'wrap'} width={'70%'} justifyContent={'flex-end'}>
+            <Container wrap={'wrap'} width={'50%'} justifyContent={'flex-end'}>
 
               <ProviderCard src={require("../../images/albatros_logo.png")} alt="" />
               <ProviderCard src={require("../../images/coex_logo.png")} alt="" />
