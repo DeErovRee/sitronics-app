@@ -5,6 +5,16 @@ import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../../firebase/firebase';
 import { Link } from 'react-router-dom';
 
+const getDate = () => {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+    today = `${yyyy}-${mm}-${dd}`
+    
+    return today
+}
+
 const OrderCard = styled.div`
     max-width: 500px;
     display: flex;
@@ -132,8 +142,11 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
     const [time, setTime] = useState('')
     const [text, setText] = useState('')
 
-    const answerOrders = async (e, orderID) => {
+    const [prolong, setProlong] = useState(false)
+    const [prolongTime, setProlongTime] = useState('')
+    const [prolongDate, setProlongDate] = useState('')
 
+    const answerOrders = async (e, orderID) => {
         if (!orderID) {
             return
         }
@@ -141,26 +154,28 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
         const orderRef = doc(db, "orders", orderID);
 
         if (requestTime === true) {
-            const queryStatus = 'Принята'
+            const queryStatus = 'В работе'
             await updateDoc(orderRef, {
                 orderStatus: queryStatus,
                 providerNote: text,
                 providerDate: date,
                 providerTime: time,
+                confirmationTime: `${new Date().getHours()}:${new Date().getMinutes()}`,
+                confirmationDate: getDate()
             });
+            getOrders()
             return
         }
-
+        
         if (requestAnswer === true) {
             const queryStatus = 'Отклонена'
             await updateDoc(orderRef, {
                 orderStatus: queryStatus,
                 providerNote: text,
             });
+            getOrders()
             return
         }
-
-        getOrders()
     }
 
     const hiddenOrder = async (orderID) => {
@@ -180,6 +195,31 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
     const Cancle = () => {
         setRequestAnswer(false)
         setRequestTime(false)
+    }
+
+    const ChangeStatus = async (e, orderID, status) => {
+
+        if(!orderID) {
+            return
+        }
+        const orderRef = doc(db, 'orders', orderID);
+
+        await updateDoc(orderRef, {
+            orderStatus: status
+        })
+
+        getOrders()
+    }
+
+    const getProlong = async (e, orderID) => {
+        const orderRef = doc(db, 'orders', orderID);
+
+        await updateDoc(orderRef, {
+            providerTime: prolongTime,
+            providerDate: prolongDate
+        })
+
+        getOrders()
     }
 
     return(
@@ -206,14 +246,18 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
                     <P><Span>Дата: </Span>{order.clientDate}</P>
                     <P><Span>Телефон: </Span>{order.clientPhone}</P>
                     <P><Span>Почта: </Span>{order.clientEmail}</P>
-                    <P><Span>Примечание: </Span>{order.clientNote}</P>
-
-                    {order.orderStatus === 'На рассмотрении' && <Status><Span>Статус: </Span><YellowStatus>{order.orderStatus}</YellowStatus></Status> }
-                    {order.orderStatus === 'Принята' && <Status><Span>Статус: </Span><GreenStatus>{order.orderStatus}</GreenStatus></Status> }
-                    {order.orderStatus === 'Отклонена' && <Status><Span>Статус: </Span><RedStatus>{order.orderStatus}</RedStatus></Status> }
+                    <P><Span>Комментарий клиента: </Span>{order.clientNote}</P>
                     
                     {order.providerNote && <P><Span>Комментарий поставщика: </Span>{order.providerNote}</P>}
-                    {order.providerDate && <P><Span>Ориентировочная дата выполнения заказа:<br/> </Span>{order.providerDate}</P>}
+                    {order.confirmationDate && <P><Span>Дата принятия заказа: </Span><br/>{order.confirmationDate} {order.confirmationTime}</P>}
+                    {order.providerDate && <P><Span>Ориентировочная дата выполнения заказа:<br/> </Span>{order.providerDate} {order.providerTime}</P>}
+
+                    {order.orderStatus === 'На рассмотрении' && <Status><Span>Статус: </Span><YellowStatus>{order.orderStatus}</YellowStatus></Status> }
+                    {order.orderStatus === 'В работе' && <Status><Span>Статус: </Span><GreenStatus>{order.orderStatus}</GreenStatus></Status> }
+                    {order.orderStatus === 'Отклонена' && <Status><Span>Статус: </Span><RedStatus>{order.orderStatus}</RedStatus></Status> }
+                    {order.orderStatus === 'Выполнена' && <Status><Span>Статус: </Span><GreenStatus>{order.orderStatus}</GreenStatus></Status>}
+                    {order.orderStatus === 'Отменена' && <Status><Span>Статус: </Span><RedStatus>{order.orderStatus}</RedStatus></Status>}
+                    
                     {isProvider && order.orderStatus === 'На рассмотрении' && (!requestTime && !requestAnswer) &&
                         <ProviderTools>
                             <ToolsBtn onClick={e => setRequestTime(true)}>Принять</ToolsBtn>
@@ -245,7 +289,29 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
                         </ContainerTools>
                     }
 
-                    {isProvider && order.orderStatus === 'Принята' && 
+                    {isProvider && order.orderStatus === 'В работе' && !prolong && !requestAnswer &&
+                        <ProviderTools>
+                            <ToolsBtn onClick={e => ChangeStatus(e, order.orderID, 'Выполнена')}>Выполнена</ToolsBtn>
+                            <ToolsBtn onClick={e => setProlong(true)}>Продлить</ToolsBtn>
+                            <ToolsBtn onClick={e => setRequestAnswer(true)}>Отклонить</ToolsBtn>
+                        </ProviderTools>
+                    }
+
+                    {isProvider && prolong === true && 
+                        <ContainerTools>
+                            <ProviderTools>
+                                <input type="date" onChange={e => setProlongDate(e.target.value)} value={prolongDate}/>
+                                <input type="time" onChange={e => setProlongTime(e.target.value)} value={prolongTime}/>
+                            </ProviderTools>
+                            <ProviderTools>
+                                <ToolsBtn onClick={e => getProlong(e, order.orderID)}>Подтвердить</ToolsBtn>
+                                <ToolsBtn onClick={e => setProlong(false)}>Отменить</ToolsBtn>
+                            </ProviderTools>
+                            
+                        </ContainerTools>
+                    }
+
+                    {isProvider && order.orderStatus === 'Выполнена' && 
                         <>
                             <ProviderTools>
                                 <ToolsBtn onClick={e => hiddenOrder(order.orderID)}>Скрыть</ToolsBtn>

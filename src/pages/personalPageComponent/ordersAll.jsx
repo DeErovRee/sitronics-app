@@ -55,7 +55,7 @@ export const OrdersAll = () => {
     
     return(
         <div className="orders">
-            <h1>Мои заявки</h1>
+            <h1>Мои заказы</h1>
             {orders && orders.map((order) => {
                 return(
                     <OrdersCard 
