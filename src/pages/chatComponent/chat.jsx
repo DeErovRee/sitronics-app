@@ -7,17 +7,27 @@ export const Chat = () => {
   const { data } = useContext(ChatContext);
 
   return (
+    
     <div className="chat">
-      <div className="chatInfo">
-        <span>Чат с {data.user?.displayName}</span>
-        <div className="chatIcon">
-          <img src="" alt="" />
-          <img src="" alt="" />
-          <img src="" alt="" />
+      {data.user.displayName ? 
+        <>
+          <div className="chatInfo">
+            <span>Чат с {data.user?.displayName}</span>
+            <div className="chatIcon">
+              <img src="" alt="" />
+              <img src="" alt="" />
+              <img src="" alt="" />
+            </div>
+          </div>
+          <Messages />
+          <Input />
+        </>
+        :
+        <div className="chatInfo">
+          <h1>Выберите пользователя</h1>
         </div>
-      </div>
-      <Messages />
-      <Input />
+      }
+      
     </div>
   );
 };
