@@ -87,6 +87,8 @@ export const Search = ({ client }) => {
     if(user){
       handleSelect()
     }
+    
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
     <div className="search">

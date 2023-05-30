@@ -26,6 +26,8 @@ export const Chats = ({ client }) => {
     if (client) {
       handleSelect(client)
     }
+
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser.uid]);
 
   const handleSelect = (u) => {
