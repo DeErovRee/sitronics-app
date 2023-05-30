@@ -5,14 +5,14 @@ import { useLocation } from "react-router-dom";
 
 export const ChatsPage = () => {
   const location = useLocation()
-  const CID = location.state?.CID
+  const client = location.state?.client
   
   return (
     <div className="App">
       <div className="container">
         <div className="workSpace">
-          <Sidebar CID={CID} />
-          <Chat CID={CID}/>
+          <Sidebar client={client} />
+          <Chat client={client}/>
         </div>
       </div>
     </div>
