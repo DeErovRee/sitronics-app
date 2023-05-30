@@ -2,11 +2,11 @@ import React from "react";
 import { Search } from "./search";
 import { Chats } from "./chats";
 
-export const Sidebar = () => {
+export const Sidebar = ({ CID }) => {
   return (
     <div className="sidebar">
-      <Search />
-      <Chats />
+      <Search CID={CID}/>
+      <Chats CID={CID}/>
     </div>
   );
 };

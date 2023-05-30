@@ -222,6 +222,11 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
         getOrders()
     }
 
+    const combinedId =
+      order.providerID > order.clientID
+        ? order.providerID + order.clientID
+        : order.clientID + order.providerID;
+
     return(
             <>
             {order.orderVisible === true && 
@@ -321,7 +326,7 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
                     
                     {isProvider && 
                         <>
-                            <Link to="/chats">
+                            <Link to="/chats" state={{CID: combinedId}}>
                                 <ToolsBtn>Связь с пользователем</ToolsBtn>
                             </Link>
                         </>

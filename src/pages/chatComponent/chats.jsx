@@ -6,7 +6,6 @@ import { ChatContext } from "../../context/ChatContext";
 
 export const Chats = () => {
   const [chats, setChats] = useState("");
-  console.log(chats)
 
   const { currentUser } = useContext(AuthContext);
   const { dispatch } = useContext(ChatContext);
@@ -34,7 +33,6 @@ export const Chats = () => {
       {Object.entries(chats)
         ?.sort((a, b) => b[1].date - a[1].date)
         .map((chat) => (
-          
           <div
             className="userChat"
             key={chat[0]}
