@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import { AuthContext } from '../../../context/AuthContext';
-import { doc, updateDoc } from 'firebase/firestore';
+import { collection, doc, getDocs, query, updateDoc, where } from 'firebase/firestore';
 import { db } from '../../../firebase/firebase';
 import { Link } from 'react-router-dom';
 
@@ -118,6 +118,20 @@ const ToolsBtn = styled.button`
     padding: 5px 9px;
     font-weight: 300;
     border: none;
+    cursor: pointer;
+    margin: 5px;
+`
+
+const DisableBtn = styled(ToolsBtn)`
+    background-color: gray;
+`
+
+const LikeBtn = styled(ToolsBtn)`
+    background-color: rgb(52, 168, 83);
+`
+
+const DislikeBtn = styled(ToolsBtn)`
+    background-color: rgb(250, 42, 42);
 `
 
 const ContainerTools = styled.div`
@@ -145,6 +159,8 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
     const [prolong, setProlong] = useState(false)
     const [prolongTime, setProlongTime] = useState('')
     const [prolongDate, setProlongDate] = useState('')
+
+    const [providerRating, setProviderRating] = useState(order.orderRating)
 
     const answerOrders = async (e, orderID) => {
         if (!orderID) {
@@ -222,6 +238,45 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
         getOrders()
     }
 
+    const setRating = async (e) => {
+
+        if(providerRating === true) {
+            return
+        }
+
+        // При React.strictMode в index.js функция вызывается 2 раза
+        let rating
+        
+        const q = query(collection(db, "providerPages"), where("visibility", "==", true));
+
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            rating = doc.data().rating
+        })
+
+        const providerRef = doc(db, 'providerPages', order.providerID);
+
+        if (e.target.dataset.rating === 'like') {
+            await updateDoc(providerRef, {
+                rating: rating+1,
+            })
+        }
+
+        if (e.target.dataset.rating === 'dislike') {
+            await updateDoc(providerRef, {
+                rating: rating-1,
+            })
+        }
+        
+        const orderRef = doc(db, 'orders', order.orderID);
+
+        await updateDoc(orderRef, {
+            orderRating: true,
+        })
+
+        getOrders()
+    }
+
     return(
             <>
             {order.orderVisible === true && 
@@ -292,8 +347,8 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
                     {isProvider && order.orderStatus === 'В работе' && !prolong && !requestAnswer &&
                         <ProviderTools>
                             <ToolsBtn onClick={e => ChangeStatus(e, order.orderID, 'Выполнена')}>Выполнена</ToolsBtn>
-                            <ToolsBtn onClick={e => setProlong(true)}>Продлить</ToolsBtn>
-                            <ToolsBtn onClick={e => setRequestAnswer(true)}>Отклонить</ToolsBtn>
+                            <ToolsBtn onClick={() => setProlong(true)}>Продлить</ToolsBtn>
+                            <ToolsBtn onClick={() => setRequestAnswer(true)}>Отклонить</ToolsBtn>
                         </ProviderTools>
                     }
 
@@ -311,26 +366,56 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
                         </ContainerTools>
                     }
 
-                    {isProvider && order.orderStatus === 'Выполнена' && 
+                    {(order.orderStatus === 'Выполнена' || order.orderStatus === 'Отклонена') &&
                         <>
                             <ProviderTools>
                                 <ToolsBtn onClick={e => hiddenOrder(order.orderID)}>Скрыть</ToolsBtn>
                             </ProviderTools>
                         </>
                     }
+
+                    {!isProvider && (order.orderStatus === 'Выполнена' || order.orderStatus === 'Отклонена') && !providerRating ?
+                        <ContainerTools>
+                            <LikeBtn data-rating='like' onClick={(e)=>setRating(e)}>
+                                <svg width="35px" height="35px" data-rating='like' viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M8 10V20M8 10L4 9.99998V20L8 20M8 10L13.1956 3.93847C13.6886 3.3633 14.4642 3.11604 15.1992 3.29977L15.2467 3.31166C16.5885 3.64711 17.1929 5.21057 16.4258 6.36135L14 9.99998H18.5604C19.8225 9.99998 20.7691 11.1546 20.5216 12.3922L19.3216 18.3922C19.1346 19.3271 18.3138 20 17.3604 20L8 20" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+                            </LikeBtn>
+                            <DislikeBtn data-rating='dislike' onClick={(e)=>setRating(e)}>
+                                <svg width="35px" height="35px" data-rating='dislike' viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M8 14V4M8 14L4 14V4.00002L8 4M8 14L13.1956 20.0615C13.6886 20.6367 14.4642 20.884 15.1992 20.7002L15.2467 20.6883C16.5885 20.3529 17.1929 18.7894 16.4258 17.6387L14 14H18.5604C19.8225 14 20.7691 12.8454 20.5216 11.6078L19.3216 5.60779C19.1346 4.67294 18.3138 4.00002 17.3604 4.00002L8 4" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+                            </DislikeBtn>
+                        </ContainerTools>
+                        :
+                        <ContainerTools>
+                            <DisableBtn>
+                                <svg width="35px" height="35px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M8 10V20M8 10L4 9.99998V20L8 20M8 10L13.1956 3.93847C13.6886 3.3633 14.4642 3.11604 15.1992 3.29977L15.2467 3.31166C16.5885 3.64711 17.1929 5.21057 16.4258 6.36135L14 9.99998H18.5604C19.8225 9.99998 20.7691 11.1546 20.5216 12.3922L19.3216 18.3922C19.1346 19.3271 18.3138 20 17.3604 20L8 20" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+                            </DisableBtn>
+                            <DisableBtn>
+                                <svg width="35px" height="35px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M8 14V4M8 14L4 14V4.00002L8 4M8 14L13.1956 20.0615C13.6886 20.6367 14.4642 20.884 15.1992 20.7002L15.2467 20.6883C16.5885 20.3529 17.1929 18.7894 16.4258 17.6387L14 14H18.5604C19.8225 14 20.7691 12.8454 20.5216 11.6078L19.3216 5.60779C19.1346 4.67294 18.3138 4.00002 17.3604 4.00002L8 4" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+                            </DisableBtn>
+                        </ContainerTools>
+                    }
                     
                     {isProvider && 
                         <>
-                            <Link to="/chats" state={{client: {
-                                displayName: order.clientName,
-                                photoURL: order.clientPhoto,
-                                uid: order.clientID
-                            }}}>
+                            <Link to="/chats" state={{
+                                client: {
+                                    displayName: order.clientName,
+                                    photoURL: order.clientPhoto,
+                                    uid: order.clientID
+                                    }
+                            }}>
                                 <ToolsBtn>Связь с пользователем</ToolsBtn>
                             </Link>
                         </>
                     }
-                    
+
                 </OrderCard>}
             </>
     )
