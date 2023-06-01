@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import { AuthContext } from '../../../context/AuthContext';
-import { doc, updateDoc } from 'firebase/firestore';
+import { collection, doc, getDocs, query, updateDoc, where } from 'firebase/firestore';
 import { db } from '../../../firebase/firebase';
 import { Link } from 'react-router-dom';
 
@@ -118,7 +118,22 @@ const ToolsBtn = styled.button`
     padding: 5px 9px;
     font-weight: 300;
     border: none;
+    cursor: pointer;
+    margin: 5px;
 `
+
+// const StarBtn = styled(ToolsBtn)`
+//     background-color: inherit;
+//     padding: 0;
+//     margin: 0;
+//     cursor: default;
+//     svg {
+//         path:hover {
+//             fill: gold;
+//             cursor: pointer;
+//         }
+//     }
+// `
 
 const ContainerTools = styled.div`
     width: 100%;
@@ -129,6 +144,18 @@ const TextArea = styled.textarea`
     resize: none;
     margin: 10px 0 0;
     box-sizing: border-box;
+`
+
+const Input = styled.input`
+    display: none;
+`
+
+const StarContainer = styled.div`
+    display: flex;
+`
+
+const Star = styled.svg`
+
 `
 
 export const OrdersCard = ({ order, isProvider, getOrders }) => {
@@ -145,6 +172,11 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
     const [prolong, setProlong] = useState(false)
     const [prolongTime, setProlongTime] = useState('')
     const [prolongDate, setProlongDate] = useState('')
+
+    const [providerRating, setProviderRating] = useState(order.orderRating)
+
+    const [rating, setRating] = useState(order.orderRatingValue)
+    const [hover, setHover] = useState(null)
 
     const answerOrders = async (e, orderID) => {
         if (!orderID) {
@@ -222,10 +254,46 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
         getOrders()
     }
 
-    const combinedId =
-      order.providerID > order.clientID
-        ? order.providerID + order.clientID
-        : order.clientID + order.providerID;
+    const shareRating = async (rating, getOrders) => {
+
+        setRating(rating)
+
+        if(providerRating === true) {
+            return
+        }
+
+        // // При React.strictMode в index.js функция вызывается 2 раза
+        let ratingCount
+        let ratingValue
+        
+        const q = query(collection(db, "providerPages"), where("visibility", "==", true));
+
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            ratingCount = doc.data().ratingCount
+            ratingValue = doc.data().ratingValue
+        })
+
+        const providerRef = doc(db, 'providerPages', order.providerID);
+
+        const finalRating = (ratingValue + rating)/(2)
+
+        await updateDoc(providerRef, {
+            ratingValue: finalRating,
+            ratingCount: ratingCount+1
+        })
+        
+        const orderRef = doc(db, 'orders', order.orderID);
+
+        await updateDoc(orderRef, {
+            orderRating: true,
+            orderRatingValue: rating,
+        })
+
+        setProviderRating(true)
+
+        getOrders()
+    }
 
     return(
             <>
@@ -297,8 +365,8 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
                     {isProvider && order.orderStatus === 'В работе' && !prolong && !requestAnswer &&
                         <ProviderTools>
                             <ToolsBtn onClick={e => ChangeStatus(e, order.orderID, 'Выполнена')}>Выполнена</ToolsBtn>
-                            <ToolsBtn onClick={e => setProlong(true)}>Продлить</ToolsBtn>
-                            <ToolsBtn onClick={e => setRequestAnswer(true)}>Отклонить</ToolsBtn>
+                            <ToolsBtn onClick={() => setProlong(true)}>Продлить</ToolsBtn>
+                            <ToolsBtn onClick={() => setRequestAnswer(true)}>Отклонить</ToolsBtn>
                         </ProviderTools>
                     }
 
@@ -316,22 +384,85 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
                         </ContainerTools>
                     }
 
-                    {isProvider && order.orderStatus === 'Выполнена' && 
+                    {(order.orderStatus === 'Выполнена' || order.orderStatus === 'Отклонена') &&
                         <>
                             <ProviderTools>
                                 <ToolsBtn onClick={e => hiddenOrder(order.orderID)}>Скрыть</ToolsBtn>
                             </ProviderTools>
                         </>
                     }
+
+                    {!isProvider && (order.orderStatus === 'Выполнена' || order.orderStatus === 'Отклонена') && !providerRating &&
+                        <StarContainer>
+                            {[...Array(5)].map((star, i) => {
+                                const ratingValue = i + 1
+                                return(
+                                    <label>
+                                        <Input 
+                                            type='radio'
+                                            name='rating'
+                                            value={ratingValue}
+                                            onClick={() => shareRating(ratingValue)}
+                                        />
+                                        <Star 
+                                            width="35px" 
+                                            height="35px" 
+                                            viewBox="0 0 24 24" 
+                                            fill={ratingValue > (hover || rating) ? 'grey' : 'gold'} 
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            onMouseEnter={() => setHover(ratingValue)}
+                                            onMouseLeave={() => setHover(null)}
+                                        >
+                                            <path d="M12.5095 17.7915C12.1888 17.6289 11.8112 17.6289 11.4905 17.7915L7.37943 19.8751C6.50876 20.3164 5.52842 19.5193 5.76452 18.562L6.72576 14.6645C6.81767 14.2918 6.72079 13.8972 6.46729 13.6117L3.29416 10.0378C2.66165 9.32543 3.11095 8.18715 4.05367 8.11364L8.48026 7.76848C8.89433 7.73619 9.25828 7.47809 9.43013 7.09485L10.9627 3.67703C11.3675 2.77432 12.6325 2.77432 13.0373 3.67703L14.5699 7.09485C14.7417 7.47809 15.1057 7.73619 15.5197 7.76848L19.9463 8.11364C20.889 8.18715 21.3384 9.32543 20.7058 10.0378L17.5327 13.6117C17.2792 13.8972 17.1823 14.2918 17.2742 14.6645L18.2355 18.562C18.4716 19.5193 17.4912 20.3164 16.6206 19.8751L12.5095 17.7915Z" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                        </Star>
+                                    </label>
+                                    
+                                )
+                            })}
+                        </StarContainer>
+                    }
+
+                    {!isProvider && providerRating && 
+                        <StarContainer>
+                            {[...Array(5)].map((star, i) => {
+                                const ratingValue = i + 1
+                                return(
+                                    <label>
+                                        <Input 
+                                            type='radio'
+                                            name='rating'
+                                            value={ratingValue}
+                                        />
+                                        <Star 
+                                            width="35px" 
+                                            height="35px" 
+                                            viewBox="0 0 24 24" 
+                                            fill={ratingValue > (hover || rating) ? 'grey' : 'gold'} 
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path d="M12.5095 17.7915C12.1888 17.6289 11.8112 17.6289 11.4905 17.7915L7.37943 19.8751C6.50876 20.3164 5.52842 19.5193 5.76452 18.562L6.72576 14.6645C6.81767 14.2918 6.72079 13.8972 6.46729 13.6117L3.29416 10.0378C2.66165 9.32543 3.11095 8.18715 4.05367 8.11364L8.48026 7.76848C8.89433 7.73619 9.25828 7.47809 9.43013 7.09485L10.9627 3.67703C11.3675 2.77432 12.6325 2.77432 13.0373 3.67703L14.5699 7.09485C14.7417 7.47809 15.1057 7.73619 15.5197 7.76848L19.9463 8.11364C20.889 8.18715 21.3384 9.32543 20.7058 10.0378L17.5327 13.6117C17.2792 13.8972 17.1823 14.2918 17.2742 14.6645L18.2355 18.562C18.4716 19.5193 17.4912 20.3164 16.6206 19.8751L12.5095 17.7915Z" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                        </Star>
+                                    </label>
+                                    
+                                )
+                            })}
+                        </StarContainer>
+                    }
                     
                     {isProvider && 
                         <>
-                            <Link to="/chats" state={{CID: combinedId}}>
+                            <Link to="/chats" state={{
+                                client: {
+                                    displayName: order.clientName,
+                                    photoURL: order.clientPhoto,
+                                    uid: order.clientID
+                                    }
+                            }}>
                                 <ToolsBtn>Связь с пользователем</ToolsBtn>
                             </Link>
                         </>
                     }
-                    
+
                 </OrderCard>}
             </>
     )
