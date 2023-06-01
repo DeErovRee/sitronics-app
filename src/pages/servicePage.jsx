@@ -40,6 +40,7 @@ export const ServicePage = () => {
                 orderStatus: 'На рассмотрении',
                 orderVisible: true,
                 orderRating: false,
+                orderRatingValue: 0,
                 clientID: currentUser.uid,
                 clientName: currentUser.displayName,
                 clientPhoto: currentUser.photoURL,

@@ -122,17 +122,18 @@ const ToolsBtn = styled.button`
     margin: 5px;
 `
 
-const DisableBtn = styled(ToolsBtn)`
-    background-color: gray;
-`
-
-const LikeBtn = styled(ToolsBtn)`
-    background-color: rgb(52, 168, 83);
-`
-
-const DislikeBtn = styled(ToolsBtn)`
-    background-color: rgb(250, 42, 42);
-`
+// const StarBtn = styled(ToolsBtn)`
+//     background-color: inherit;
+//     padding: 0;
+//     margin: 0;
+//     cursor: default;
+//     svg {
+//         path:hover {
+//             fill: gold;
+//             cursor: pointer;
+//         }
+//     }
+// `
 
 const ContainerTools = styled.div`
     width: 100%;
@@ -143,6 +144,18 @@ const TextArea = styled.textarea`
     resize: none;
     margin: 10px 0 0;
     box-sizing: border-box;
+`
+
+const Input = styled.input`
+    display: none;
+`
+
+const StarContainer = styled.div`
+    display: flex;
+`
+
+const Star = styled.svg`
+
 `
 
 export const OrdersCard = ({ order, isProvider, getOrders }) => {
@@ -161,6 +174,9 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
     const [prolongDate, setProlongDate] = useState('')
 
     const [providerRating, setProviderRating] = useState(order.orderRating)
+
+    const [rating, setRating] = useState(order.orderRatingValue)
+    const [hover, setHover] = useState(null)
 
     const answerOrders = async (e, orderID) => {
         if (!orderID) {
@@ -238,41 +254,43 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
         getOrders()
     }
 
-    const setRating = async (e) => {
+    const shareRating = async (rating, getOrders) => {
+
+        setRating(rating)
 
         if(providerRating === true) {
             return
         }
 
-        // При React.strictMode в index.js функция вызывается 2 раза
-        let rating
+        // // При React.strictMode в index.js функция вызывается 2 раза
+        let ratingCount
+        let ratingValue
         
         const q = query(collection(db, "providerPages"), where("visibility", "==", true));
 
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-            rating = doc.data().rating
+            ratingCount = doc.data().ratingCount
+            ratingValue = doc.data().ratingValue
         })
 
         const providerRef = doc(db, 'providerPages', order.providerID);
 
-        if (e.target.dataset.rating === 'like') {
-            await updateDoc(providerRef, {
-                rating: rating+1,
-            })
-        }
+        const finalRating = (ratingValue + rating)/(2)
 
-        if (e.target.dataset.rating === 'dislike') {
-            await updateDoc(providerRef, {
-                rating: rating-1,
-            })
-        }
+        await updateDoc(providerRef, {
+            ratingValue: finalRating,
+            ratingCount: ratingCount+1
+        })
         
         const orderRef = doc(db, 'orders', order.orderID);
 
         await updateDoc(orderRef, {
             orderRating: true,
+            orderRatingValue: rating,
         })
+
+        setProviderRating(true)
 
         getOrders()
     }
@@ -374,32 +392,61 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
                         </>
                     }
 
-                    {!isProvider && (order.orderStatus === 'Выполнена' || order.orderStatus === 'Отклонена') && !providerRating ?
-                        <ContainerTools>
-                            <LikeBtn data-rating='like' onClick={(e)=>setRating(e)}>
-                                <svg width="35px" height="35px" data-rating='like' viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M8 10V20M8 10L4 9.99998V20L8 20M8 10L13.1956 3.93847C13.6886 3.3633 14.4642 3.11604 15.1992 3.29977L15.2467 3.31166C16.5885 3.64711 17.1929 5.21057 16.4258 6.36135L14 9.99998H18.5604C19.8225 9.99998 20.7691 11.1546 20.5216 12.3922L19.3216 18.3922C19.1346 19.3271 18.3138 20 17.3604 20L8 20" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                                </svg>
-                            </LikeBtn>
-                            <DislikeBtn data-rating='dislike' onClick={(e)=>setRating(e)}>
-                                <svg width="35px" height="35px" data-rating='dislike' viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M8 14V4M8 14L4 14V4.00002L8 4M8 14L13.1956 20.0615C13.6886 20.6367 14.4642 20.884 15.1992 20.7002L15.2467 20.6883C16.5885 20.3529 17.1929 18.7894 16.4258 17.6387L14 14H18.5604C19.8225 14 20.7691 12.8454 20.5216 11.6078L19.3216 5.60779C19.1346 4.67294 18.3138 4.00002 17.3604 4.00002L8 4" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                                </svg>
-                            </DislikeBtn>
-                        </ContainerTools>
-                        :
-                        <ContainerTools>
-                            <DisableBtn>
-                                <svg width="35px" height="35px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M8 10V20M8 10L4 9.99998V20L8 20M8 10L13.1956 3.93847C13.6886 3.3633 14.4642 3.11604 15.1992 3.29977L15.2467 3.31166C16.5885 3.64711 17.1929 5.21057 16.4258 6.36135L14 9.99998H18.5604C19.8225 9.99998 20.7691 11.1546 20.5216 12.3922L19.3216 18.3922C19.1346 19.3271 18.3138 20 17.3604 20L8 20" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                                </svg>
-                            </DisableBtn>
-                            <DisableBtn>
-                                <svg width="35px" height="35px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M8 14V4M8 14L4 14V4.00002L8 4M8 14L13.1956 20.0615C13.6886 20.6367 14.4642 20.884 15.1992 20.7002L15.2467 20.6883C16.5885 20.3529 17.1929 18.7894 16.4258 17.6387L14 14H18.5604C19.8225 14 20.7691 12.8454 20.5216 11.6078L19.3216 5.60779C19.1346 4.67294 18.3138 4.00002 17.3604 4.00002L8 4" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                                </svg>
-                            </DisableBtn>
-                        </ContainerTools>
+                    {!isProvider && (order.orderStatus === 'Выполнена' || order.orderStatus === 'Отклонена') && !providerRating &&
+                        <StarContainer>
+                            {[...Array(5)].map((star, i) => {
+                                const ratingValue = i + 1
+                                return(
+                                    <label>
+                                        <Input 
+                                            type='radio'
+                                            name='rating'
+                                            value={ratingValue}
+                                            onClick={() => shareRating(ratingValue)}
+                                        />
+                                        <Star 
+                                            width="35px" 
+                                            height="35px" 
+                                            viewBox="0 0 24 24" 
+                                            fill={ratingValue > (hover || rating) ? 'grey' : 'gold'} 
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            onMouseEnter={() => setHover(ratingValue)}
+                                            onMouseLeave={() => setHover(null)}
+                                        >
+                                            <path d="M12.5095 17.7915C12.1888 17.6289 11.8112 17.6289 11.4905 17.7915L7.37943 19.8751C6.50876 20.3164 5.52842 19.5193 5.76452 18.562L6.72576 14.6645C6.81767 14.2918 6.72079 13.8972 6.46729 13.6117L3.29416 10.0378C2.66165 9.32543 3.11095 8.18715 4.05367 8.11364L8.48026 7.76848C8.89433 7.73619 9.25828 7.47809 9.43013 7.09485L10.9627 3.67703C11.3675 2.77432 12.6325 2.77432 13.0373 3.67703L14.5699 7.09485C14.7417 7.47809 15.1057 7.73619 15.5197 7.76848L19.9463 8.11364C20.889 8.18715 21.3384 9.32543 20.7058 10.0378L17.5327 13.6117C17.2792 13.8972 17.1823 14.2918 17.2742 14.6645L18.2355 18.562C18.4716 19.5193 17.4912 20.3164 16.6206 19.8751L12.5095 17.7915Z" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                        </Star>
+                                    </label>
+                                    
+                                )
+                            })}
+                        </StarContainer>
+                    }
+
+                    {!isProvider && providerRating && 
+                        <StarContainer>
+                            {[...Array(5)].map((star, i) => {
+                                const ratingValue = i + 1
+                                return(
+                                    <label>
+                                        <Input 
+                                            type='radio'
+                                            name='rating'
+                                            value={ratingValue}
+                                        />
+                                        <Star 
+                                            width="35px" 
+                                            height="35px" 
+                                            viewBox="0 0 24 24" 
+                                            fill={ratingValue > (hover || rating) ? 'grey' : 'gold'} 
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path d="M12.5095 17.7915C12.1888 17.6289 11.8112 17.6289 11.4905 17.7915L7.37943 19.8751C6.50876 20.3164 5.52842 19.5193 5.76452 18.562L6.72576 14.6645C6.81767 14.2918 6.72079 13.8972 6.46729 13.6117L3.29416 10.0378C2.66165 9.32543 3.11095 8.18715 4.05367 8.11364L8.48026 7.76848C8.89433 7.73619 9.25828 7.47809 9.43013 7.09485L10.9627 3.67703C11.3675 2.77432 12.6325 2.77432 13.0373 3.67703L14.5699 7.09485C14.7417 7.47809 15.1057 7.73619 15.5197 7.76848L19.9463 8.11364C20.889 8.18715 21.3384 9.32543 20.7058 10.0378L17.5327 13.6117C17.2792 13.8972 17.1823 14.2918 17.2742 14.6645L18.2355 18.562C18.4716 19.5193 17.4912 20.3164 16.6206 19.8751L12.5095 17.7915Z" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                        </Star>
+                                    </label>
+                                    
+                                )
+                            })}
+                        </StarContainer>
                     }
                     
                     {isProvider && 
