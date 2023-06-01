@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   collection,
   query,
@@ -14,14 +14,14 @@ import { db } from "../../firebase/firebase";
 
 import { AuthContext } from "../../context/AuthContext";
 
-export const Search = () => {
-  const [username, setUsername] = useState("");
-  const [user, setUser] = useState(null);
+export const Search = ({ client }) => {
+  const [username, setUsername] = useState('');
+  const [user, setUser] = useState(client ? client : null);
   const [error, setError] = useState(false);
   const [file, setFile] = useState(null);
 
   const { currentUser } = useContext(AuthContext);
-
+  
   const handleSearch = async () => {
     setUser(null);
     const q = query(
@@ -36,18 +36,19 @@ export const Search = () => {
         setFile(doc.data().photoURL);
       });
     } catch (error) {
-      setError(true)
+      console.log(error.message)
     }
   };
 
   const handleSelect = async () => {
+    
     const combinedId =
       currentUser.uid > user.uid
         ? currentUser.uid + user.uid
         : user.uid + currentUser.uid;
     try {
       const res = await getDoc(doc(db, "chats", combinedId));
-
+      
       if (!res.exists()) {
         await setDoc(doc(db, "chats", combinedId), { messages: [] });
 
@@ -70,7 +71,7 @@ export const Search = () => {
         });
       }
     } catch (error) {
-      setError(true);
+      console.log(error.message);
     }
 
     setError(false);
@@ -82,6 +83,13 @@ export const Search = () => {
     e.code === "Enter" && handleSearch();
   };
 
+  useEffect(()=>{
+    if(user){
+      handleSelect()
+    }
+    
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   return (
     <div className="search">
       <div className="searchForm">

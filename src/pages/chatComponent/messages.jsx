@@ -17,6 +17,7 @@ export const Messages = () => {
       unsub()
     }
   }, [data.chatId]);
+  
   return (
     <div className="messages">
       {messages.map((message) => (

@@ -18,6 +18,8 @@ export const Sidebar = () => {
         return()=>{
           unsub()
         }
+
+        //eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const logout = async () => {
@@ -34,8 +36,7 @@ export const Sidebar = () => {
             <p className="userEmail" onClick={()=> window.location = `mailto:${currentUser.email}`}>{currentUser.email}</p>
           
             {provider ? <p className="userStatus provider">Поставщик услуг</p> : <p className="userStatus client">Клиент</p>}
-            <Link to="ordersAll">Заявки</Link>
-            <Link to="orders">Текущие заказы</Link>
+            <Link to="ordersAll">Заказы</Link>
             <Link to="ordersHistory">История заказов</Link>
             <Link to="settings">Настроить профиль</Link>
            

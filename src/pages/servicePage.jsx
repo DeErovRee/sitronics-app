@@ -36,19 +36,23 @@ export const ServicePage = () => {
         try {
             await setDoc(doc(db, 'orders', orderID), {
                 orderID: orderID,
+                orderService: e.target[0].value,
+                orderStatus: 'На рассмотрении',
+                orderVisible: true,
+                orderRating: false,
+                orderRatingValue: 0,
                 clientID: currentUser.uid,
                 clientName: currentUser.displayName,
                 clientPhoto: currentUser.photoURL,
+                clientDate: e.target[4].value,
+                clientPhone: e.target[5].value,
+                clientEmail: e.target[6].value,
+                clientNote: e.target[7].value,
+                clientAddress: `${e.target[1].value}, ул.${e.target[2].value}, д.${e.target[3].value}`,
                 providerID: provider.uid,
                 providerName: provider.displayName,
                 providerPhoto: provider.userPhoto,
-                service: e.target[0].value,
-                address: `${e.target[1].value}, ул.${e.target[2].value}, д.${e.target[3].value}`,
-                date: e.target[4].value,
-                phone: e.target[5].value,
-                email: e.target[6].value,
-                note: e.target[7].value,
-                status: 'На рассмотрении'
+                providerNote: null,
             })
             console.log("заявка отправлена")
             form.reset()

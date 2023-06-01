@@ -4,7 +4,7 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { AuthContext } from "../../context/AuthContext";
 import { ChatContext } from "../../context/ChatContext";
 
-export const Chats = () => {
+export const Chats = ({ client }) => {
   const [chats, setChats] = useState("");
 
   const { currentUser } = useContext(AuthContext);
@@ -22,6 +22,12 @@ export const Chats = () => {
     };
 
     currentUser.uid && getChats();
+
+    if (client) {
+      handleSelect(client)
+    }
+
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser.uid]);
 
   const handleSelect = (u) => {

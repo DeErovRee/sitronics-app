@@ -19,7 +19,6 @@ export const Message = ({ message }) => {
       ref={ref}
       className={`message ${message.sendId === currentUser.uid && "owner"}`}
     >
-      {console.log(message)}
       <div className="messageInfo">
         <img
           src={

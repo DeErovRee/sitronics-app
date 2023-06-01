@@ -1,4 +1,5 @@
 import { React } from 'react'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 const FooterStyled = styled.div`
@@ -76,6 +77,11 @@ const ListItem = styled.li`
     @media ${props => props.theme.media.phone} {
         margin: 0 0 11px 0;
     }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
 `
 
 const ListImg = styled.div`
@@ -111,11 +117,11 @@ export const Footer = () => {
                         </ListItem>
                     </List>
                     <List justifyContent={'space-between'}>
-                        <ListItem>Главная</ListItem>
-                        <ListItem>О нас</ListItem>
-                        <ListItem>Дроны</ListItem>
-                        <ListItem>Услуги</ListItem>
-                        <ListItem>Контакты</ListItem>
+                        <ListItem><Link to='/'>Главная</Link></ListItem>
+                        <ListItem><Link to=''>О нас</Link></ListItem>
+                        <ListItem><Link to='/drones'>Дроны</Link></ListItem>
+                        <ListItem><Link to='/services'>Услуги</Link></ListItem>
+                        <ListItem><Link to='/contacts'>Контакты</Link></ListItem>
                     </List>
                     <List justifyContent={'space-between'} width={'33%'}>
                         <ListItem>
