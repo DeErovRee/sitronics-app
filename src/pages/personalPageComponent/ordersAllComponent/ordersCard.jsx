@@ -410,7 +410,7 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
                             {[...Array(5)].map((star, i) => {
                                 const ratingValue = i + 1
                                 return(
-                                    <label>
+                                    <label key={nanoid()}>
                                         <Input 
                                             type='radio'
                                             name='rating'
@@ -450,7 +450,7 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
                             {[...Array(5)].map((star, i) => {
                                 const ratingValue = i + 1
                                 return(
-                                    <label>
+                                    <label key={nanoid()}>
                                         <Input 
                                             type='radio'
                                             name='rating'
