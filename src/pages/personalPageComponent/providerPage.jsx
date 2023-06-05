@@ -47,6 +47,8 @@ export const ProviderPage = () => {
 
     useEffect(() => {
         getData()
+
+        //eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const getData = async () => {

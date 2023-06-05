@@ -1,9 +1,10 @@
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import { AuthContext } from '../../../context/AuthContext';
-import { collection, doc, getDocs, query, updateDoc, where } from 'firebase/firestore';
+import { Timestamp, arrayUnion, collection, doc, getDocs, query, updateDoc, where } from 'firebase/firestore';
 import { db } from '../../../firebase/firebase';
 import { Link } from 'react-router-dom';
+import { nanoid } from 'nanoid';
 
 const getDate = () => {
     var today = new Date();
@@ -119,7 +120,7 @@ const ToolsBtn = styled.button`
     font-weight: 300;
     border: none;
     cursor: pointer;
-    margin: 5px;
+    margin: 5px 5px 5px 0;
 `
 
 const ContainerTools = styled.div`
@@ -130,6 +131,9 @@ const TextArea = styled.textarea`
     width: 100%;
     resize: none;
     margin: 10px 0 0;
+    padding: 5px;
+    border-radius: 5px;
+    outline: none;
     box-sizing: border-box;
 `
 
@@ -161,9 +165,12 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
     const [prolongDate, setProlongDate] = useState('')
 
     const [providerRating, setProviderRating] = useState(order.orderRating)
-
     const [rating, setRating] = useState(order.orderRatingValue)
     const [hover, setHover] = useState(null)
+
+    const [orderReviews, setOrderReviews] = useState(order.orderReviews)
+    const [orderReviewsText, setOrderReviewsText] = useState(order.orderReviewsText)
+    const [reviews, setReviews] = useState('')
 
     const answerOrders = async (e, orderID) => {
         if (!orderID) {
@@ -282,6 +289,33 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
         getOrders()
     }
 
+    const shareReviews = async (order) => {
+        
+        const reviewsRef = doc(db, 'userReviews', order.providerID);
+
+        await updateDoc(reviewsRef, {
+            reviews: arrayUnion({
+                orderId: order.orderID,
+                reviews,
+                clientId: currentUser.uid,
+                date: Timestamp.now(),
+                // file: downloadURL, //Может позже
+            }),
+        })
+
+        const orderRef = doc(db, 'orders', order.orderID);
+
+        await updateDoc(orderRef, {
+            orderReviews: true,
+            orderReviewsText: reviews,
+        })
+
+        setOrderReviews(true)
+        setOrderReviewsText(reviews)
+
+        getOrders()
+    }
+
     return(
             <>
             {order.orderVisible === true && 
@@ -371,14 +405,6 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
                         </ContainerTools>
                     }
 
-                    {(order.orderStatus === 'Выполнена' || order.orderStatus === 'Отклонена') &&
-                        <>
-                            <ProviderTools>
-                                <ToolsBtn onClick={e => hiddenOrder(order.orderID)}>Скрыть</ToolsBtn>
-                            </ProviderTools>
-                        </>
-                    }
-
                     {!isProvider && (order.orderStatus === 'Выполнена' || order.orderStatus === 'Отклонена') && !providerRating &&
                         <StarContainer>
                             {[...Array(5)].map((star, i) => {
@@ -419,7 +445,7 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
                         </StarContainer>
                     }
 
-                    {!isProvider && providerRating && 
+                    {providerRating && 
                         <StarContainer>
                             {[...Array(5)].map((star, i) => {
                                 const ratingValue = i + 1
@@ -462,6 +488,27 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
                             }}>
                                 <ToolsBtn>Связь с пользователем</ToolsBtn>
                             </Link>
+                        </>
+                    }
+
+                    {!isProvider && (order.orderStatus === 'Выполнена' || order.orderStatus === 'Отклонена') && !orderReviews &&
+                        <>
+                            <TextArea value={reviews} onChange={(e) => setReviews(e.target.value)} name='reviews' />
+                            <ToolsBtn onClick={()=>{shareReviews(order)}}>Отправить</ToolsBtn>
+                        </>
+                    }
+
+                    {(order.orderStatus === 'Выполнена' || order.orderStatus === 'Отклонена') && orderReviews &&
+                        <>
+                            <P><Span>Отзыв: </Span>{orderReviewsText}</P>
+                        </>
+                    }
+
+                    {(order.orderStatus === 'Выполнена' || order.orderStatus === 'Отклонена') &&
+                        <>
+                            <ProviderTools>
+                                <ToolsBtn onClick={e => hiddenOrder(order.orderID)}>Скрыть</ToolsBtn>
+                            </ProviderTools>
                         </>
                     }
 

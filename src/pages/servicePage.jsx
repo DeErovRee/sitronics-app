@@ -41,6 +41,7 @@ export const ServicePage = () => {
                 orderVisible: true,
                 orderRating: false,
                 orderRatingValue: 0,
+                orderReviews: false,
                 clientID: currentUser.uid,
                 clientName: currentUser.displayName,
                 clientPhoto: currentUser.photoURL,
