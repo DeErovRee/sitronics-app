@@ -272,7 +272,7 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
         const finalRating = (ratingValue + rating)/(2)
 
         await updateDoc(providerRef, {
-            ratingValue: finalRating,
+            ratingValue: finalRating.toFixed(2),
             ratingCount: ratingCount+1
         })
         
@@ -284,6 +284,7 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
                 reviews,
                 clientId: currentUser.uid,
                 date: Timestamp.now(),
+                rating,
                 // file: downloadURL, //Может позже
             }),
         })
@@ -471,19 +472,6 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
                             </Link>
                         </>
                     }
-
-                    {/* {!isProvider && (order.orderStatus === 'Выполнена' || order.orderStatus === 'Отклонена') && !orderReviews &&
-                        <>
-                            <TextArea value={reviews} onChange={(e) => setReviews(e.target.value)} name='reviews' />
-                            <ToolsBtn onClick={()=>{shareReviews(order)}}>Отправить</ToolsBtn>
-                        </>
-                    } */}
-
-                    {/* {(order.orderStatus === 'Выполнена' || order.orderStatus === 'Отклонена') && orderReviews &&
-                        <>
-                            <P><Span>Отзыв: </Span>{orderReviewsText}</P>
-                        </>
-                    } */}
 
                     {(order.orderStatus === 'Выполнена' || order.orderStatus === 'Отклонена') &&
                         <>
