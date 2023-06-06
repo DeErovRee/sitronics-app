@@ -857,7 +857,7 @@ $linear-gradient: linear-gradient(45deg, rgba(241, 2, 2, 0.61), rgba(0, 8, 255, 
   .providerInfo {
     display: flex;
     align-items: flex-start;
-    margin-bottom: 50px;
+    margin-bottom: 10px;
 
     .left {
       width: 50%;
@@ -869,7 +869,7 @@ $linear-gradient: linear-gradient(45deg, rgba(241, 2, 2, 0.61), rgba(0, 8, 255, 
         align-items: center;
         background-color: #1e1e1e;
         border-radius: 20px;
-        margin: 0 10px 10px;
+        margin: 0 10px 10px 0;
         img {
           border: 5px solid rgba(141, 164, 241, 0.5019607843);
           border-radius: 10px;
@@ -883,7 +883,7 @@ $linear-gradient: linear-gradient(45deg, rgba(241, 2, 2, 0.61), rgba(0, 8, 255, 
         display: flex;
         flex-direction: column;
         border-radius: 20px;
-        margin: 0 10px;
+        margin: 0 10px 0 0;
         background-color: #1e1e1e;
         padding: 20px;
 

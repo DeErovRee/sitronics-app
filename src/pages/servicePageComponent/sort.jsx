@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const Box = styled.div`
-    background-color: #D9D9D9;
+    background-color: white;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;

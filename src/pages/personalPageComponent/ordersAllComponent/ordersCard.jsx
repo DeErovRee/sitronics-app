@@ -164,12 +164,11 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
     const [prolongTime, setProlongTime] = useState('')
     const [prolongDate, setProlongDate] = useState('')
 
-    const [providerRating, setProviderRating] = useState(order.orderRating)
     const [rating, setRating] = useState(order.orderRatingValue)
     const [hover, setHover] = useState(null)
 
     const [orderReviews, setOrderReviews] = useState(order.orderReviews)
-    const [orderReviewsText, setOrderReviewsText] = useState(order.orderReviewsText)
+    const [orderReviewsText] = useState(order.orderReviewsText)
     const [reviews, setReviews] = useState('')
 
     const answerOrders = async (e, orderID) => {
@@ -251,10 +250,6 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
     const shareReviews = async (rating, order) => {
 
         setRating(rating)
-
-        if(providerRating === true) {
-            return
-        }
 
         let ratingCount
         let ratingValue
