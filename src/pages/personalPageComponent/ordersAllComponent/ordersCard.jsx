@@ -267,17 +267,19 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
         const finalRating = (ratingValue + rating)/(2)
 
         await updateDoc(providerRef, {
-            ratingValue: finalRating.toFixed(2),
-            ratingCount: ratingCount+1
+            ratingValue: finalRating,
+            ratingCount: Number(ratingCount+1)
         })
         
         const reviewsRef = doc(db, 'userReviews', order.providerID);
 
         await updateDoc(reviewsRef, {
             reviews: arrayUnion({
+                userName: order.clientName,
+                service: order.orderService,
                 orderId: order.orderID,
                 reviews,
-                clientId: currentUser.uid,
+                clientId: order.clientID,
                 date: Timestamp.now(),
                 rating,
                 // file: downloadURL, //Может позже
