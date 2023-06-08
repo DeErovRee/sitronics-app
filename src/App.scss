@@ -406,23 +406,6 @@ $linear-gradient: linear-gradient(45deg, rgba(241, 2, 2, 0.61), rgba(0, 8, 255, 
       }
     }
 
-    .userStatus {
-      font-style: normal;
-      font-weight: 400;
-      font-size: 16px;
-      line-height: 19px;
-      text-transform: uppercase;
-      margin-bottom: 17px;
-    }
-
-    .client {
-      color: #ff0000;
-    }
-
-    .provider {
-      color: #4285F4;
-    }
-
     a, button{
       box-sizing: border-box;
       font-style: normal;
@@ -540,11 +523,6 @@ $linear-gradient: linear-gradient(45deg, rgba(241, 2, 2, 0.61), rgba(0, 8, 255, 
   
   font-style: normal;
   font-weight: 400;
-
-  h1 {
-    color: white;
-    text-transform: uppercase;
-  }
 
   .card {
     box-sizing: border-box;

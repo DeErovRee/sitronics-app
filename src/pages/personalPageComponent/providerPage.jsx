@@ -1,12 +1,15 @@
-import { doc, getDoc, setDoc } from "firebase/firestore";
-import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import React, { useContext } from "react";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import React, { useContext, useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { db, storage } from "../../firebase/firebase";
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css';
+import styled from "styled-components";
+import { useOnClickOutSide } from "../../hooks/useOnClickOutSide";
+// import Modal from 'react-modal'
 
 function formatBytes(bytes, decimals = 2) {
     if (!+bytes) return '0 Bytes'
@@ -20,7 +23,37 @@ function formatBytes(bytes, decimals = 2) {
     return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
 }
 
+const Modal = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    bottom: 50%;
+    z-index: 99;
+    border: 2px solid #8da4f1;
+    background-color: #d9d9d9;
+    border-radius: 10px;
+    padding: 15px;
+    color: black;
+`
+
+const ModalH1 = styled.h1`
+    color: black;
+`
+
+const ModalButton = styled.button`
+    width: 220px;
+    height: 40px;
+    background-color:#8da4f1;
+    border-radius: 10px;
+    color: black;
+    border: none;
+`
+
 export const ProviderPage = () => {
+
+    const node = useRef()
+    useOnClickOutSide(node, () => setModalOpen(false))
 
     const { currentUser } = useContext(AuthContext)
 
@@ -37,13 +70,15 @@ export const ProviderPage = () => {
 
     const [error, setError] = useState('')
 
-    const handlePreview = () => {
-        console.log(files)
-        console.log(filesForView)
-        console.log(text)
-        console.log(citys)
-        console.log(services)
-    }
+    const [modalOpen, setModalOpen] = useState(false)
+
+    // const handlePreview = () => {
+    //     console.log(files)
+    //     console.log(filesForView)
+    //     console.log(text)
+    //     console.log(citys)
+    //     console.log(services)
+    // }
 
     useEffect(() => {
         getData()
@@ -78,43 +113,63 @@ export const ProviderPage = () => {
         try {
             const promises = [];
         
-            files.forEach((file, index) => {
-                const storageRef = ref(storage, `providersImages/${currentUser.uid}/${file.name}`);
+            console.log(files.length > 0)
 
-                const uploadTask = uploadBytesResumable(storageRef, file.file);
-                uploadTask.on('state_changed', (snapshot) => {
-                    const percentage = ((snapshot.bytesTransferred / snapshot.totalBytes) * 100).toFixed(0) + '%'
-                    const block = previewInfo[index].querySelector('.preview-info-progress')
-                    block.style.width = percentage
+            if(files.length > 0) {
+                files.forEach((file, index) => {
+                    const storageRef = ref(storage, `providersImages/${currentUser.uid}/${file.name}`);
+
+                    const uploadTask = uploadBytesResumable(storageRef, file.file);
+                    uploadTask.on('state_changed', (snapshot) => {
+                        const percentage = ((snapshot.bytesTransferred / snapshot.totalBytes) * 100).toFixed(0) + '%'
+                        const block = previewInfo[index].querySelector('.preview-info-progress')
+                        block.style.width = percentage
+                    })
+                    promises.push(uploadTask);
                 })
-                promises.push(uploadTask);
-            })
-        
-            const uploadResults = await Promise.all(promises);
-        
-            const downloadURLs = await Promise.all(
-                uploadResults.map((uploadResult) => getDownloadURL(uploadResult.ref))
-            );
-        
-            const providerPagesRef = doc(db, "providerPages", currentUser.uid);
             
-            await setDoc(providerPagesRef, {
-                uid: currentUser.uid,
-                userPhoto: currentUser.photoURL,
-                displayName: currentUser.displayName,
-                email: currentUser.email,
-                text,
-                citys,
-                services,
-                photoURLs: downloadURLs,
-                visibility: true,
-            });
+                const uploadResults = await Promise.all(promises);
             
-            filesForView.forEach((file) => {
-                deleteObject(ref(storage, `providersImages/${currentUser.uid}/${file}`))
-            })
-            setTimeout(deleteFiles(),5000)
+                const downloadURLs = await Promise.all(
+                    uploadResults.map((uploadResult) => getDownloadURL(uploadResult.ref))
+                );
+            
+                const providerPagesRef = doc(db, "providerPages", currentUser.uid);
+                
+                await updateDoc(providerPagesRef, {
+                    uid: currentUser.uid,
+                    userPhoto: currentUser.photoURL,
+                    displayName: currentUser.displayName,
+                    email: currentUser.email,
+                    text,
+                    citys,
+                    services,
+                    photoURLs: downloadURLs,
+                    visibility: true,
+                });
+                
+                // filesForView.forEach((file) => {
+                //     deleteObject(ref(storage, `providersImages/${currentUser.uid}/${file}`))
+                // })
+                setTimeout(deleteFiles(),5000)
+            } else {
+            
+                const providerPagesRef = doc(db, "providerPages", currentUser.uid);
+                
+                await updateDoc(providerPagesRef, {
+                    uid: currentUser.uid,
+                    userPhoto: currentUser.photoURL,
+                    displayName: currentUser.displayName,
+                    email: currentUser.email,
+                    text,
+                    citys,
+                    services,
+                    visibility: true,
+                });
+            }
+            
             getData()
+            openModal()
         
         } catch (error) {
           setError(error);
@@ -238,8 +293,20 @@ export const ProviderPage = () => {
         setTimeout(() => setFiles([]), 300)
     }
 
+    const openModal = () => {
+        setModalOpen(true)
+    }
+
+    const closeModal = (e) => {
+        setModalOpen(false)
+    }
+
     return(
-        <div className="providerPage">
+        <div className="providerPage" >
+            {modalOpen && <Modal>
+                <ModalH1>Ваша карточка поставщика опубликована</ModalH1>
+                <ModalButton onClick={closeModal}>Ок</ModalButton>
+            </Modal>}
             <h1>Карточка поставщика услуг</h1>
             <div className="card">
                 <p className="cardHeader">Отображаемый текст</p>
@@ -369,9 +436,8 @@ export const ProviderPage = () => {
                     <div className="settingsBtn" onClick={deleteServices}>Очистить</div>
                 </div>
             </div>
-            <div className="fnlBtn" onClick={handlePreview}>Предпросмотр</div>
+            {/* <div className="fnlBtn" onClick={handlePreview}>Предпросмотр</div> */}
             <div className="fnlBtn submitBtn" onClick={handleSubmit}>Опубликовать</div>
-            <div className="fnlBtn submitBtn" onClick={getData}>Получить данные</div>
         </div>
     )
 }
