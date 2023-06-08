@@ -1,4 +1,4 @@
-import { collection, doc, getDocs, onSnapshot, query, where } from "firebase/firestore";
+import { collection, doc, onSnapshot, query, where } from "firebase/firestore";
 import React, { useState } from "react";
 import { useContext } from "react";
 import { useEffect } from "react";
@@ -15,27 +15,6 @@ export const OrdersAll = () => {
     const [orders, setOrders] = useState([]);
     const [isProvider, setIsProvider] = useState(null);
 
-    const getOrders = async () => {
-        
-        setOrders([])
-        if(isProvider === null) {
-            return
-        }
-
-        let q
-        if (isProvider) {
-            // При React.strictMode в index.js функция вызывается 2 раза
-            q = query(collection(db, "orders"), where("providerID", "==", currentUser.uid));
-        } else {
-            q = query(collection(db, "orders"), where("clientID", "==", currentUser.uid));
-        }
-
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-        setOrders(prevState => [...prevState, doc.data()])
-        })
-    }
-
     useEffect(() => {
         const unsub =  onSnapshot(doc(db, "users", currentUser.uid), (doc) => {
             doc.exists() && setIsProvider(doc.data().isProvider);
@@ -45,13 +24,22 @@ export const OrdersAll = () => {
             unsub()
         }
         //eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [getOrders])
+    }, [])
 
     useEffect(() => {
-        getOrders()
+        const q = query(collection(db, "orders"), where("orderVisible", "==", true));
+        const unsub = onSnapshot(q, (querySnapshot) => {
+            const snapOrders = []
+            querySnapshot.forEach((doc) => {
+                snapOrders.push(doc.data())
+            });
+            setOrders(snapOrders)
+        });
 
-        //eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isProvider])
+        return(() => {
+            unsub()
+        })
+    }, [])
     
     return(
         <div className="orders">
@@ -61,8 +49,7 @@ export const OrdersAll = () => {
                     <OrdersCard 
                         order={order}
                         isProvider={isProvider}
-                        key={nanoid()}
-                        getOrders={getOrders}/>
+                        key={nanoid()}/>
                 )
             })}
         </div>

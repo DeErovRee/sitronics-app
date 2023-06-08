@@ -71,14 +71,7 @@ export const ProviderPage = () => {
     const [error, setError] = useState('')
 
     const [modalOpen, setModalOpen] = useState(false)
-
-    // const handlePreview = () => {
-    //     console.log(files)
-    //     console.log(filesForView)
-    //     console.log(text)
-    //     console.log(citys)
-    //     console.log(services)
-    // }
+    const [modalContent, setModalContent] = useState('')
 
     useEffect(() => {
         getData()
@@ -105,15 +98,13 @@ export const ProviderPage = () => {
         el.innerHTML = '<div class="preview-info-progress"></div>'
     }
 
-    const handleSubmit = async () => {
+    const cardUpdate = async () => {
         document.querySelectorAll('.preview-remove').forEach(el => el.remove())
         const previewInfo = document.querySelectorAll('.preview-info')
         previewInfo.forEach(clearPreview)
 
         try {
             const promises = [];
-        
-            console.log(files.length > 0)
 
             if(files.length > 0) {
                 files.forEach((file, index) => {
@@ -145,7 +136,6 @@ export const ProviderPage = () => {
                     citys,
                     services,
                     photoURLs: downloadURLs,
-                    visibility: true,
                 });
                 
                 // filesForView.forEach((file) => {
@@ -164,17 +154,39 @@ export const ProviderPage = () => {
                     text,
                     citys,
                     services,
-                    visibility: true,
                 });
             }
             
             getData()
+            setModalContent('Ваша карточка обновлена')
             openModal()
         
         } catch (error) {
           setError(error);
         }
     };
+
+    const cardShow = async () => {
+        const providerPagesRef = doc(db, "providerPages", currentUser.uid);
+                
+        await updateDoc(providerPagesRef, {
+            visibility: true,
+        });
+        
+        setModalContent('Ваша карточка опубликована')
+        openModal()
+    }
+
+    const cardHidden = async () => {
+        const providerPagesRef = doc(db, "providerPages", currentUser.uid);
+                
+        await updateDoc(providerPagesRef, {
+            visibility: false,
+        });
+
+        setModalContent('Ваша карточка скрыта')
+        openModal()
+    }
 
     const deleteText = () => {
         setText('')
@@ -303,8 +315,9 @@ export const ProviderPage = () => {
 
     return(
         <div className="providerPage" >
-            {modalOpen && <Modal>
-                <ModalH1>Ваша карточка поставщика опубликована</ModalH1>
+            {modalOpen && 
+            <Modal>
+                <ModalH1>{modalContent}</ModalH1>
                 <ModalButton onClick={closeModal}>Ок</ModalButton>
             </Modal>}
             <h1>Карточка поставщика услуг</h1>
@@ -437,7 +450,9 @@ export const ProviderPage = () => {
                 </div>
             </div>
             {/* <div className="fnlBtn" onClick={handlePreview}>Предпросмотр</div> */}
-            <div className="fnlBtn submitBtn" onClick={handleSubmit}>Опубликовать</div>
+            <div className="fnlBtn submitBtn" onClick={cardUpdate}>Обновить</div>
+            <div className="fnlBtn submitBtn" onClick={cardShow}>Опубликовать</div>
+            <div className="fnlBtn submitBtn" onClick={cardHidden}>Скрыть публикацию</div>
         </div>
     )
 }

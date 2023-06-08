@@ -147,7 +147,10 @@ export const ServicePage = () => {
                             <button type="submit">Отправить заявку</button>
                         </form>
                     }
-                    <Reviews>
+                    
+                    {console.log(reviews)}
+                    {reviews && 
+                        <Reviews>
                         <h2 style={{margin: '20px 0 10px 0'}}>Отзывы:</h2>
                         {[...reviews].map((review) => {
                             return(
@@ -155,6 +158,8 @@ export const ServicePage = () => {
                             )
                         })}
                     </Reviews>
+                    }
+                    
                 </div>
                 <div className="right" id="providerTextInfo">
                     <TextPage text={provider.text} />

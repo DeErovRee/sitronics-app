@@ -203,16 +203,23 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
         }
     }
 
-    const hiddenOrder = async (orderID) => {
+    const hiddenOrder = async (isProvider, orderID) => {
 
         if (!orderID) {
             return
         }
-        const orderRef = doc(db, 'orders', orderID);
 
-        await updateDoc(orderRef, {
-            orderVisible: false
-        });
+        const orderRef = doc(db, 'orders', orderID);
+        if (isProvider) {
+            await updateDoc(orderRef, {
+                'visible.provider': false
+            });
+        } else {
+            await updateDoc(orderRef, {
+                'visible.client': false
+            });
+        }
+        
 
         getOrders()
     }
@@ -299,9 +306,18 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
         getOrders()
     }
 
+    const orderVisibility = () => {
+
+        if(isProvider) {
+            return order.visible.provider
+        } else {
+            return order.visible.client
+        }
+    }
+
     return(
             <>
-            {order.orderVisible === true && 
+            {orderVisibility() && 
                 <OrderCard>
                     <H3>ID заявки: {order.orderID}</H3>
                     {order.providerID === currentUser.uid ? 
@@ -348,7 +364,7 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
                                 <input type="date" onChange={e => setDate(e.target.value)} value={date}/>
                                 <input type="time" onChange={e => setTime(e.target.value)} value={time}/>
                             </ProviderTools>
-                            <TextArea onChange={e => setText(e.target.value)} value={text}></TextArea>
+                            <TextArea onChange={e => setText(e.target.value)} value={text} placeholder='Примечание'></TextArea>
                             <ProviderTools>
                                 <ToolsBtn onClick={e => answerOrders(e, order.orderID)}>Подтвердить</ToolsBtn>
                                 <ToolsBtn onClick={Cancle}>Отменить</ToolsBtn>
@@ -358,7 +374,7 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
 
                     {requestAnswer && 
                         <ContainerTools>
-                            <TextArea onChange={e => setText(e.target.value)} value={text}></TextArea>
+                            <TextArea onChange={e => setText(e.target.value)} value={text} placeholder='Укажите причину отказа'></TextArea>
                             <ProviderTools>
                                 <ToolsBtn onClick={e => answerOrders(e, order.orderID)}>Подтвердить</ToolsBtn>
                                 <ToolsBtn onClick={Cancle}>Отменить</ToolsBtn>
@@ -473,7 +489,7 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
                     {(order.orderStatus === 'Выполнена' || order.orderStatus === 'Отклонена') &&
                         <>
                             <ProviderTools>
-                                <ToolsBtn onClick={e => hiddenOrder(order.orderID)}>Скрыть</ToolsBtn>
+                                <ToolsBtn onClick={e => hiddenOrder(isProvider, order.orderID)}>Скрыть</ToolsBtn>
                             </ProviderTools>
                         </>
                     }
