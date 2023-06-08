@@ -35,6 +35,7 @@ const Container = styled.div`
 `
 
 const Card = styled.div`
+    width: 100vh;
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
