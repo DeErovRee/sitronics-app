@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { db } from "../../firebase/firebase";
 import { Link } from "react-router-dom";
 import { nanoid } from "nanoid";
+import { CityCard, ServiceCard } from "../../styles/generalStyledComponents";
 
 const Container = styled.div`
     display: flex;
@@ -138,20 +139,22 @@ export const Services = () => {
                                     )
                                 })}
                             </Rating>
-                            <Rating>
+
+                            {/* <Rating>
                                 <img className='rateImg' src={require('../../images/rate-ruble-enable.png')} alt="" width='12px'/>
                                 <img className='rateImg' src={require('../../images/rate-ruble-enable.png')} alt="" width='12px'/>
                                 <img className='rateImg' src={require('../../images/rate-ruble-enable.png')} alt="" width='12px'/>
                                 <img className='rateImg' src={require('../../images/rate-ruble-enable.png')} alt="" width='12px'/>
                                 <img className='rateImg' src={require('../../images/rate-ruble-disable.png')} alt="" width='12px'/>
-                            </Rating>
+                            </Rating> */}
+                            
                             <div className="services">
                                 <p>Услуги: </p>
                                 {service.services.map((el) => {
                                 return(
-                                    <div className="serviceCard" key={nanoid()}>
+                                    <ServiceCard key={nanoid()}>
                                         {el}
-                                    </div>
+                                    </ServiceCard>
                                 )
                                 })}
                             </div>
@@ -159,9 +162,9 @@ export const Services = () => {
                                 <p>Города: </p>
                                 {service.citys.map((el) => {
                                     return(
-                                    <div className="cityCard" key={nanoid()}>
+                                    <CityCard key={nanoid()}>
                                         {el}
-                                    </div>
+                                    </CityCard>
                                 )
                                 })}
                             </div>
