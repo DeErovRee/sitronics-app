@@ -149,7 +149,7 @@ const Star = styled.svg`
 
 `
 
-export const OrdersCard = ({ order, isProvider, getOrders }) => {
+export const OrdersCard = ({ order, isProvider, context}) => {
 
     const { currentUser } = useContext(AuthContext)
 
@@ -188,7 +188,6 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
                 confirmationTime: `${new Date().getHours()}:${new Date().getMinutes()}`,
                 confirmationDate: getDate()
             });
-            getOrders()
             return
         }
         
@@ -198,7 +197,6 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
                 orderStatus: queryStatus,
                 providerNote: text,
             });
-            getOrders()
             return
         }
     }
@@ -219,9 +217,6 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
                 'visible.client': false
             });
         }
-        
-
-        getOrders()
     }
 
     const Cancle = () => {
@@ -239,8 +234,6 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
         await updateDoc(orderRef, {
             orderStatus: status
         })
-
-        getOrders()
     }
 
     const getProlong = async (e, orderID) => {
@@ -250,8 +243,6 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
             providerTime: prolongTime,
             providerDate: prolongDate
         })
-
-        getOrders()
     }
 
     const shareReviews = async (rating, order) => {
@@ -302,22 +293,10 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
         })
 
         setOrderReviews(true)
-
-        getOrders()
-    }
-
-    const orderVisibility = () => {
-
-        if(isProvider) {
-            return order.visible.provider
-        } else {
-            return order.visible.client
-        }
     }
 
     return(
             <>
-            {orderVisibility() && 
                 <OrderCard>
                     <H3>ID заявки: {order.orderID}</H3>
                     {order.providerID === currentUser.uid ? 
@@ -486,7 +465,7 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
                         </>
                     }
 
-                    {(order.orderStatus === 'Выполнена' || order.orderStatus === 'Отклонена') &&
+                    {(order.orderStatus === 'Выполнена' || order.orderStatus === 'Отклонена') && context === 'actual' &&
                         <>
                             <ProviderTools>
                                 <ToolsBtn onClick={e => hiddenOrder(isProvider, order.orderID)}>Скрыть</ToolsBtn>
@@ -494,7 +473,7 @@ export const OrdersCard = ({ order, isProvider, getOrders }) => {
                         </>
                     }
 
-                </OrderCard>}
+                </OrderCard>
             </>
     )
 }

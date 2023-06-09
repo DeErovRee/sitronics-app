@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
-import { auth } from "../firebase/firebase";
+import { auth, db } from "../firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import { doc, onSnapshot } from "firebase/firestore";
 
 export const AuthContext = createContext();
 
@@ -9,7 +10,13 @@ export const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user);
+      console.log(user.uid)
+      onSnapshot(doc(db, "users", user.uid), (doc) => {
+        doc.exists() && setCurrentUser({
+          ...user,
+          isProvider: doc.data().isProvider,
+        });
+      });
     });
 
     return () => {

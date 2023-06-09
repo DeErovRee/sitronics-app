@@ -1,4 +1,4 @@
-import { collection, doc, onSnapshot, query, where } from "firebase/firestore";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
 import React, { useState } from "react";
 import { useContext } from "react";
 import { useEffect } from "react";
@@ -13,45 +13,40 @@ export const OrdersAll = () => {
     const { currentUser } = useContext(AuthContext)
 
     const [orders, setOrders] = useState([]);
-    const [isProvider, setIsProvider] = useState(null);
 
     useEffect(() => {
-        const unsub =  onSnapshot(doc(db, "users", currentUser.uid), (doc) => {
-            doc.exists() && setIsProvider(doc.data().isProvider);
-        });
-
-        return()=>{
-            unsub()
-        }
-        //eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-
-    useEffect(() => {
-        const q = query(collection(db, "orders"), where("orderVisible", "==", true));
+        const q = query(collection(db, "orders"), where(currentUser.isProvider ? 'providerID' : 'clientID', "==", currentUser.uid));
         const unsub = onSnapshot(q, (querySnapshot) => {
             const snapOrders = []
-            querySnapshot.forEach((doc) => {
+            querySnapshot.forEach((doc) => 
                 snapOrders.push(doc.data())
-            });
-            setOrders(snapOrders)
+            );
+            setOrders(snapOrders.filter((doc) => {
+                if(currentUser.isProvider) {
+                    return doc.visible.provider === true
+                } else {
+                    return doc.visible.client === true
+                }
+            }))
         });
 
         return(() => {
             unsub()
         })
-    }, [])
+    }, [currentUser.uid, currentUser.isProvider])
     
     return(
         <div className="orders">
             <h1>Мои заказы</h1>
-            {orders && orders.map((order) => {
-                return(
-                    <OrdersCard 
-                        order={order}
-                        isProvider={isProvider}
-                        key={nanoid()}/>
-                )
+            <div>
+                {orders && orders.map((order) => {
+                    return(<OrdersCard 
+                        order={order} 
+                        isProvider={currentUser.isProvider}
+                        key={nanoid()}
+                        context='actual'/>)
             })}
+            </div>
         </div>
     )
 }
