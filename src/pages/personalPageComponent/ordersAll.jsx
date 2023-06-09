@@ -36,9 +36,8 @@ export const OrdersAll = () => {
     }, [currentUser.uid, currentUser.isProvider])
     
     return(
-        <div className="orders">
+        <>
             <h1>Мои заказы</h1>
-            <div>
                 {orders && orders.map((order) => {
                     return(<OrdersCard 
                         order={order} 
@@ -46,7 +45,6 @@ export const OrdersAll = () => {
                         key={nanoid()}
                         context='actual'/>)
             })}
-            </div>
-        </div>
+        </>
     )
 }

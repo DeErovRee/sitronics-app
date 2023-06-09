@@ -472,7 +472,6 @@ export const OrdersCard = ({ order, isProvider, context}) => {
                             </ProviderTools>
                         </>
                     }
-
                 </OrderCard>
             </>
     )

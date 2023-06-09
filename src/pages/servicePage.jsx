@@ -6,16 +6,10 @@ import { db } from "../firebase/firebase";
 import { AuthContext } from '../context/AuthContext'
 import styled from 'styled-components'
 import { Review } from "./servicePageComponent/review";
+import { CityCard, ServiceCard } from "../styles/generalStyledComponents";
 
 const Reviews = styled.div`
     margin: 0 0 50px;
-`
-
-const ServiceCard = styled.div`
-    background-color: rgba(170, 155, 202, 1);
-    border-radius: 5px;
-    padding: 3px 10px;
-    margin: 3px 5px 3px 0px;
 `
 
 export const ServicePage = () => {
@@ -168,9 +162,9 @@ export const ServicePage = () => {
                         <div>
                         {provider.citys && provider.citys.map((el) => {
                             return(
-                                <div className="cityCard">
+                                <CityCard>
                                     {el}
-                                </div>
+                                </CityCard>
                             )
                         })}
                         </div>

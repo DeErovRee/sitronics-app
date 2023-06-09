@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { nanoid } from 'nanoid'
+import { ServiceCard } from '../../styles/generalStyledComponents'
+
 const ReviewCard = styled.div`
     width: fit-content;
     background-color: #1e1e1e;
@@ -8,13 +10,6 @@ const ReviewCard = styled.div`
     color: white;
     padding: 10px;
     margin: 0 0 10px 0;
-`
-
-const ServiceCard = styled.div`
-    background-color: rgba(170, 155, 202, 1);
-    border-radius: 5px;
-    padding: 3px 10px;
-    margin: 0 0 0 5px;
 `
 
 const P = styled.div`
@@ -32,7 +27,7 @@ const Input = styled.input`
 export const Review = (review) => 
     <ReviewCard>
         <P><b>{review.review.userName}</b></P>
-        <P><p>Отзыв на </p><ServiceCard>{review.review.service}</ServiceCard></P>
+        <P><p style={{marginRight: '5px'}}>Отзыв на</p><ServiceCard>{review.review.service}</ServiceCard></P>
         {[...Array(5)].map((star, i) => {
             const ratingValue = i + 1
             return(

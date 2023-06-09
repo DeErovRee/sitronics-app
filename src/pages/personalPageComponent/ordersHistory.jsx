@@ -37,7 +37,6 @@ export const OrdersHistory = () => {
     return(
         <>
             <h1>История заказов</h1>
-            <div>
                 {orders && orders.map((order) => {
                     return(<OrdersCard 
                         order={order} 
@@ -45,7 +44,6 @@ export const OrdersHistory = () => {
                         key={nanoid()}
                         context='history'/>)
             })}
-            </div>
         </>
     )
 }

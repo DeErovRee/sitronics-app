@@ -155,7 +155,6 @@ export const Services = () => {
                                 )
                                 })}
                             </div>
-                            <hr />
                             <div className="citys">
                                 <p>Города: </p>
                                 {service.citys.map((el) => {

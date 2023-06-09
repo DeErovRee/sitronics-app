@@ -9,6 +9,7 @@ import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css';
 import styled from "styled-components";
 import { useOnClickOutSide } from "../../hooks/useOnClickOutSide";
+import { CityCard, DeleteBtn, ServiceCard } from "../../styles/generalStyledComponents";
 // import Modal from 'react-modal'
 
 function formatBytes(bytes, decimals = 2) {
@@ -141,6 +142,7 @@ export const ProviderPage = () => {
                 // filesForView.forEach((file) => {
                 //     deleteObject(ref(storage, `providersImages/${currentUser.uid}/${file}`))
                 // })
+                
                 setTimeout(deleteFiles(),5000)
             } else {
             
@@ -400,15 +402,15 @@ export const ProviderPage = () => {
                 </div>
                 {citys.length > 0 && 
                     <div className="citys">
-                        <p>Cписок городов:</p>
+                        <p style={{marginRight: '5px'}}>Cписок городов:</p>
                         {citys.map((el) => {
                             return(
-                                <div className="city" key={el}>
+                                <CityCard>
                                     <p>{el}</p>
-                                    <button className="deleteCity" onClick={e => deleteCity(el)}>
+                                    <DeleteBtn onClick={e => deleteCity(el)}>
                                         <img src={require('../../images/x.png')} width='10px' alt="" />
-                                    </button>
-                                </div> 
+                                    </DeleteBtn>
+                                </CityCard> 
                             )
                         })}
                     </div>}
@@ -433,15 +435,15 @@ export const ProviderPage = () => {
                 </div>
                 {services.length > 0 && 
                     <div className="citys">
-                        <p>Cписок услуг:</p>
+                        <p style={{marginRight: '5px'}}>Cписок услуг:</p>
                         {services.map((el) => {
                             return(
-                                <div className="city" key={el}>
+                                <ServiceCard>
                                     <p>{el}</p>
-                                    <button className="deleteCity" onClick={e => deleteService(el)}>
+                                    <DeleteBtn onClick={e => deleteService(el)}>
                                         <img src={require('../../images/x.png')} width='10px' alt="" />
-                                    </button>
-                                </div> 
+                                    </DeleteBtn>
+                                </ServiceCard> 
                             )
                         })}
                     </div>}
