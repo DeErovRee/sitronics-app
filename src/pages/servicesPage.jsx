@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { Sort } from './servicePageComponent/sort'
 import { Filters } from "./servicePageComponent/filters";
 import { Services } from "./servicePageComponent/services";
 
@@ -42,7 +41,6 @@ export const ServicesPage = () => {
     <ServicesStyled>
       <Wrapper>
         <H1>Услуги</H1>
-        <Sort />
         <Container>
           <Filters />
           <Services />

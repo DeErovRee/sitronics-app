@@ -1,4 +1,4 @@
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import React, { useContext, useRef } from "react";
 import { useEffect } from "react";
@@ -85,8 +85,8 @@ export const ProviderPage = () => {
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-            setCitys(docSnap.data().citys)
-            setServices(docSnap.data().services)
+            setCitys([...docSnap.data().citys])
+            setServices([...docSnap.data().services])
             setText(docSnap.data().text)
             setFilesForView(docSnap.data().photoURLs)
         } else {
@@ -138,6 +138,13 @@ export const ProviderPage = () => {
                     services,
                     photoURLs: downloadURLs,
                 });
+
+                const filtersRef = doc(db, 'filters', 'vfntUgqcL0fuCBnXlysr')
+
+                console.log(citys)
+                await updateDoc(filtersRef, {
+                    citys: arrayUnion(...citys)
+                })
                 
                 // filesForView.forEach((file) => {
                 //     deleteObject(ref(storage, `providersImages/${currentUser.uid}/${file}`))
@@ -157,6 +164,13 @@ export const ProviderPage = () => {
                     citys,
                     services,
                 });
+
+                const filtersRef = doc(db, 'filters', 'vfntUgqcL0fuCBnXlysr')
+
+                console.log(citys)
+                await updateDoc(filtersRef, {
+                    citys: arrayUnion(...citys)
+                })
             }
             
             getData()
@@ -400,7 +414,7 @@ export const ProviderPage = () => {
                         <img src={require("../../images/plus.png")} width="20px" alt="plus" />
                     </div>
                 </div>
-                {citys.length > 0 && 
+                {citys && citys.length > 0 && 
                     <div className="citys">
                         <p style={{marginRight: '5px'}}>Cписок городов:</p>
                         {citys.map((el) => {
@@ -433,7 +447,7 @@ export const ProviderPage = () => {
                         <img src={require("../../images/plus.png")} width="20px" alt="plus" />
                     </div>
                 </div>
-                {services.length > 0 && 
+                {services && services.length > 0 && 
                     <div className="citys">
                         <p style={{marginRight: '5px'}}>Cписок услуг:</p>
                         {services.map((el) => {
