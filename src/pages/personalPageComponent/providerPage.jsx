@@ -1,12 +1,16 @@
-import { doc, getDoc, setDoc } from "firebase/firestore";
-import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import React, { useContext } from "react";
+import { arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import React, { useContext, useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { db, storage } from "../../firebase/firebase";
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css';
+import styled from "styled-components";
+import { useOnClickOutSide } from "../../hooks/useOnClickOutSide";
+import { CityCard, DeleteBtn, ServiceCard } from "../../styles/generalStyledComponents";
+// import Modal from 'react-modal'
 
 function formatBytes(bytes, decimals = 2) {
     if (!+bytes) return '0 Bytes'
@@ -20,7 +24,37 @@ function formatBytes(bytes, decimals = 2) {
     return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
 }
 
+const Modal = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    bottom: 50%;
+    z-index: 99;
+    border: 2px solid #8da4f1;
+    background-color: #d9d9d9;
+    border-radius: 10px;
+    padding: 15px;
+    color: black;
+`
+
+const ModalH1 = styled.h1`
+    color: black;
+`
+
+const ModalButton = styled.button`
+    width: 220px;
+    height: 40px;
+    background-color:#8da4f1;
+    border-radius: 10px;
+    color: black;
+    border: none;
+`
+
 export const ProviderPage = () => {
+
+    const node = useRef()
+    useOnClickOutSide(node, () => setModalOpen(false))
 
     const { currentUser } = useContext(AuthContext)
 
@@ -37,16 +71,13 @@ export const ProviderPage = () => {
 
     const [error, setError] = useState('')
 
-    const handlePreview = () => {
-        console.log(files)
-        console.log(filesForView)
-        console.log(text)
-        console.log(citys)
-        console.log(services)
-    }
+    const [modalOpen, setModalOpen] = useState(false)
+    const [modalContent, setModalContent] = useState('')
 
     useEffect(() => {
         getData()
+
+        //eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const getData = async () => {
@@ -54,8 +85,8 @@ export const ProviderPage = () => {
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-            setCitys(docSnap.data().citys)
-            setServices(docSnap.data().services)
+            setCitys([...docSnap.data().citys])
+            setServices([...docSnap.data().services])
             setText(docSnap.data().text)
             setFilesForView(docSnap.data().photoURLs)
         } else {
@@ -68,56 +99,110 @@ export const ProviderPage = () => {
         el.innerHTML = '<div class="preview-info-progress"></div>'
     }
 
-    const handleSubmit = async () => {
+    const cardUpdate = async () => {
         document.querySelectorAll('.preview-remove').forEach(el => el.remove())
         const previewInfo = document.querySelectorAll('.preview-info')
         previewInfo.forEach(clearPreview)
 
         try {
             const promises = [];
-        
-            files.forEach((file, index) => {
-                const storageRef = ref(storage, `providersImages/${currentUser.uid}/${file.name}`);
 
-                const uploadTask = uploadBytesResumable(storageRef, file.file);
-                uploadTask.on('state_changed', (snapshot) => {
-                    const percentage = ((snapshot.bytesTransferred / snapshot.totalBytes) * 100).toFixed(0) + '%'
-                    const block = previewInfo[index].querySelector('.preview-info-progress')
-                    block.style.width = percentage
+            if(files.length > 0) {
+                files.forEach((file, index) => {
+                    const storageRef = ref(storage, `providersImages/${currentUser.uid}/${file.name}`);
+
+                    const uploadTask = uploadBytesResumable(storageRef, file.file);
+                    uploadTask.on('state_changed', (snapshot) => {
+                        const percentage = ((snapshot.bytesTransferred / snapshot.totalBytes) * 100).toFixed(0) + '%'
+                        const block = previewInfo[index].querySelector('.preview-info-progress')
+                        block.style.width = percentage
+                    })
+                    promises.push(uploadTask);
                 })
-                promises.push(uploadTask);
-            })
-        
-            const uploadResults = await Promise.all(promises);
-        
-            const downloadURLs = await Promise.all(
-                uploadResults.map((uploadResult) => getDownloadURL(uploadResult.ref))
-            );
-        
-            const providerPagesRef = doc(db, "providerPages", currentUser.uid);
             
-            await setDoc(providerPagesRef, {
-                uid: currentUser.uid,
-                userPhoto: currentUser.photoURL,
-                displayName: currentUser.displayName,
-                email: currentUser.email,
-                text,
-                citys,
-                services,
-                photoURLs: downloadURLs,
-                visibility: true,
-            });
+                const uploadResults = await Promise.all(promises);
             
-            filesForView.forEach((file) => {
-                deleteObject(ref(storage, `providersImages/${currentUser.uid}/${file}`))
-            })
-            setTimeout(deleteFiles(),5000)
+                const downloadURLs = await Promise.all(
+                    uploadResults.map((uploadResult) => getDownloadURL(uploadResult.ref))
+                );
+            
+                const providerPagesRef = doc(db, "providerPages", currentUser.uid);
+                
+                await updateDoc(providerPagesRef, {
+                    uid: currentUser.uid,
+                    userPhoto: currentUser.photoURL,
+                    displayName: currentUser.displayName,
+                    email: currentUser.email,
+                    text,
+                    citys,
+                    services,
+                    photoURLs: downloadURLs,
+                });
+
+                const filtersRef = doc(db, 'filters', 'vfntUgqcL0fuCBnXlysr')
+
+                console.log(citys)
+                await updateDoc(filtersRef, {
+                    citys: arrayUnion(...citys)
+                })
+                
+                // filesForView.forEach((file) => {
+                //     deleteObject(ref(storage, `providersImages/${currentUser.uid}/${file}`))
+                // })
+                
+                setTimeout(deleteFiles(),5000)
+            } else {
+            
+                const providerPagesRef = doc(db, "providerPages", currentUser.uid);
+                
+                await updateDoc(providerPagesRef, {
+                    uid: currentUser.uid,
+                    userPhoto: currentUser.photoURL,
+                    displayName: currentUser.displayName,
+                    email: currentUser.email,
+                    text,
+                    citys,
+                    services,
+                });
+
+                const filtersRef = doc(db, 'filters', 'vfntUgqcL0fuCBnXlysr')
+
+                console.log(citys)
+                await updateDoc(filtersRef, {
+                    citys: arrayUnion(...citys)
+                })
+            }
+            
             getData()
+            setModalContent('Ваша карточка обновлена')
+            openModal()
         
         } catch (error) {
           setError(error);
         }
     };
+
+    const cardShow = async () => {
+        const providerPagesRef = doc(db, "providerPages", currentUser.uid);
+                
+        await updateDoc(providerPagesRef, {
+            visibility: true,
+        });
+        
+        setModalContent('Ваша карточка опубликована')
+        openModal()
+    }
+
+    const cardHidden = async () => {
+        const providerPagesRef = doc(db, "providerPages", currentUser.uid);
+                
+        await updateDoc(providerPagesRef, {
+            visibility: false,
+        });
+
+        setModalContent('Ваша карточка скрыта')
+        openModal()
+    }
 
     const deleteText = () => {
         setText('')
@@ -236,8 +321,21 @@ export const ProviderPage = () => {
         setTimeout(() => setFiles([]), 300)
     }
 
+    const openModal = () => {
+        setModalOpen(true)
+    }
+
+    const closeModal = (e) => {
+        setModalOpen(false)
+    }
+
     return(
-        <div className="providerPage">
+        <div className="providerPage" >
+            {modalOpen && 
+            <Modal>
+                <ModalH1>{modalContent}</ModalH1>
+                <ModalButton onClick={closeModal}>Ок</ModalButton>
+            </Modal>}
             <h1>Карточка поставщика услуг</h1>
             <div className="card">
                 <p className="cardHeader">Отображаемый текст</p>
@@ -316,17 +414,17 @@ export const ProviderPage = () => {
                         <img src={require("../../images/plus.png")} width="20px" alt="plus" />
                     </div>
                 </div>
-                {citys.length > 0 && 
+                {citys && citys.length > 0 && 
                     <div className="citys">
-                        <p>Cписок городов:</p>
+                        <p style={{marginRight: '5px'}}>Cписок городов:</p>
                         {citys.map((el) => {
                             return(
-                                <div className="city" key={el}>
+                                <CityCard>
                                     <p>{el}</p>
-                                    <button className="deleteCity" onClick={e => deleteCity(el)}>
+                                    <DeleteBtn onClick={e => deleteCity(el)}>
                                         <img src={require('../../images/x.png')} width='10px' alt="" />
-                                    </button>
-                                </div> 
+                                    </DeleteBtn>
+                                </CityCard> 
                             )
                         })}
                     </div>}
@@ -349,17 +447,17 @@ export const ProviderPage = () => {
                         <img src={require("../../images/plus.png")} width="20px" alt="plus" />
                     </div>
                 </div>
-                {services.length > 0 && 
+                {services && services.length > 0 && 
                     <div className="citys">
-                        <p>Cписок услуг:</p>
+                        <p style={{marginRight: '5px'}}>Cписок услуг:</p>
                         {services.map((el) => {
                             return(
-                                <div className="city" key={el}>
+                                <ServiceCard>
                                     <p>{el}</p>
-                                    <button className="deleteCity" onClick={e => deleteService(el)}>
+                                    <DeleteBtn onClick={e => deleteService(el)}>
                                         <img src={require('../../images/x.png')} width='10px' alt="" />
-                                    </button>
-                                </div> 
+                                    </DeleteBtn>
+                                </ServiceCard> 
                             )
                         })}
                     </div>}
@@ -367,9 +465,10 @@ export const ProviderPage = () => {
                     <div className="settingsBtn" onClick={deleteServices}>Очистить</div>
                 </div>
             </div>
-            <div className="fnlBtn" onClick={handlePreview}>Предпросмотр</div>
-            <div className="fnlBtn submitBtn" onClick={handleSubmit}>Опубликовать</div>
-            <div className="fnlBtn submitBtn" onClick={getData}>Получить данные</div>
+            {/* <div className="fnlBtn" onClick={handlePreview}>Предпросмотр</div> */}
+            <div className="fnlBtn submitBtn" onClick={cardUpdate}>Обновить</div>
+            <div className="fnlBtn submitBtn" onClick={cardShow}>Опубликовать</div>
+            <div className="fnlBtn submitBtn" onClick={cardHidden}>Скрыть публикацию</div>
         </div>
     )
 }

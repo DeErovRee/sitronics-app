@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { Sort } from './servicePageComponent/sort'
 import { Filters } from "./servicePageComponent/filters";
 import { Services } from "./servicePageComponent/services";
 
 const ServicesStyled = styled.div`
+  min-height: 60vh;
   display: flex;
   justify-content: center;
   background-image: ${props => props.theme.colors.gradient};
@@ -41,7 +41,6 @@ export const ServicesPage = () => {
     <ServicesStyled>
       <Wrapper>
         <H1>Услуги</H1>
-        <Sort />
         <Container>
           <Filters />
           <Services />

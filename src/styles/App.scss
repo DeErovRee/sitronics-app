@@ -16,13 +16,6 @@ $linear-gradient: linear-gradient(45deg, rgba(241, 2, 2, 0.61), rgba(0, 8, 255, 
     margin: 0 10px 0 0;
     font-weight: 500;
   }
-
-  .cityCard {
-    background-color: rgba(141, 164, 241, 1);
-    border-radius: 5px;
-    padding: 3px 10px;
-    margin: 3px 5px 3px 0px;
-  }
 }
 
 .services {
@@ -34,13 +27,6 @@ $linear-gradient: linear-gradient(45deg, rgba(241, 2, 2, 0.61), rgba(0, 8, 255, 
   p {
     margin: 0 10px 0 0;
     font-weight: 500;
-  }
-
-  .serviceCard {
-    background-color: rgba(170, 155, 202, 1);
-    border-radius: 5px;
-    padding: 3px 10px;
-    margin: 3px 5px 3px 0px;
   }
 }
 
@@ -116,6 +102,7 @@ $linear-gradient: linear-gradient(45deg, rgba(241, 2, 2, 0.61), rgba(0, 8, 255, 
 
 // Chat styles
 .container {
+  // min-height: 60vh;
   max-width: 1920px;
   padding: 50px 0 50px;
   background-color: white;
@@ -124,6 +111,7 @@ $linear-gradient: linear-gradient(45deg, rgba(241, 2, 2, 0.61), rgba(0, 8, 255, 
   .workSpace {
     display: flex;
     justify-content: center;
+    min-height: 500px;
     width: 80vh;
     background-color: #f2f2f2;
     border-radius: 50px;
@@ -409,23 +397,6 @@ $linear-gradient: linear-gradient(45deg, rgba(241, 2, 2, 0.61), rgba(0, 8, 255, 
       }
     }
 
-    .userStatus {
-      font-style: normal;
-      font-weight: 400;
-      font-size: 16px;
-      line-height: 19px;
-      text-transform: uppercase;
-      margin-bottom: 17px;
-    }
-
-    .client {
-      color: #ff0000;
-    }
-
-    .provider {
-      color: #4285F4;
-    }
-
     a, button{
       box-sizing: border-box;
       font-style: normal;
@@ -543,11 +514,6 @@ $linear-gradient: linear-gradient(45deg, rgba(241, 2, 2, 0.61), rgba(0, 8, 255, 
   
   font-style: normal;
   font-weight: 400;
-
-  h1 {
-    color: white;
-    text-transform: uppercase;
-  }
 
   .card {
     box-sizing: border-box;
@@ -857,7 +823,7 @@ $linear-gradient: linear-gradient(45deg, rgba(241, 2, 2, 0.61), rgba(0, 8, 255, 
   .providerInfo {
     display: flex;
     align-items: flex-start;
-    margin-bottom: 50px;
+    margin-bottom: 10px;
 
     .left {
       width: 50%;
@@ -869,7 +835,7 @@ $linear-gradient: linear-gradient(45deg, rgba(241, 2, 2, 0.61), rgba(0, 8, 255, 
         align-items: center;
         background-color: #1e1e1e;
         border-radius: 20px;
-        margin: 0 10px 10px;
+        margin: 0 10px 10px 0;
         img {
           border: 5px solid rgba(141, 164, 241, 0.5019607843);
           border-radius: 10px;
@@ -883,7 +849,7 @@ $linear-gradient: linear-gradient(45deg, rgba(241, 2, 2, 0.61), rgba(0, 8, 255, 
         display: flex;
         flex-direction: column;
         border-radius: 20px;
-        margin: 0 10px;
+        margin: 0 10px 0 0;
         background-color: #1e1e1e;
         padding: 20px;
 
@@ -938,16 +904,5 @@ $linear-gradient: linear-gradient(45deg, rgba(241, 2, 2, 0.61), rgba(0, 8, 255, 
         }
       }
     }
-  }
-}
-
-// Заявки
-
-.orders {
-
-  h1 {
-    margin-bottom: 20px;
-    color: white;
-    font-weight: 500;
   }
 }

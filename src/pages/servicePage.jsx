@@ -1,11 +1,21 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import DOMPurify from 'dompurify'
 import { nanoid } from "nanoid";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, onSnapshot, setDoc } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 import { AuthContext } from '../context/AuthContext'
+import styled from 'styled-components'
+import { Review } from "./servicePageComponent/review";
+import { CityCard, ServiceCard } from "../styles/generalStyledComponents";
+
+const Reviews = styled.div`
+    margin: 0 0 50px;
+`
 
 export const ServicePage = () => {
+
+    const [reviews, setReviews] = useState([])
+    const [isProvider, setIsProvider] = useState(null)
 
     const getDate = () => {
         let today = new Date();
@@ -41,6 +51,7 @@ export const ServicePage = () => {
                 orderVisible: true,
                 orderRating: false,
                 orderRatingValue: 0,
+                orderReviews: false,
                 clientID: currentUser.uid,
                 clientName: currentUser.displayName,
                 clientPhoto: currentUser.photoURL,
@@ -62,6 +73,30 @@ export const ServicePage = () => {
         
     }
 
+    useEffect(() => {
+        const unsub =  onSnapshot(doc(db, "users", currentUser.uid), (doc) => {
+            doc.exists() && setIsProvider(doc.data().isProvider);
+        });
+
+        return()=>{
+            unsub()
+        }
+        //eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    useEffect(() => {
+        const unsub = onSnapshot(doc(db, "userReviews", provider.uid), (doc) => {
+            setReviews(doc.data().reviews);
+        });
+        
+        return() => {
+            unsub()
+        }
+
+        
+        //eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
     return(
         <div className="providerServicePage">
             <div className="providerMainInfo">
@@ -79,31 +114,46 @@ export const ServicePage = () => {
                             )
                         })}
                     </div>
-                    <form id="serviceForm" className="serviceForm" onSubmit={handleSubmit}>
-                        <select>
-                            <option value="">Выберите услугу</option>
-                            {provider && provider.services.map((service) => {
-                                return(
-                                    <option value={service}>{service}</option>
-                                )
-                            })}
-                        </select>
-                        <select>
-                            <option value="">Выберите город</option>
-                            {provider && provider.citys.map((city) => {
-                                return(
-                                    <option value={city}>{city}</option>
-                                )
-                            })}
-                        </select>
-                        <input type="text" placeholder="Введите улицу"/>
-                        <input type="text" placeholder="Введите номер дома"/>
-                        <input type="date" placeholder="Выберите дату" min={getDate()}/>
-                        <input type="phone" placeholder="Введите номер телефона"/>
-                        <input type="email" placeholder="Введите эл.почту"/>
-                        <textarea style={{resize: 'none'}} placeholder="Опишите требуемую задачу"/>
-                        <button type="submit">Отправить заявку</button>
-                    </form>
+                    {!isProvider &&
+                        <form id="serviceForm" className="serviceForm" onSubmit={handleSubmit}>
+                            <select>
+                                <option value="">Выберите услугу</option>
+                                {provider && provider.services.map((service) => {
+                                    return(
+                                        <option value={service}>{service}</option>
+                                    )
+                                })}
+                            </select>
+                            <select>
+                                <option value="">Выберите город</option>
+                                {provider && provider.citys.map((city) => {
+                                    return(
+                                        <option value={city}>{city}</option>
+                                    )
+                                })}
+                            </select>
+                            <input type="text" placeholder="Введите улицу"/>
+                            <input type="text" placeholder="Введите номер дома"/>
+                            <input type="date" placeholder="Выберите дату" min={getDate()}/>
+                            <input type="phone" placeholder="Введите номер телефона"/>
+                            <input type="email" placeholder="Введите эл.почту"/>
+                            <textarea style={{resize: 'none'}} placeholder="Опишите требуемую задачу"/>
+                            <button type="submit">Отправить заявку</button>
+                        </form>
+                    }
+                    
+                    {console.log(reviews)}
+                    {reviews && 
+                        <Reviews>
+                        <h2 style={{margin: '20px 0 10px 0'}}>Отзывы:</h2>
+                        {[...reviews].map((review) => {
+                            return(
+                                <Review review={review} key={nanoid()}/>
+                            )
+                        })}
+                    </Reviews>
+                    }
+                    
                 </div>
                 <div className="right" id="providerTextInfo">
                     <TextPage text={provider.text} />
@@ -112,9 +162,9 @@ export const ServicePage = () => {
                         <div>
                         {provider.citys && provider.citys.map((el) => {
                             return(
-                                <div className="cityCard">
+                                <CityCard>
                                     {el}
-                                </div>
+                                </CityCard>
                             )
                         })}
                         </div>
@@ -124,9 +174,9 @@ export const ServicePage = () => {
                         <div>
                         {provider.services && provider.services.map((el) => {
                             return(
-                                <div className="serviceCard">
+                                <ServiceCard>
                                     {el}
-                                </div>
+                                </ServiceCard>
                             )
                         })}
                         </div>

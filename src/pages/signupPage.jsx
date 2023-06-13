@@ -82,6 +82,7 @@ export const SignupPage = () => {
                 isProvider,
                 photoURL: downloadURL,
               });
+
               await setDoc(doc(db, "users", res.user.uid), {
                 uid: res.user.uid,
                 displayName,
@@ -89,7 +90,13 @@ export const SignupPage = () => {
                 isProvider,
                 photoURL: downloadURL,
               });
+
               await setDoc(doc(db, "userChats", res.user.uid), {});
+              
+              if(isProvider) {
+                await setDoc(doc(db, 'userReviews', res.user.uid), {})
+                await setDoc(doc(db, 'providerPages', res.user.uid), {})
+              }
             } catch (error) {
               setError('')
               setError(`${error.message}`);

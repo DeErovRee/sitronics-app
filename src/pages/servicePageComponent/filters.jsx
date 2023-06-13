@@ -9,7 +9,7 @@ const Container = styled.div`
     padding: 15px 15px 5px;
     border-radius: 10px;
     width: 231px;
-    margin: 10px 0 10px;
+    margin: 10px 0 0 10px;
     box-sizing: border-box;
 
     @media(max-width: 950px) {
