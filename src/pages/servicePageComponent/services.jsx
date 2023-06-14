@@ -26,13 +26,6 @@ const Container = styled.div`
             max-width: 100%;
         };
     };
-
-    @media(max-width: 520px) {
-        margin: 0;
-        a {
-            max-width: 100%;
-        };
-    };
 `
 
 const Card = styled.div`
@@ -105,6 +98,32 @@ const SortBtn = styled.button`
     justify-content: center;
 `
 
+const SortInput = styled.input`
+    box-sizing: border-box;
+    height: 50px;
+    width: 50%;
+    background-color: inherit;
+    border-radius: 10px;
+    margin: 3px;
+    padding: 7px;
+    border: 1px solid rgb(217, 217, 217);
+    align-items: center;
+    text-align: center;
+
+    &::placeholder {
+        text-align: center;
+        color: black;
+    }
+    &::-webkit-input-placeholder       {opacity: 1; transition: opacity 0.3s ease;}
+    &::-moz-placeholder                {opacity: 1; transition: opacity 0.3s ease;}
+    &:-moz-placeholder                 {opacity: 1; transition: opacity 0.3s ease;}
+    &:-ms-input-placeholder            {opacity: 1; transition: opacity 0.3s ease;}
+    &:focus::-webkit-input-placeholder {opacity: 0; transition: opacity 0.3s ease;}
+    &:focus::-moz-placeholder          {opacity: 0; transition: opacity 0.3s ease;}
+    &:focus:-moz-placeholder           {opacity: 0; transition: opacity 0.3s ease;}
+    &:focus:-ms-input-placeholder      {opacity: 0; transition: opacity 0.3s ease;}
+`
+
 const SortP = styled.p`
     margin: 0 0 -1px 0;
     color: black;
@@ -117,6 +136,9 @@ export const Services = () => {
     const [servicesList, setServicesList] = useState([])
     const [sortRating, setSortRating] = useState('UP')
     const [sortReviews, setSortReviews] = useState('UP')
+    const [filter, setFilter] = useState([])
+    const [inputCity, setInputCity] = useState('')
+    const [inputService, setInputService] = useState('')
 
     const getServices = async () => {
         // При React.strictMode в index.js функция вызывается 2 раза
@@ -125,6 +147,7 @@ export const Services = () => {
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             setServicesList(prevState => ([...prevState, doc.data()]))
+            setFilter(prevState => ([...prevState, doc.data()]))
             localStorage.setItem(`${doc.data().uid}`, JSON.stringify(doc.data()))
         })
     }
@@ -135,7 +158,7 @@ export const Services = () => {
 
     const ratingSort = () => {
         if(sortRating === 'UP') {
-            setServicesList(servicesList.sort((a, b) => {
+            setFilter(filter.sort((a, b) => {
                 if(a.ratingValue > b.ratingValue) {
                     return -1
                 } else {
@@ -143,10 +166,9 @@ export const Services = () => {
                 }
             }))
             setSortRating('DOWN')
-            console.log('sort rating up')
         }
         if(sortRating === 'DOWN') {
-            setServicesList(servicesList.sort((a, b) => {
+            setFilter(filter.sort((a, b) => {
                 if(a.ratingValue > b.ratingValue) {
                     return +1
                 } else {
@@ -154,13 +176,12 @@ export const Services = () => {
                 }
             }))
             setSortRating('UP')
-            console.log('sort rating down')
         }
     }
 
     const reviewsSort = () => {
         if(sortReviews === 'UP') {
-            setServicesList(servicesList.sort((a, b) => {
+            setFilter(filter.sort((a, b) => {
                 if(a.ratingCount > b.ratingCount) {
                     return -1
                 } else {
@@ -168,10 +189,9 @@ export const Services = () => {
                 }
             }))
             setSortReviews('DOWN')
-            console.log('sort count up')
         }
         if(sortReviews === 'DOWN') {
-            setServicesList(servicesList.sort((a, b) => {
+            setFilter(filter.sort((a, b) => {
                 if(a.ratingCount > b.ratingCount) {
                     return +1
                 } else {
@@ -179,8 +199,17 @@ export const Services = () => {
                 }
             }))
             setSortReviews('UP')
-            console.log('sort count down')
         }
+    }
+
+    const searchServiceListCity = (input) => {
+        const regexp = new RegExp(`${input}`, 'i')
+        setFilter(servicesList.filter(el => regexp.test(el.citys)))
+    }
+
+    const searchServiceListService = (input) => {
+        const regexp = new RegExp(`${input}`, 'i')
+        setFilter(servicesList.filter(el => regexp.test(el.services)))
     }
 
     return(
@@ -190,8 +219,35 @@ export const Services = () => {
                     <SortBtn onClick={() => ratingSort()}>по рейтингу</SortBtn>
                     <SortBtn onClick={() => reviewsSort()}>по кол-ву отзывов</SortBtn>
                 </Sort>
-                {console.log(servicesList)}
-                {sortRating && sortReviews && servicesList && servicesList.map((service) => {
+                <SortP>Поиск</SortP>
+                <Sort>
+                    <SortInput 
+                        type="text" 
+                        placeholder="по городу"
+                        value={inputCity}
+                        onClick={(e)=>{
+                            setInputService('')
+                            setFilter(servicesList)
+                        }}
+                        onChange={(e)=>{
+                            searchServiceListCity(e.target.value)
+                            setInputCity(e.target.value)
+                        }}/>
+                        
+                    <SortInput 
+                        type="text" 
+                        placeholder="по услуге"
+                        value={inputService}
+                        onClick={(e)=>{
+                            setInputCity('')
+                            setFilter(servicesList)
+                        }}
+                        onChange={(e)=>{
+                            searchServiceListService(e.target.value)
+                            setInputService(e.target.value)
+                        }}/>
+                </Sort>
+                {sortRating && sortReviews && filter && filter.map((service) => {
                 return(
                     <Link to={{ pathname: service.uid }} key={nanoid()}>
                         <Card>

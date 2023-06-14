@@ -29,7 +29,7 @@ const Container = styled.div`
     }
 `
 
-const Filter = styled.div`
+export const Filter = styled.div`
     padding: 15px;
     display: flex;
     flex-direction: column;
@@ -51,11 +51,11 @@ const Filter = styled.div`
     }
 `
 
-const P = styled.p`
+export const P = styled.p`
     color: black;
 `
 
-const Input = styled.input`
+export const Input = styled.input`
     box-sizing: border-box;
     text-align: center;
     background-color: #e9e9e9;
@@ -66,13 +66,13 @@ const Input = styled.input`
     width: 100%;
 `
 
-const Finded = styled.div`
+export const Finded = styled.div`
     display: flex;
     flex-direction: column;
     margin: 0;
 `
 
-const ItemFinded = styled.div`
+export const ItemFinded = styled.div`
     display: flex;
     flex-direction: row;
     margin: 0 0 8px 0;
