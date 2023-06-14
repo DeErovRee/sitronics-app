@@ -124,7 +124,7 @@ export const Header = ({authenticated}) => {
       <HeaderStyled>
         <Wrapper>
           <List>
-            <Link to="/">
+            <Link to="/" style={{margin: '20px'}}>
               <img
                 src={require('../images/logo.png')}
                 className="logo"

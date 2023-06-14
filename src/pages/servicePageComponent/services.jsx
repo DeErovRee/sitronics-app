@@ -5,8 +5,11 @@ import { db } from "../../firebase/firebase";
 import { Link } from "react-router-dom";
 import { nanoid } from "nanoid";
 import { CityCard, ServiceCard } from "../../styles/generalStyledComponents";
+import _ from "lodash";
 
 const Container = styled.div`
+
+    width: 900px;
     display: flex;
     margin: 0px 0px 0px 20px;
     flex-direction: column;
@@ -21,6 +24,7 @@ const Container = styled.div`
     };
 
     @media(max-width: 950px) {
+        width: 95%;
         margin: 0 10px ;
         a {
             max-width: 100%;
@@ -29,6 +33,7 @@ const Container = styled.div`
 `
 
 const Card = styled.div`
+    box-sizing: border-box;
     width: 100%;
     display: flex;
     justify-content: flex-start;
@@ -59,9 +64,13 @@ const Img = styled.div`
 `
 
 const CardInfo = styled.div`
+    width: 100%;
 `
 
 const Rating = styled.div`
+    display: flex;
+    align-items: center;
+
     img {
         border-radius: 0px;
         margin: 0 3px 0 0;
@@ -134,11 +143,26 @@ const SortP = styled.p`
 export const Services = () => {
 
     const [servicesList, setServicesList] = useState([])
-    const [sortRating, setSortRating] = useState('UP')
-    const [sortReviews, setSortReviews] = useState('UP')
+    const [sortRating, setSortRating] = useState(true)
+    const [sortReviews, setSortReviews] = useState(true)
     const [filter, setFilter] = useState([])
     const [inputCity, setInputCity] = useState('')
     const [inputService, setInputService] = useState('')
+
+    const FILTERS = (e) => {
+        if (e.keyCode !== 13) {
+            return
+        }
+        e.target.blur()
+        
+        const regexpCity = new RegExp(`${inputCity}`, 'i')
+        const regexpService = new RegExp(`${inputService}`, 'i')
+
+        const arrCity = servicesList.filter(el => regexpCity.test(el.citys))
+        const arrService = servicesList.filter(el => regexpService.test(el.services))
+        setFilter(_.intersection(arrCity, arrService))
+        
+    }
 
     const getServices = async () => {
         // При React.strictMode в index.js функция вызывается 2 раза
@@ -157,7 +181,7 @@ export const Services = () => {
     }, [])
 
     const ratingSort = () => {
-        if(sortRating === 'UP') {
+        if(sortRating === true) {
             setFilter(filter.sort((a, b) => {
                 if(a.ratingValue > b.ratingValue) {
                     return -1
@@ -165,9 +189,9 @@ export const Services = () => {
                     return +1
                 }
             }))
-            setSortRating('DOWN')
+            setSortRating(false)
         }
-        if(sortRating === 'DOWN') {
+        if(sortRating === false) {
             setFilter(filter.sort((a, b) => {
                 if(a.ratingValue > b.ratingValue) {
                     return +1
@@ -175,12 +199,12 @@ export const Services = () => {
                     return -1
                 }
             }))
-            setSortRating('UP')
+            setSortRating(true)
         }
     }
 
     const reviewsSort = () => {
-        if(sortReviews === 'UP') {
+        if(sortReviews === true) {
             setFilter(filter.sort((a, b) => {
                 if(a.ratingCount > b.ratingCount) {
                     return -1
@@ -188,9 +212,9 @@ export const Services = () => {
                     return +1
                 }
             }))
-            setSortReviews('DOWN')
+            setSortReviews(false)
         }
-        if(sortReviews === 'DOWN') {
+        if(sortReviews === false) {
             setFilter(filter.sort((a, b) => {
                 if(a.ratingCount > b.ratingCount) {
                     return +1
@@ -198,19 +222,19 @@ export const Services = () => {
                     return -1
                 }
             }))
-            setSortReviews('UP')
+            setSortReviews(true)
         }
     }
 
-    const searchServiceListCity = (input) => {
-        const regexp = new RegExp(`${input}`, 'i')
-        setFilter(servicesList.filter(el => regexp.test(el.citys)))
-    }
+    // const searchServiceListCity = (input) => {
+    //     const regexp = new RegExp(`${input}`, 'i')
+    //     setFilter(servicesList.filter(el => regexp.test(el.citys)))
+    // }
 
-    const searchServiceListService = (input) => {
-        const regexp = new RegExp(`${input}`, 'i')
-        setFilter(servicesList.filter(el => regexp.test(el.services)))
-    }
+    // const searchServiceListService = (input) => {
+    //     const regexp = new RegExp(`${input}`, 'i')
+    //     setFilter(servicesList.filter(el => regexp.test(el.services)))
+    // }
 
     return(
             <Container>
@@ -225,12 +249,8 @@ export const Services = () => {
                         type="text" 
                         placeholder="по городу"
                         value={inputCity}
-                        onClick={(e)=>{
-                            setInputService('')
-                            setFilter(servicesList)
-                        }}
+                        onKeyDown={e=>FILTERS(e)}
                         onChange={(e)=>{
-                            searchServiceListCity(e.target.value)
                             setInputCity(e.target.value)
                         }}/>
                         
@@ -238,16 +258,13 @@ export const Services = () => {
                         type="text" 
                         placeholder="по услуге"
                         value={inputService}
-                        onClick={(e)=>{
-                            setInputCity('')
-                            setFilter(servicesList)
-                        }}
+                        onKeyDown={e=>FILTERS(e)}
                         onChange={(e)=>{
-                            searchServiceListService(e.target.value)
                             setInputService(e.target.value)
                         }}/>
+                        
                 </Sort>
-                {sortRating && sortReviews && filter && filter.map((service) => {
+                {filter.map((service) => {
                 return(
                     <Link to={{ pathname: service.uid }} key={nanoid()}>
                         <Card>
@@ -280,9 +297,11 @@ export const Services = () => {
                 
                                                         {/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><g id="UAV"><path d="M38.364,41.192l7.071,7.072a2,2,0,1,0,2.829-2.829l-7.072-7.071a9.01,9.01,0,0,1,0-12.728l7.072-7.071a2,2,0,1,0-2.829-2.829l-7.071,7.072a9.012,9.012,0,0,1-12.728,0l-7.071-7.072a2,2,0,0,0-2.829,2.829l7.072,7.071a9.01,9.01,0,0,1,0,12.728l-7.072,7.071a2,2,0,1,0,2.829,2.829l7.071-7.072A9.012,9.012,0,0,1,38.364,41.192ZM29,32a3,3,0,1,1,3,3A3,3,0,0,1,29,32Z"/><circle cx="32" cy="32" r="1"/><path d="M14,24a10.094,10.094,0,0,0,3.651-.692l-3.329-3.329a4,4,0,0,1,5.657-5.657l3.329,3.329A10,10,0,1,0,14,24Zm1-12a3,3,0,0,0-3,3,1,1,0,0,1-2,0,5.006,5.006,0,0,1,5-5,1,1,0,0,1,0,2Zm0-6a1,1,0,0,1,0,2,7.008,7.008,0,0,0-7,7,1,1,0,0,1-2,0A9.011,9.011,0,0,1,15,6Z"/><path d="M23.311,46.346l-3.332,3.332a4,4,0,0,1-5.657-5.657L17.648,40.7A10,10,0,1,0,24,50,9.9,9.9,0,0,0,23.311,46.346ZM15,58a9.011,9.011,0,0,1-9-9,1,1,0,0,1,2,0,7.008,7.008,0,0,0,7,7,1,1,0,0,1,0,2Zm0-4a5.006,5.006,0,0,1-5-5,1,1,0,0,1,2,0,3,3,0,0,0,3,3,1,1,0,0,1,0,2Z"/><path d="M40.7,17.648l3.326-3.326a4,4,0,0,1,5.657,5.657l-3.332,3.332A9.9,9.9,0,0,0,50,24a10.018,10.018,0,1,0-9.3-6.352ZM49,6a9.011,9.011,0,0,1,9,9,1,1,0,0,1-2,0,7.008,7.008,0,0,0-7-7,1,1,0,0,1,0-2Zm0,4a5.006,5.006,0,0,1,5,5,1,1,0,0,1-2,0,3,3,0,0,0-3-3,1,1,0,0,1,0-2Z"/><path d="M50,40a9.815,9.815,0,0,0-3.651.692l3.329,3.329a4,4,0,0,1-5.657,5.657l-3.329-3.329A9.819,9.819,0,0,0,40,50,10,10,0,1,0,50,40ZM49,52a3,3,0,0,0,3-3,1,1,0,0,1,2,0,5.006,5.006,0,0,1-5,5,1,1,0,0,1,0-2Zm0,6a1,1,0,0,1,0-2,7.008,7.008,0,0,0,7-7,1,1,0,0,1,2,0A9.011,9.011,0,0,1,49,58Z"/></g></svg> */}
                                                     </svg>
+                                                    
                                                 </label>
                                         )
                                     })}
+                                    <p>{service.ratingCount}/{service.ratingValue}</p>
                                 </Rating>
 
                                 {/* <Rating>
