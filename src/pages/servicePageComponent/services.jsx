@@ -150,21 +150,28 @@ export const Services = () => {
     const [inputService, setInputService] = useState('')
 
     const FILTERS = (e) => {
-        if (e.keyCode !== 13) {
-            return
+        try{
+            if (e.keyCode !== 13) {
+                return
+            }
+            e.target.blur()
+    
+            const regexpCity = new RegExp(`${inputCity}`, 'i')
+            const regexpService = new RegExp(`${inputService}`, 'i')
+    
+            const arrCity = servicesList.filter(el => regexpCity.test(el.citys))
+            const arrService = servicesList.filter(el => regexpService.test(el.services))
+            setFilter(_.intersection(arrCity, arrService))
+        } catch {
+            e.target.value = ''
+            e.target.placeholder = 'Дурак блядь?'
         }
-        e.target.blur()
         
-        const regexpCity = new RegExp(`${inputCity}`, 'i')
-        const regexpService = new RegExp(`${inputService}`, 'i')
-
-        const arrCity = servicesList.filter(el => regexpCity.test(el.citys))
-        const arrService = servicesList.filter(el => regexpService.test(el.services))
-        setFilter(_.intersection(arrCity, arrService))
         
     }
 
     const getServices = async () => {
+        
         // При React.strictMode в index.js функция вызывается 2 раза
         const q = query(collection(db, "providerPages"), where("visibility", "==", true));
 
@@ -252,6 +259,7 @@ export const Services = () => {
                         onKeyDown={e=>FILTERS(e)}
                         onChange={(e)=>{
                             setInputCity(e.target.value)
+                            // FILTERS(e)
                         }}/>
                         
                     <SortInput 
@@ -261,6 +269,7 @@ export const Services = () => {
                         onKeyDown={e=>FILTERS(e)}
                         onChange={(e)=>{
                             setInputService(e.target.value)
+                            // FILTERS(e)
                         }}/>
                         
                 </Sort>
