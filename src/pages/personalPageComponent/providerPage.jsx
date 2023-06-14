@@ -10,7 +10,10 @@ import 'react-quill/dist/quill.snow.css';
 import styled from "styled-components";
 import { useOnClickOutSide } from "../../hooks/useOnClickOutSide";
 import { CityCard, DeleteBtn, ServiceCard } from "../../styles/generalStyledComponents";
-// import Modal from 'react-modal'
+import { Filter, Finded, Input, ItemFinded, P } from "../servicePageComponent/filters";
+import { nanoid } from "nanoid";
+
+
 
 function formatBytes(bytes, decimals = 2) {
     if (!+bytes) return '0 Bytes'
@@ -51,7 +54,24 @@ const ModalButton = styled.button`
     border: none;
 `
 
+const CleanBtn = styled.button`
+    padding: 5px 15px;
+    border: none;
+    background-color: #d9d9d9;
+    border-radius: 5px;
+`
+
+const Citys = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    flex-direction: row;
+    margin-bottom: 10px;
+`
 export const ProviderPage = () => {
+
+    const url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address";
+    const token = "d0b5a21192e9fd28af54b1e555b7d09ae00a34c7";
 
     const node = useRef()
     useOnClickOutSide(node, () => setModalOpen(false))
@@ -74,11 +94,52 @@ export const ProviderPage = () => {
     const [modalOpen, setModalOpen] = useState(false)
     const [modalContent, setModalContent] = useState('')
 
+    const [citysFinded, SetCitysFinded] = useState([])
+
+    const getOptions = (city) => {
+        
+        const body = {
+            query: city, 
+            "from_bound": { "value": 'city' },
+            "to_bound": { "value": 'city' },
+            "restrict_value": true
+        }
+    
+        const options = {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Authorization": "Token " + token
+                },
+            body: JSON.stringify(body)
+        }
+    
+        return options
+    }
+
+    const getCitysAPI = async (options) => {
+        console.log('!!!')
+        await fetch(url, options)
+            .then(response => response.text())
+            .then(result => {
+                const answer = JSON.parse(result)
+                console.log(answer)
+                SetCitysFinded(answer.suggestions)
+            })
+            .catch(error => console.log("error", error));
+    }
+
     useEffect(() => {
         getData()
 
         //eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    useEffect(()=>{
+        getCitysAPI(getOptions(citysInput))
+    }, [citysInput])
 
     const getData = async () => {
         const docRef = doc(db, "providerPages", currentUser.uid);
@@ -208,8 +269,8 @@ export const ProviderPage = () => {
         setText('')
     }
 
-    const handleCitys = () => {
-        const city = document.querySelector('#citys').value
+    const handleCitys = (e) => {
+        const city = e.target.innerText
         if (city.length > 0) {
             setCitys(prevState => ([...prevState, city]))
             setCitysInput('')
@@ -217,10 +278,6 @@ export const ProviderPage = () => {
             setError('Пустая строка')
             console.log(error)
         }
-    }
-
-    const handleKeyCitys = (e) => {
-        e.code === "Enter" && handleCitys()
     }
 
     const deleteCity = (city) => {
@@ -399,7 +456,8 @@ export const ProviderPage = () => {
                 </div>
                 
             </div>
-            <div className="card">
+
+            {/* <div className="card">
                 <p className="cardHeader">Обслуживаемые регионы и города</p>
                 <div className="inputArea" >
                     <input 
@@ -431,7 +489,44 @@ export const ProviderPage = () => {
                 <div className="cardBtn">
                     <div className="settingsBtn" onClick={deleteCitys}>Очистить</div>
                 </div>
-            </div>
+            </div> */}
+
+            <Filter>
+                <P>Город</P>
+                <Input type='text' value={citysInput} onChange={(e)=>{setCitysInput(e.target.value)}} placeholder='Поиск'/>
+                <Finded>
+                    {citysFinded && citysFinded.map((city) => {
+                        return(
+                            <ItemFinded key={nanoid()}>
+                                <p
+                                onClick={(e)=>handleCitys(e)}
+                                >{city.value.replace(/г\ /g, '') //eslint-disable-line
+                                }</p>
+                               
+                            </ItemFinded>
+                            )            
+                    })}
+
+                </Finded>
+                {citys && citys.length > 0 && 
+                    <Citys>
+                        <p style={{marginRight: '5px'}}>Cписок городов:</p>
+                        {citys.map((el) => {
+                            return(
+                                <CityCard>
+                                    <p>{el}</p>
+                                    <DeleteBtn onClick={() => deleteCity(el)}>
+                                        <img src={require('../../images/x.png')} width='10px' alt="" />
+                                    </DeleteBtn>
+                                </CityCard> 
+                            )
+                        })}
+                    </Citys>}
+                <CleanBtn onClick={deleteCitys}>
+                    Очистить
+                </CleanBtn>
+            </Filter>
+
             <div className="card">
                 <p className="cardHeader">Предоставляемые услуги</p>
                 <div className="inputArea">
