@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Services } from "./servicePageComponent/services";
 
-const ServicesStyled = styled.div`
+export const ServicesStyled = styled.div`
   min-height: 60vh;
   display: flex;
   justify-content: center;
@@ -10,7 +10,7 @@ const ServicesStyled = styled.div`
   color: white;
 `
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
   width: 100%;
   max-width: 1920px;
   display: flex;
@@ -29,7 +29,7 @@ export const ServicesPage = () => {
     <ServicesStyled>
       <Wrapper>
         <H1>Услуги</H1>
-          <Services />
+        <Services />
       </Wrapper>
     </ServicesStyled>      
   );
