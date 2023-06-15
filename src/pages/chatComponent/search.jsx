@@ -11,8 +11,47 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
-
 import { AuthContext } from "../../context/AuthContext";
+import styled from "styled-components";
+
+const SearchInput = styled.input`
+  border-radius: 10px;
+  width: 100%;
+  border: none;
+  height: 30px;
+  padding: 10px;
+  box-sizing: border-box;
+`
+
+export const UserChat = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  margin: 10px 0px;
+`
+
+export const UserImg = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+`
+
+export const UserChatInfo = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: 0px;
+  justify-content: center;
+  margin-left: 8px;
+`
+
+export const UserName = styled.div`
+  width: 100%;
+  font-weight: 500;
+  font-size: large;
+  margin: 0;
+  text-transform: capitalize;
+`
 
 export const Search = ({ client }) => {
   const [username, setUsername] = useState('');
@@ -91,9 +130,9 @@ export const Search = ({ client }) => {
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
-    <div className="search">
-      <div className="searchForm">
-        <input
+    <div style={{margin: '20px 0px 0px 20px'}}>
+      <div>
+        <SearchInput
           type="text"
           placeholder="Найти пользователя"
           onKeyDown={handleKey}
@@ -103,12 +142,12 @@ export const Search = ({ client }) => {
       </div>
       {error && <span>Пользователь не найден</span>}
       {user && (
-        <div className="userChat" onClick={handleSelect}>
-          <img src={file} alt="user-avatar" />
-          <div className="userChatInfo">
-            <span>{user.displayName}</span>
-          </div>
-        </div>
+        <UserChat onClick={handleSelect}>
+          <UserImg src={file} alt="user-avatar" />
+          <UserChatInfo>
+            <UserName>{user.displayName}</UserName>
+          </UserChatInfo>
+        </UserChat>
       )}
     </div>
   );

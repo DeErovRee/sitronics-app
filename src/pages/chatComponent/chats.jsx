@@ -3,6 +3,10 @@ import { db } from "../../firebase/firebase";
 import { doc, onSnapshot } from "firebase/firestore";
 import { AuthContext } from "../../context/AuthContext";
 import { ChatContext } from "../../context/ChatContext";
+import styled from "styled-components";
+import { UserChat, UserChatInfo, UserImg, UserName } from "./search";
+
+
 
 export const Chats = ({ client }) => {
   const [chats, setChats] = useState("");
@@ -35,21 +39,20 @@ export const Chats = ({ client }) => {
   };
 
   return (
-    <div className="chats">
+    <div style={{margin: '0px 0px 20px 20px'}}>
       {Object.entries(chats)
         ?.sort((a, b) => b[1].date - a[1].date)
         .map((chat) => (
-          <div
-            className="userChat"
+          <UserChat
             key={chat[0]}
             onClick={() => handleSelect(chat[1].userInfo)}
           >
-            <img src={chat[1].userInfo.photoURL} alt="" width="32px" />
-            <div className="userChatInfo">
-              <span>{chat[1].userInfo.displayName}</span>
+            <UserImg src={chat[1].userInfo.photoURL} alt="" width="32px" />
+            <UserChatInfo>
+              <UserName>{chat[1].userInfo.displayName}</UserName>
               <p>{chat[1].lastMessage?.text.substr(0, 12) + "..."}</p>
-            </div>
-          </div>
+            </UserChatInfo>
+          </UserChat>
         ))}
     </div>
   );

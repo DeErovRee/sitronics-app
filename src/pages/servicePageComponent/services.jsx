@@ -51,8 +51,6 @@ const Card = styled.div`
     };
 `
 
-
-
 const Img = styled.div`
     position: relative;
     margin: 0 14px 0 0;

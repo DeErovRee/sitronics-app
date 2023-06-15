@@ -3,6 +3,20 @@ import { ChatContext } from "../../context/ChatContext";
 import { Message } from "./message";
 import { onSnapshot, doc } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
+import styled from "styled-components";
+
+const MessagesStyled = styled.div`
+  height: 500px;
+  overflow: scroll;
+  /* Скрываем scrollbar для IE, Edge и Firefox */
+  -ms-overflow-style: none; /* IE и Edge */
+  scrollbar-width: none; /* Firefox */
+
+  /* Скрываем scrollbar для Chrome, Safari и Opera */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`
 
 export const Messages = () => {
   const [messages, setMessages] = useState([]);
@@ -19,10 +33,10 @@ export const Messages = () => {
   }, [data.chatId]);
   
   return (
-    <div className="messages">
+    <MessagesStyled>
       {messages.map((message) => (
         <Message message={message} key={message.id} />
       ))}
-    </div>
+    </MessagesStyled>
   );
 };

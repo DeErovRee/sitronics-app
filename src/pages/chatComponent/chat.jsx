@@ -2,32 +2,35 @@ import React, { useContext } from "react";
 import { ChatContext } from "../../context/ChatContext";
 import { Messages } from "./messages";
 import { Input } from "./input";
+import styled from "styled-components";
+
+const ChatStyled = styled.div`
+  width: 70%;
+  border-radius: 20px 40px 40px 20px;
+  background-color: white;
+  margin: 20px 20px 20px 0px;
+  padding: 10px;
+`
 
 export const Chat = () => {
   const { data } = useContext(ChatContext);
 
   return (
     
-    <div className="chat">
+    <ChatStyled>
       {data.user.displayName ? 
         <>
-          <div className="chatInfo">
-            <span>Чат с {data.user?.displayName}</span>
-            <div className="chatIcon">
-              <img src="" alt="" />
-              <img src="" alt="" />
-              <img src="" alt="" />
-            </div>
-          </div>
+          <span>Чат с {data.user?.displayName}</span>
+            
           <Messages />
           <Input />
         </>
         :
-        <div className="chatInfo">
+        <div>
           <h1>Выберите пользователя</h1>
         </div>
       }
       
-    </div>
+    </ChatStyled>
   );
 };
