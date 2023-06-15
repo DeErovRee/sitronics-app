@@ -11,6 +11,42 @@ import {
 import { db, storage } from "../../firebase/firebase";
 import { nanoid } from "nanoid";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import styled from "styled-components";
+
+const TextField = styled.div`
+  height: 50px;
+  background-color: white;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
+
+const InputField = styled.input`
+  width: 100%;
+  border: none;
+  outline: none;
+  color: #2f2d52;
+  font-size: 18px;
+
+  &::placeholder {
+    color: lightgray;
+  }
+`
+
+const SendField = styled.div`
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+`
+
+const SendImg = styled.img`
+  border: 3px solid #8da4f1;
+  height: 24px;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 15px;
+`
 
 export const Input = () => {
   const [text, setText] = useState("");
@@ -76,15 +112,15 @@ export const Input = () => {
   };
 
   return (
-    <div className="input">
-      <input
+    <TextField>
+      <InputField
         type="text"
         placeholder="Введите сообщение"
         onChange={(e) => setText(e.target.value)}
         value={text}
         onKeyDown={handleKey}
       />
-      <div className="send">
+      <SendField>
         <input
           type="file"
           style={{ display: "none" }}
@@ -92,15 +128,14 @@ export const Input = () => {
           onChange={(e) => setFile(e.target.files[0])}
         />
         <label htmlFor="file">
-          <img src={require("../../images/clip.png")} alt="add" />
+          <SendImg src={require("../../images/clip.png")} alt="add" />
         </label>
-        {/* <button onClick={handleSend}>Send</button> */}
-        <img
+        <SendImg
           onClick={handleSend}
           src={require("../../images/paper-plane.png")}
           alt="send"
         />
-      </div>
-    </div>
+      </SendField>
+    </TextField>
   );
 };

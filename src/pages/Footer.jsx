@@ -9,7 +9,7 @@ const FooterStyled = styled.div`
     color: white;
 `
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
     width: 100%;
     max-width: 1920px;
     padding: 50px 96px;
