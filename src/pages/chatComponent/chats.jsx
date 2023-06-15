@@ -3,7 +3,6 @@ import { db } from "../../firebase/firebase";
 import { doc, onSnapshot } from "firebase/firestore";
 import { AuthContext } from "../../context/AuthContext";
 import { ChatContext } from "../../context/ChatContext";
-import styled from "styled-components";
 import { UserChat, UserChatInfo, UserImg, UserName } from "./search";
 
 
