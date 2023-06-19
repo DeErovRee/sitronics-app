@@ -105,6 +105,7 @@ const SortBtn = styled.button`
     border: 1px solid rgb(217, 217, 217);
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 `
 
 const SortInput = styled.input`

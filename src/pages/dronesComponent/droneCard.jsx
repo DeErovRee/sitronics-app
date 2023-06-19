@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const DroneCardStyled = styled.div`
@@ -18,7 +19,7 @@ const DetailsBtn = styled.button`
     border: 2px solid white;
     background: rgba(0,0,0, 0.3);
     padding: 15px 25px;
-    margin-right: 126px;
+    cursor: pointer;
 `
 
 const H2 = styled.h2`
@@ -28,7 +29,7 @@ const H2 = styled.h2`
     margin: 0 0 54px;
 `
 
-const DroneCardFilter = styled.div`
+export const DroneCardFilter = styled.div`
     box-sizing: border-box;
     width: inherit;
     height: inherit;
@@ -41,13 +42,29 @@ const DroneCardFilter = styled.div`
     padding: 26px;
 `
 
-export const DroneCard = ({title, background}) => {
+const DroneCardSlicer = styled.div`
+    width: 40%;
+`
+
+export const DroneCard = ({title, background, url, advantages, description}) => {
     return(
         <DroneCardStyled background={background}>
-            {console.log(background)}
+            {console.log(description)}
             <DroneCardFilter>
-                <H2>{title}</H2>
-                <DetailsBtn>Подробнее</DetailsBtn>
+                <DroneCardSlicer>
+                    <H2>{title}</H2>
+                    <Link 
+                        to={{pathname: url}} 
+                        state={{
+                            url: url, 
+                            title: title, 
+                            background: background,
+                            advantages: advantages,
+                            description: description,
+                        }}>
+                        <DetailsBtn>Подробнее</DetailsBtn>
+                    </Link>
+                </DroneCardSlicer>
             </DroneCardFilter>
         </DroneCardStyled>
         

@@ -20,6 +20,7 @@ import { PrivateRoute } from "./hocs/privateRoute";
 import { ContactsPage } from "./pages/contactsPage";
 import { Header } from "./pages/Header";
 import { Footer } from "./pages/Footer"
+import { DronPage } from "./pages/dronesComponent/DronPage";
 
 export const App = () => {
   const [authed, setAuthed] = useState(false);
@@ -87,6 +88,7 @@ export const App = () => {
             />
             <Route exact path="*" element={<Page404 />} />
             <Route exact path='services/*' element={<ServicePage />} />
+            <Route exact path='drons/*' element={<DronPage />}/>
           </Routes>
         </main>
       <Footer />

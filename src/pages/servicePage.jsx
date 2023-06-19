@@ -15,7 +15,6 @@ const Reviews = styled.div`
 export const ServicePage = () => {
 
     const [reviews, setReviews] = useState([])
-    const [isProvider, setIsProvider] = useState(null)
 
     const getDate = () => {
         let today = new Date();
@@ -74,17 +73,6 @@ export const ServicePage = () => {
     }
 
     useEffect(() => {
-        const unsub =  onSnapshot(doc(db, "users", currentUser.uid), (doc) => {
-            doc.exists() && setIsProvider(doc.data().isProvider);
-        });
-
-        return()=>{
-            unsub()
-        }
-        //eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-
-    useEffect(() => {
         const unsub = onSnapshot(doc(db, "userReviews", provider.uid), (doc) => {
             setReviews(doc.data().reviews);
         });
@@ -92,7 +80,6 @@ export const ServicePage = () => {
         return() => {
             unsub()
         }
-
         
         //eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
@@ -114,7 +101,7 @@ export const ServicePage = () => {
                             )
                         })}
                     </div>
-                    {!isProvider &&
+                    {!currentUser.isProvider &&
                         <form id="serviceForm" className="serviceForm" onSubmit={handleSubmit}>
                             <select>
                                 <option value="">Выберите услугу</option>
@@ -142,7 +129,6 @@ export const ServicePage = () => {
                         </form>
                     }
                     
-                    {console.log(reviews)}
                     {reviews && 
                         <Reviews>
                         <h2 style={{margin: '20px 0 10px 0'}}>Отзывы:</h2>
