@@ -288,6 +288,7 @@ export const Services = () => {
 
     return(
             <Container>
+                
                 <SortP>Сортировать</SortP>
                 <Sort>
                     <SortBtn onClick={() => ratingSort()}>по рейтингу</SortBtn>

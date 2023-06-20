@@ -11,6 +11,7 @@ const DroneWrapper = styled(Wrapper)`
     display: flex;
     background-size: cover;
     background-repeat: no-repeat;
+    background-position: center;
     align-items: flex-end;
 `
 
@@ -19,10 +20,14 @@ const DronePageFilter = styled(DroneCardFilter)`
     background-color: rgba(255, 255, 255, 0.3);
     padding: 32px 96px;
     justify-content: unset;
+
+    @media (max-width: 620px) {
+        padding: 10px;
+    }
 `
 
 const AdvantegesBlock = styled.div`
-    width: 40%;
+    box-sizing: border-box;
     display: flex;
     background-color: rgba(0, 0, 0, 0.68);
     border-radius: 50px;
@@ -31,6 +36,14 @@ const AdvantegesBlock = styled.div`
     align-items: center;
     flex-direction: column;
     margin: 120px 0 105px 0;
+
+    @media(max-width: 950px) {
+        width: 100%;
+    }
+
+    @media(max-width; 650px) {
+        margin: 63px 0 88px;
+    }
 `
 
 const ABchield = styled.div`
@@ -45,6 +58,16 @@ const H1 = styled.h1`
     font-size: 48px;
     font-weight: 700;
     text-transform: uppercase;
+    color: black;
+    
+    @media (max-width: 950px) {
+        margin: 39px 0 0;
+        text-align: center;
+    }
+
+    @media (max-width: 450px) {
+        font-size: 30px; 
+    }
 `
 
 const H3 = styled.h3`
@@ -61,6 +84,24 @@ const P = styled.p`
     font-weight: 400;
     line-height: 29.76px;
     padding: 0 300px 0 0;
+    color: black;
+
+    @media (max-width: 950px) {
+        padding: 0;
+        text-align: center;
+    }
+
+    @media (max-width: 650px) {
+        margin: 72px 0 0;
+    }
+`
+
+const TnD = styled.div`
+    width: 50%;
+
+    @media (max-width: 950px) {
+        width: 100%;
+    }
 `
 
 export const DronPage = () => {
@@ -72,10 +113,10 @@ export const DronPage = () => {
         <DronePageStyled>
             <DroneWrapper background={require('../../images/delivery_drone.png')}>
                 <DronePageFilter>
-                    <div style={{width: '50%', color: 'black'}}>
+                    <TnD>
                         <H1>{title}</H1>
                         <P>{description}</P>
-                    </div>
+                    </TnD>
                     {advantages && 
                     <AdvantegesBlock>
                         <H3>Преимущества</H3>

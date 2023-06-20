@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { Services } from "./servicePageComponent/services";
 
 export const ServicesStyled = styled.div`
-  min-height: 60vh;
   display: flex;
   justify-content: center;
   background-image: ${props => props.theme.colors.gradient};

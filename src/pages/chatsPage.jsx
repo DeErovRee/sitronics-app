@@ -7,7 +7,6 @@ import styled from "styled-components";
 const Container = styled.div`
   display: flex;
   justify-content: center;
-  max-width: 1920px;
   padding: 50px 0 50px;
   background-color: white;
   background-image: linear-gradient(45deg, rgba(241, 2, 2, 0.61), rgba(0, 8, 255, 0.61));
@@ -16,7 +15,7 @@ const Container = styled.div`
 const Workspace = styled.div`
   display: flex;
   justify-content: center;
-  min-height: 500px;
+  min-height: 700px;
   width: 80vh;
   background-color: #f2f2f2;
   border-radius: 50px;

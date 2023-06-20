@@ -27,11 +27,15 @@ const H2 = styled.h2`
     font-weight: 700;
     color: white;
     margin: 0 0 54px;
+
+    @media (max-width: 950px) {
+        text-align: center;
+    }
 `
 
 export const DroneCardFilter = styled.div`
     box-sizing: border-box;
-    width: inherit;
+    width: initial;
     height: inherit;
     border-radius: inherit;
     background-color: rgba(0,0,0, 0.3);
@@ -40,10 +44,21 @@ export const DroneCardFilter = styled.div`
     justify-content: center;
     flex-direction: column;
     padding: 26px;
+
+    @media (max-width: 950px) {
+        align-items: center;
+    }
 `
 
 const DroneCardSlicer = styled.div`
     width: 40%;
+
+    @media (max-width: 950px) {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 `
 
 export const DroneCard = ({title, background, url, advantages, description}) => {

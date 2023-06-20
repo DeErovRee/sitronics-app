@@ -6,11 +6,19 @@ import { Drones } from "./dronesComponent/drones";
 const DronePageStyled = styled(ServicesStyled)`
 `
 
+const H1 = styled.h1`
+  margin: 93px;
+
+  @media (max-width: 950px) {
+    margin: 39px;
+  }
+`
+
 export const DronsPage = () => {
   return (
     <DronePageStyled>
       <Wrapper>
-        <h1 style={{margin: '93px 0'}}>ДРОНЫ</h1>
+        <H1>ДРОНЫ</H1>
         <Drones/>
       </Wrapper>
     </DronePageStyled>

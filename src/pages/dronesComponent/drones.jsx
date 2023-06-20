@@ -54,10 +54,16 @@ const DronesArr = [
 ]
 
 const DronesStyled = styled.div`
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
+    max-width: 863px;
     width: 100%;
     align-items: center;
+
+    @media (max-width: 950px) {
+        padding: 10px;
+    }
 `
 
 export const Drones = () => {
