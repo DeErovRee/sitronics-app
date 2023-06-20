@@ -19,7 +19,10 @@ const DetailsBtn = styled.button`
     border: 2px solid white;
     background: rgba(0,0,0, 0.3);
     padding: 15px 25px;
+<<<<<<< Updated upstream
     cursor: pointer;
+=======
+>>>>>>> Stashed changes
 `
 
 const H2 = styled.h2`
@@ -61,11 +64,16 @@ const DroneCardSlicer = styled.div`
     }
 `
 
+<<<<<<< Updated upstream
 export const DroneCard = ({title, background, url, advantages, description}) => {
+=======
+export const DroneCard = ({title, background, url}) => {
+>>>>>>> Stashed changes
     return(
         <DroneCardStyled background={background}>
             {console.log(description)}
             <DroneCardFilter>
+<<<<<<< Updated upstream
                 <DroneCardSlicer>
                     <H2>{title}</H2>
                     <Link 
@@ -80,6 +88,12 @@ export const DroneCard = ({title, background, url, advantages, description}) => 
                         <DetailsBtn>Подробнее</DetailsBtn>
                     </Link>
                 </DroneCardSlicer>
+=======
+                <H2>{title}</H2>
+                <Link to={{ pathname: url }}>
+                    <DetailsBtn>Подробнее</DetailsBtn>
+                </Link>
+>>>>>>> Stashed changes
             </DroneCardFilter>
         </DroneCardStyled>
         
