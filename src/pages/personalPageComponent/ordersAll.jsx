@@ -37,7 +37,7 @@ export const OrdersAll = () => {
     
     return(
         <>
-            <h1>Мои заказы</h1>
+            <h1 style={{textAlign: 'center'}}>Мои заказы</h1>
                 {orders && orders.map((order) => {
                     return(<OrdersCard 
                         order={order} 

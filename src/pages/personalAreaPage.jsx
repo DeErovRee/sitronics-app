@@ -14,14 +14,22 @@ const PersonalArea = styled.div`
   display: flex;
   padding-bottom: 100px;
   align-self: flex-start;
+
+  @media (max-width: 625px) {
+    flex-direction: column;
+    align-self: center;
+  }
 `
 
 const H1 = styled.h1`
   text-align: center;
-  margin: 0 0 97px;
+  margin: 50px 0 97px;
   font-weight: 500;
   color: white;
-  padding: 50px 0 0;
+
+  @media (max-width: 625px) {
+    margin: 33px 0 40px;
+  }
 `
 
 

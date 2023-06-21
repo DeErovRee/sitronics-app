@@ -13,11 +13,25 @@ const SidebarStyled = styled.div`
   width: 100%;
   max-width: 200px;
   align-items: center;
+
+  @media (max-width: 950px) {
+    margin-left: 12px;
+  }
+
+  @media (max-width: 625px) {
+    margin-left: 0;
+    max-width: none;
+  }
 `
 
 const UserPhoto = styled(UserImg)`
-  width: 120px;
-  height: 120px;
+  width: 180px;
+  height: 180px;
+
+  @media (max-width: 625px) {
+    width: 300px;
+    height: 300px;
+  }
 `
 
 const UserData = styled.p`
@@ -57,17 +71,38 @@ const Links = styled(Link)`
   font-size: 12px;
   line-height: 15px;
 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
   border: none;
   border-radius: 10px;
   background-color: white;
-  max-width: 180px;
-  width: 100%;
+  width: 200px;
+  height: 50px;
   padding: 5px 0px;
-  margin: 8px 0;
+  margin: 8px 0 0;
   text-transform: uppercase;
   text-decoration: none;
   text-align: center;
   color: #000000;
+
+  @media (max-width: 625px) {
+    margin: 10px;
+  }
+`
+
+const OptionButtons = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  @media (max-width: 625px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 `
 
 export const Sidebar = () => {
@@ -87,12 +122,14 @@ export const Sidebar = () => {
             <UserEmail onClick={()=> window.location = `mailto:${currentUser.email}`}>{currentUser.email}</UserEmail>
           
             {currentUser.isProvider ? <Provider><p>Поставщик услуг</p></Provider> : <Client>Клиент</Client>}
-            <Links to="ordersAll">Заказы</Links>
-            <Links to="ordersHistory">История заказов</Links>
-            <Links to="settings">Настроить профиль</Links>
-           
-            {currentUser.isProvider && <Links to="providerButton">Кнопка поставщика</Links>}
-            <Links onClick={logout}>Выйти</Links>
+            <OptionButtons>
+              <Links to="ordersAll">Заказы</Links>
+              <Links to="ordersHistory">История заказов</Links>
+              <Links to="settings">Настроить профиль</Links>
+              {currentUser.isProvider && <Links to="providerButton">Кнопка поставщика</Links>}
+              <Links onClick={logout}>Выйти</Links>
+            </OptionButtons>
+            
         </SidebarStyled>
     )
 }

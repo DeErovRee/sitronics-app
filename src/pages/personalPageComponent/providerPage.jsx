@@ -104,6 +104,10 @@ const SubmitButton = styled.button`
     &:active {
       background-color: rgba(141, 164, 241, 1);
     }
+
+    @media (max-width: 625px) {
+        max-width: none;
+    }
 `
 
 const Citys = styled.div`
@@ -431,7 +435,7 @@ export const ProviderPage = () => {
                 <ModalH1>{modalContent}</ModalH1>
                 <ModalButton onClick={closeModal}>Ок</ModalButton>
             </Modal>}
-            <h1>Карточка поставщика услуг</h1>
+            <h1 style={{textAlign: 'center'}}>Карточка поставщика услуг</h1>
             <Card>
                 <CardHeader>Отображаемый текст</CardHeader>
                 <p>В окне ниже введите текст, который будет

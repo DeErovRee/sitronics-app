@@ -38,6 +38,10 @@ export const Card = styled.div`
     padding: 20px 29px;
     margin-bottom: 10px;
     box-sizing: border-box;
+
+    @media (max-width: 625px) {
+        margin: 10px auto;
+    }
 `
 
 export const CardHeader = styled.h3`

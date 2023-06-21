@@ -83,7 +83,7 @@ export const Settings = () => {
 
     return(
         <>
-            <h1>Настроить профиль</h1>
+            <h1 style={{textAlign: 'center'}}>Настроить профиль</h1>
             {/* <Card>
                 <CardHeader>Выбрать фотографию профиля</CardHeader>
             </Card> */}

@@ -36,7 +36,7 @@ export const OrdersHistory = () => {
 
     return(
         <>
-            <h1>История заказов</h1>
+            <h1 style={{textAlign: 'center'}}>История заказов</h1>
                 {orders && orders.map((order) => {
                     return(<OrdersCard 
                         order={order} 
