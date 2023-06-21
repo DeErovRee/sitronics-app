@@ -10,10 +10,9 @@ import 'react-quill/dist/quill.snow.css';
 import styled from "styled-components";
 import { useOnClickOutSide } from "../../hooks/useOnClickOutSide";
 import { CityCard, DeleteBtn, ServiceCard } from "../../styles/generalStyledComponents";
-import { Filter, Finded, Input, ItemFinded, P } from "../servicePageComponent/filters";
+import { Finded, ItemFinded } from "../servicePageComponent/filters";
 import { nanoid } from "nanoid";
-
-
+import { Input, Button, CardHeader, Card } from "../../styles/StyledComponent";
 
 function formatBytes(bytes, decimals = 2) {
     if (!+bytes) return '0 Bytes'
@@ -26,6 +25,37 @@ function formatBytes(bytes, decimals = 2) {
 
     return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
 }
+
+const CardInput = styled(Input)`
+    box-sizing: border-box;
+    margin: 0;
+
+    &::-webkit-input-placeholder       {opacity: 1; transition: opacity 0.3s ease;}
+    &::-moz-placeholder                {opacity: 1; transition: opacity 0.3s ease;}
+    &:-moz-placeholder                 {opacity: 1; transition: opacity 0.3s ease;}
+    &:-ms-input-placeholder            {opacity: 1; transition: opacity 0.3s ease;}
+    &:focus::-webkit-input-placeholder {opacity: 0; transition: opacity 0.3s ease;}
+    &:focus::-moz-placeholder          {opacity: 0; transition: opacity 0.3s ease;}
+    &:focus:-moz-placeholder           {opacity: 0; transition: opacity 0.3s ease;}
+    &:focus:-ms-input-placeholder      {opacity: 0; transition: opacity 0.3s ease;}
+`
+
+const CardButton = styled(Button)`
+    color: black;
+`
+
+const LabelInput = styled.label`
+    color: #6c6c6c;
+    margin: 10px 0 0; 
+    padding: 15px;
+    width: 100%;
+    border: 1px solid rgb(217, 217, 217);
+    border-radius: 10px;
+    box-sizing: border-box;
+    outline: none;
+    text-align: center;
+    cursor: pointer;
+`
 
 const Modal = styled.div`
     display: flex;
@@ -54,11 +84,26 @@ const ModalButton = styled.button`
     border: none;
 `
 
-const CleanBtn = styled.button`
-    padding: 5px 15px;
+const SubmitButton = styled.button`
+    box-sizing: border-box;
+    max-width: 500px;
+    width: 100%;
     border: none;
-    background-color: #d9d9d9;
     border-radius: 5px;
+    background-color: #d9d9d9;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 15px;
+    margin-bottom: 10px;
+    font-size: 24px;
+    font-weight: 400;
+    background-color: rgba(141, 164, 241, 1);
+    &:hover {
+      background-color: rgba(141, 164, 241, 1);
+    }
+    &:active {
+      background-color: rgba(141, 164, 241, 1);
+    }
 `
 
 const Citys = styled.div`
@@ -66,8 +111,9 @@ const Citys = styled.div`
     flex-wrap: wrap;
     align-items: center;
     flex-direction: row;
-    margin-bottom: 10px;
+    margin: 10px 0;
 `
+
 export const ProviderPage = () => {
 
     const url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address";
@@ -88,8 +134,6 @@ export const ProviderPage = () => {
 
     const [services, setServices] = useState([])
     const [servicesInput, setServicesInput] = useState('')
-
-    const [error, setError] = useState('')
 
     const [modalOpen, setModalOpen] = useState(false)
     const [modalContent, setModalContent] = useState('')
@@ -120,12 +164,10 @@ export const ProviderPage = () => {
     }
 
     const getCitysAPI = async (options) => {
-        console.log('!!!')
         await fetch(url, options)
             .then(response => response.text())
             .then(result => {
                 const answer = JSON.parse(result)
-                console.log(answer)
                 SetCitysFinded(answer.suggestions)
             })
             .catch(error => console.log("error", error));
@@ -202,7 +244,6 @@ export const ProviderPage = () => {
 
                 const filtersRef = doc(db, 'filters', 'vfntUgqcL0fuCBnXlysr')
 
-                console.log(citys)
                 await updateDoc(filtersRef, {
                     citys: arrayUnion(...citys)
                 })
@@ -228,7 +269,6 @@ export const ProviderPage = () => {
 
                 const filtersRef = doc(db, 'filters', 'vfntUgqcL0fuCBnXlysr')
 
-                console.log(citys)
                 await updateDoc(filtersRef, {
                     citys: arrayUnion(...citys)
                 })
@@ -239,7 +279,6 @@ export const ProviderPage = () => {
             openModal()
         
         } catch (error) {
-          setError(error);
         }
     };
 
@@ -275,8 +314,7 @@ export const ProviderPage = () => {
             setCitys(prevState => ([...prevState, city]))
             setCitysInput('')
         } else {
-            setError('Пустая строка')
-            console.log(error)
+            console.log('Пустая строка')
         }
     }
 
@@ -300,7 +338,7 @@ export const ProviderPage = () => {
             setServices(prevState => ([...prevState, service]))
             setServicesInput('')
         } else {
-            setError('Пустая строка')
+            console.log('Пустая строка')
         }
     }
 
@@ -387,25 +425,23 @@ export const ProviderPage = () => {
     }
 
     return(
-        <div className="providerPage" >
+        <>
             {modalOpen && 
             <Modal>
                 <ModalH1>{modalContent}</ModalH1>
                 <ModalButton onClick={closeModal}>Ок</ModalButton>
             </Modal>}
             <h1>Карточка поставщика услуг</h1>
-            <div className="card">
-                <p className="cardHeader">Отображаемый текст</p>
+            <Card>
+                <CardHeader>Отображаемый текст</CardHeader>
                 <p>В окне ниже введите текст, который будет
                     отображаться на карточке поставщика услуг </p>
-                <ReactQuill value={text} placeholder="Введите текст" onChange={setText} />
-                <div  className="cardBtn">
-                    <div className="settingsBtn" onClick={deleteText}>Очистить</div>
-                </div>
-            </div>
-            <div className="card">
+                <ReactQuill value={text} placeholder="Введите текст" onChange={setText} style={{ margin: '10px 0 0'}}/>
+                <CardButton onClick={deleteText}>Очистить</CardButton>
+            </Card>
+            <Card>
 
-                <p className="cardHeader">Отображаемые файлы</p>
+                <CardHeader>Отображаемые файлы</CardHeader>
                 <div className="images">{filesForView && filesForView.map((file) => {
                     return(
                         
@@ -415,7 +451,8 @@ export const ProviderPage = () => {
                 })}</div>
                 
                 <p>Выберите фото или видео-файлы, которые будут 
-                    отображаться на карточке поставщика услуг. Новые файлы заменят собой старые</p>
+                    отображаться на карточке поставщика услуг.</p>
+                <p>Новые файлы заменят собой старые</p>
 
                 <input 
                     type="file"
@@ -425,7 +462,7 @@ export const ProviderPage = () => {
                     style={{display: "none"}} 
                 />
 
-                <label htmlFor="file">Прикрепить файлы</label>
+                <LabelInput htmlFor="file">Прикрепить файлы</LabelInput>
 
                 <div className="preview" id="preview" onClick={deleteFile}>
                     {files && files.map((file) => {
@@ -445,55 +482,12 @@ export const ProviderPage = () => {
                     })}
     
                 </div> 
-
-                <div  className="cardBtn">
-
-                    <div 
-                        className="settingsBtn"
-                        onClick={deleteFiles}
-                    >Очистить</div>
-
-                </div>
-                
-            </div>
-
-            {/* <div className="card">
-                <p className="cardHeader">Обслуживаемые регионы и города</p>
-                <div className="inputArea" >
-                    <input 
-                        type="text" 
-                        placeholder="Введите город или регион" 
-                        id="citys" 
-                        value={citysInput}
-                        onKeyDown={handleKeyCitys} 
-                        onChange={(e)=>{setCitysInput(e.target.value)}}
-                        autoComplete="off"/>
-                    <div className="addBtn" onClick={handleCitys}>
-                        <img src={require("../../images/plus.png")} width="20px" alt="plus" />
-                    </div>
-                </div>
-                {citys && citys.length > 0 && 
-                    <div className="citys">
-                        <p style={{marginRight: '5px'}}>Cписок городов:</p>
-                        {citys.map((el) => {
-                            return(
-                                <CityCard>
-                                    <p>{el}</p>
-                                    <DeleteBtn onClick={e => deleteCity(el)}>
-                                        <img src={require('../../images/x.png')} width='10px' alt="" />
-                                    </DeleteBtn>
-                                </CityCard> 
-                            )
-                        })}
-                    </div>}
-                <div className="cardBtn">
-                    <div className="settingsBtn" onClick={deleteCitys}>Очистить</div>
-                </div>
-            </div> */}
-
-            <Filter>
-                <P>Город</P>
-                <Input type='text' value={citysInput} onChange={(e)=>{setCitysInput(e.target.value)}} placeholder='Поиск'/>
+                <CardButton
+                    onClick={deleteFiles}>Очистить</CardButton>
+            </Card>
+            <Card>
+                <CardHeader>Город</CardHeader>
+                <CardInput type='text' value={citysInput} onChange={(e)=>{setCitysInput(e.target.value)}} placeholder='Поиск'/>
                 <Finded>
                     {citysFinded && citysFinded.map((city) => {
                         return(
@@ -522,28 +516,23 @@ export const ProviderPage = () => {
                             )
                         })}
                     </Citys>}
-                <CleanBtn onClick={deleteCitys}>
+                <CardButton onClick={deleteCitys}>
                     Очистить
-                </CleanBtn>
-            </Filter>
+                </CardButton>
+            </Card>
 
-            <div className="card">
-                <p className="cardHeader">Предоставляемые услуги</p>
-                <div className="inputArea">
-                    <input 
-                        type="text" 
-                        placeholder="Введите название услуги" 
-                        id="services" 
-                        value={servicesInput} 
-                        onKeyDown={handleKeyServices}
-                        onChange={(e) => {setServicesInput(e.target.value)}}
-                        autoComplete="off"/>
-                    <div className="addBtn" onClick={handleServices}>
-                        <img src={require("../../images/plus.png")} width="20px" alt="plus" />
-                    </div>
-                </div>
+            <Card>
+                <CardHeader>Предоставляемые услуги</CardHeader>
+                <CardInput 
+                    type="text" 
+                    placeholder="Введите название услуги" 
+                    id="services" 
+                    value={servicesInput} 
+                    onKeyDown={handleKeyServices}
+                    onChange={(e) => {setServicesInput(e.target.value)}}
+                    autoComplete="off"/>
                 {services && services.length > 0 && 
-                    <div className="citys">
+                    <Citys>
                         <p style={{marginRight: '5px'}}>Cписок услуг:</p>
                         {services.map((el) => {
                             return(
@@ -555,15 +544,13 @@ export const ProviderPage = () => {
                                 </ServiceCard> 
                             )
                         })}
-                    </div>}
-                <div className="cardBtn">
-                    <div className="settingsBtn" onClick={deleteServices}>Очистить</div>
-                </div>
-            </div>
+                    </Citys>}
+                <CardButton onClick={deleteServices}>Очистить</CardButton>
+            </Card>
             {/* <div className="fnlBtn" onClick={handlePreview}>Предпросмотр</div> */}
-            <div className="fnlBtn submitBtn" onClick={cardUpdate}>Обновить</div>
-            <div className="fnlBtn submitBtn" onClick={cardShow}>Опубликовать</div>
-            <div className="fnlBtn submitBtn" onClick={cardHidden}>Скрыть публикацию</div>
-        </div>
+            <SubmitButton onClick={cardUpdate}>Обновить</SubmitButton>
+            <SubmitButton onClick={cardShow}>Опубликовать</SubmitButton>
+            <SubmitButton onClick={cardHidden}>Скрыть публикацию</SubmitButton>
+        </>
     )
 }

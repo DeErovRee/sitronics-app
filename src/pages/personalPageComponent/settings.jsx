@@ -5,6 +5,16 @@ import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { auth, db } from "../../firebase/firebase";
 import { getAuth, updateProfile, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from "firebase/auth";
+import styled from "styled-components";
+import { Input, Button, CardHeader, Card } from "../../styles/StyledComponent";
+
+const Container = styled.div`
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`
 
 export const Settings = () => {
 
@@ -72,29 +82,29 @@ export const Settings = () => {
     }
 
     return(
-        <div className="settings">
+        <>
             <h1>Настроить профиль</h1>
-            <div className="defaultDiv">
-                <p>Выбрать фотографию профиля</p>
-            </div>
-            <div className="defaultDiv" >
-                <p>Изменить имя</p>
-                <div className="wrappable" >
-                    <input type="text" value={name} placeholder="Введите новое имя" onChange={handleChangeName} autoComplete="new-password" />
-                    <button type="submit" onClick={handleUpdateName}>Применить</button>
-                </div>
-            </div>
-            <div className="defaultDiv" >
-                <p>Сменить пароль</p>
-                <div className="wrappable" >
-                    <input type="password" value={pass} placeholder="Введите пароль" onChange={handleChangePass} autoComplete="new-password"/>
-                    <input type="password" value={newPass} placeholder="Введите новый пароль" onChange={handleChangeNewPass} autoComplete="new-password"/>
+            {/* <Card>
+                <CardHeader>Выбрать фотографию профиля</CardHeader>
+            </Card> */}
+            <Card >
+                <CardHeader>Изменить имя</CardHeader>
+                <Container >
+                    <Input type="text" value={name} placeholder="Введите новое имя" onChange={handleChangeName} autoComplete="new-password" />
+                    <Button type="submit" onClick={handleUpdateName}>Применить</Button>
+                </Container>
+            </Card>
+            <Card >
+                <CardHeader>Сменить пароль</CardHeader>
+                <Container >
+                    <Input type="password" value={pass} placeholder="Введите пароль" onChange={handleChangePass} autoComplete="new-password"/>
+                    <Input type="password" value={newPass} placeholder="Введите новый пароль" onChange={handleChangeNewPass} autoComplete="new-password"/>
                     {error && <span className="signupError" style={{top: '50px', fontSize: '15px', height: '10px'}}>{error}</span>}
-                    <input type="password" value={reNewPass} placeholder="Повторите новый пароль" onChange={handleChangeReNewPass} autoComplete="new-password"/>
-                    <button type="submit" onClick={handleUpdatePassword}>Применить</button>
-                </div>
-            </div>
-        </div>
+                    <Input type="password" value={reNewPass} placeholder="Повторите новый пароль" onChange={handleChangeReNewPass} autoComplete="new-password"/>
+                    <Button type="submit" onClick={handleUpdatePassword}>Применить</Button>
+                </Container>
+            </Card>
+        </>
         
     )
 }

@@ -5,6 +5,7 @@ import { Timestamp, arrayUnion, collection, doc, getDocs, query, updateDoc, wher
 import { db } from '../../../firebase/firebase';
 import { Link } from 'react-router-dom';
 import { nanoid } from 'nanoid';
+import { Card } from '../../../styles/StyledComponent';
 
 const getDate = () => {
     var today = new Date();
@@ -15,19 +16,6 @@ const getDate = () => {
     
     return today
 }
-
-const OrderCard = styled.div`
-    max-width: 500px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    background-color: white;
-    border-radius: 20px;
-    padding: 20px 29px;
-    margin-bottom: 10px;
-    box-sizing: border-box;
-`
 
 const H3 = styled.h3`
     margin: 0 0 8px;
@@ -296,8 +284,7 @@ export const OrdersCard = ({ order, isProvider, context}) => {
     }
 
     return(
-            <>
-                <OrderCard>
+                <Card>
                     <H3>ID заявки: {order.orderID}</H3>
                     {order.providerID === currentUser.uid ? 
                         <Info>
@@ -468,7 +455,6 @@ export const OrdersCard = ({ order, isProvider, context}) => {
                             </ProviderTools>
                         </>
                     }
-                </OrderCard>
-            </>
+                </Card>
     )
 }
