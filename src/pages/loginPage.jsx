@@ -30,7 +30,7 @@ export const Form = styled.form`
     
   }
 
-  @media ${props => props.theme.media.phone} {
+  @media (max-width: 625px) {
     border-radius: 0;
     margin: 0;
     padding: 40px;

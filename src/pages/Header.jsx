@@ -106,7 +106,7 @@ const Component = ({authenticated}) => {
 
 const Chats = ({authenticated}) => {
     return authenticated ? (
-      <ListItem>
+      <ListItem noHidden={'flex'}>
         <Link to="/chats">Чат</Link>
       </ListItem>
     ) : (
