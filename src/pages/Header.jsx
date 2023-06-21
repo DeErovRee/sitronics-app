@@ -116,8 +116,9 @@ const Chats = ({authenticated}) => {
 
 export const Header = ({authenticated}) => {
   const node = useRef()
-  useOnClickOutSide(node, () => setIsOpen(false))
   const [isOpen, setIsOpen] = useState(false)
+
+  useOnClickOutSide(node, () => setIsOpen(false))
 
     return(
       <>
@@ -153,7 +154,7 @@ export const Header = ({authenticated}) => {
       <div ref={node}>
       <BurgerBtn isOpen={isOpen} onClick={() => setIsOpen(!isOpen)}>|||</BurgerBtn>
       <BurgerMenu id='burgerMenu' isOpen={isOpen} >
-        <ListItem noHidden={'flex'}>
+        <ListItem noHidden={'flex'} >
           <Link to="/drons">Дроны</Link>
         </ListItem>
         <ListItem noHidden={'flex'}>
