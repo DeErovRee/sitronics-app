@@ -93,25 +93,23 @@ const LoginButton = styled.button`
 `
 
 const Component = ({authenticated}) => {
-    return authenticated ? (
-        <Link to="/personalArea" >
-          <LoginButton >Личный кабинет</LoginButton>
-        </Link>
-    ) : (
-        <Link to="/login" >
-          <LoginButton >Войти</LoginButton>
-        </Link>
-    );
+    return authenticated ? 
+      <Link to="/personalArea" >
+        <LoginButton >Личный кабинет</LoginButton>
+      </Link>
+      : 
+      <Link to="/login" >
+        <LoginButton >Войти</LoginButton>
+      </Link>
 };
 
 const Chats = ({authenticated}) => {
-    return authenticated ? (
+    return authenticated ? 
       <ListItem noHidden={'flex'}>
         <Link to="/chats">Чат</Link>
       </ListItem>
-    ) : (
+      : 
       <></>
-    );
 };
 
 export const Header = ({authenticated}) => {

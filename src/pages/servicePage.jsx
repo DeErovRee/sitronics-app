@@ -9,7 +9,145 @@ import { Review } from "./servicePageComponent/review";
 import { CityCard, ServiceCard } from "../styles/generalStyledComponents";
 
 const Reviews = styled.div`
-    margin: 0 0 50px;
+    margin: 0 10px 50px;
+`
+
+const ServicePageStyled = styled.div`
+    max-width: 1920px;
+    padding: 0 96px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    background-image: ${props => props.theme.colors.gradient};
+
+    @media (max-width: 768px) {
+        padding: 0 32px;
+    }
+`
+
+const ProviderMainInfo = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 50px 0 50px 0;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        margin: 20px 0 20px 0;
+    }
+`
+
+const ContainerImg = styled.div`
+    position: relative;
+    margin: 0 15px 0 0;
+`
+
+const ProviderImg = styled.img`
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 20px;
+`
+
+const ProviderInfo = styled.div`
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 10px;
+
+    @media (max-width: 1024px) {
+        flex-direction: column-reverse;
+    }
+`
+
+const Left = styled.div`
+    width: 50%;
+
+    @media (max-width: 1024px) {
+        width: 100%;
+    }
+`
+
+const Right = styled.div`
+    width: 50%;
+    color: white;
+
+    @media (max-width: 1024px) {
+        width: 100%;
+    }
+`
+
+const ProviderPhoto = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    background-color: #1e1e1e;
+    border-radius: 20px;
+    margin: 0 10px 10px 0;
+
+    img {
+        border: 5px solid rgba(141, 164, 241, 0.5019607843);
+        border-radius: 10px;
+        height: 125px;
+        width: auto;
+        margin: 10px;
+    }
+`
+
+const ServiceForm = styled.div`
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    margin: 0 10px 0 0;
+    background-color: #1e1e1e;
+    padding: 20px;
+
+    input, select, textarea {
+        background: white;
+        border: 1px solid #d9d9d9;
+        border-radius: 10px;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 10px 0 10px 10px;
+        margin:  0 0 5px;
+        outline: none;
+        border-right: 16px solid transparent;
+
+        ::placeholder {
+            color: black;
+        }
+    }
+
+    button {
+        border: none;
+        border-radius: 10px;
+        text-transform: uppercase;
+        padding: 10px;
+        background-color: #8da4f1;
+    }
+`
+
+const Citys = styled.div`
+    background-color: #1E1E1E;
+    padding: 10px 20px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+`
+
+const CitysItem = styled.div`
+    margin: 5px 5px 5px 0;
+    display: flex;
+    flex-wrap: wrap;
+`
+
+const Text = styled.div`
+    background-color: #1E1E1E;
+    padding: 10px 20px;
+    border-radius: 20px;
+    margin-bottom: 10px;
 `
 
 export const ServicePage = () => {
@@ -34,7 +172,7 @@ export const ServicePage = () => {
         const sanitizedText = DOMPurify.sanitize(text); // очистка текста от потенциально опасных элементов
     
         return (
-            <div dangerouslySetInnerHTML={{ __html: sanitizedText }} className='text'></div>
+            <Text dangerouslySetInnerHTML={{ __html: sanitizedText }}></Text>
         );
     }
 
@@ -85,24 +223,24 @@ export const ServicePage = () => {
     }, [])
 
     return(
-        <div className="providerServicePage">
-            <div className="providerMainInfo">
-                <div className="containerImg" >
-                    <img className='providerImg' src={provider.userPhoto} alt="" />
-                </div>
+        <ServicePageStyled>
+            <ProviderMainInfo>
+                <ContainerImg >
+                    <ProviderImg src={provider.userPhoto} alt="" />
+                </ContainerImg>
                 <h2>{provider.displayName}</h2>
-            </div>
-            <div className="providerInfo">
-                <div className="left">
-                    <div className="providerPhoto">
+            </ProviderMainInfo>
+            <ProviderInfo>
+                <Left>
+                    <ProviderPhoto>
                         {provider.photoURLs && provider.photoURLs.map((img) => {
                             return(
                                 <img src={img} alt="" key={img} width='100px'/>
                             )
                         })}
-                    </div>
+                    </ProviderPhoto>
                     {!currentUser.isProvider &&
-                        <form id="serviceForm" className="serviceForm" onSubmit={handleSubmit}>
+                        <ServiceForm id="serviceForm" onSubmit={handleSubmit}>
                             <select>
                                 <option value="">Выберите услугу</option>
                                 {provider && provider.services.map((service) => {
@@ -126,7 +264,7 @@ export const ServicePage = () => {
                             <input type="email" placeholder="Введите эл.почту"/>
                             <textarea style={{resize: 'none'}} placeholder="Опишите требуемую задачу"/>
                             <button type="submit">Отправить заявку</button>
-                        </form>
+                        </ServiceForm>
                     }
                     
                     {reviews && 
@@ -140,12 +278,12 @@ export const ServicePage = () => {
                     </Reviews>
                     }
                     
-                </div>
-                <div className="right" id="providerTextInfo">
+                </Left>
+                <Right id="providerTextInfo">
                     <TextPage text={provider.text} />
-                    <div className="citys">
+                    <Citys>
                         <p>Города:</p>
-                        <div>
+                        <CitysItem>
                         {provider.citys && provider.citys.map((el) => {
                             return(
                                 <CityCard>
@@ -153,11 +291,11 @@ export const ServicePage = () => {
                                 </CityCard>
                             )
                         })}
-                        </div>
-                    </div>
-                    <div className="services">
+                        </CitysItem>
+                    </Citys>
+                    <Citys>
                         <p>Услуги:</p>
-                        <div>
+                        <CitysItem>
                         {provider.services && provider.services.map((el) => {
                             return(
                                 <ServiceCard>
@@ -165,10 +303,10 @@ export const ServicePage = () => {
                                 </ServiceCard>
                             )
                         })}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                        </CitysItem>
+                    </Citys>
+                </Right>
+            </ProviderInfo>
+        </ServicePageStyled>
     )
 }
