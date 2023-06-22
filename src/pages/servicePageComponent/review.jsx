@@ -4,20 +4,22 @@ import { nanoid } from 'nanoid'
 import { ServiceCard } from '../../styles/generalStyledComponents'
 
 const ReviewCard = styled.div`
-    width: fit-content;
     background-color: #1e1e1e;
     border-radius: 20px;
     color: white;
     padding: 10px;
     margin: 0 0 10px 0;
+
+    width: 100%;
+    box-sizing: border-box;
 `
 
 const P = styled.div`
-    felx-wrap: wrpa;
     display: flex;
     flex-direction: row;
     align-items: center;
     margin-bottom: 5px;
+    word-break: break-word;
 `
 
 const Input = styled.input`

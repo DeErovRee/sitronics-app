@@ -10,7 +10,7 @@ import { CityCard, ServiceCard } from "../styles/generalStyledComponents";
 
 const Reviews = styled.div`
     margin: 0 10px 50px;
-
+    
     @media (max-width: 1024px) {
         margin: 0 0 10px 0;
     }

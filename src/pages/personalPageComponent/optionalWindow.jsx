@@ -15,7 +15,6 @@ export const OptionalWindow = () => {
     return(
         <WindowStyled>
             <Routes>
-                <Route exact path="/" element={<h1 style={{textAlign: 'center'}}>Выберите пункт</h1>} />
                 <Route exact path="/ordersAll" element={<OrdersAll/>} />
                 <Route exact path="/ordersHistory" element={<OrdersHistory />} />
                 <Route exact path="/settings" element={<Settings />} />
