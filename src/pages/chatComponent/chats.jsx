@@ -4,8 +4,19 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { AuthContext } from "../../context/AuthContext";
 import { ChatContext } from "../../context/ChatContext";
 import { UserChat, UserChatInfo, UserImg, UserName } from "./search";
+import styled from "styled-components";
 
+const ChatsStyled = styled.div`
+  margin: 0px 0px 20px 20px;
 
+  @media (max-width: 1024px) {
+    margin: 0 -15px 0 -15px;
+    overflow: scroll;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: no-wrap;
+  }
+`
 
 export const Chats = ({ client }) => {
   const [chats, setChats] = useState("");
@@ -38,7 +49,7 @@ export const Chats = ({ client }) => {
   };
 
   return (
-    <div style={{margin: '0px 0px 20px 20px'}}>
+    <ChatsStyled>
       {Object.entries(chats)
         ?.sort((a, b) => b[1].date - a[1].date)
         .map((chat) => (
@@ -53,6 +64,6 @@ export const Chats = ({ client }) => {
             </UserChatInfo>
           </UserChat>
         ))}
-    </div>
+    </ChatsStyled>
   );
 };

@@ -8,6 +8,7 @@ import styled from "styled-components";
 const MessagesStyled = styled.div`
   height: 500px;
   overflow: scroll;
+  margin: 10px 0 0;
   /* Скрываем scrollbar для IE, Edge и Firefox */
   -ms-overflow-style: none; /* IE и Edge */
   scrollbar-width: none; /* Firefox */

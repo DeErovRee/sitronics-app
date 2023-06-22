@@ -14,6 +14,14 @@ import { db } from "../../firebase/firebase";
 import { AuthContext } from "../../context/AuthContext";
 import styled from "styled-components";
 
+const SearchStyled = styled.div`
+  margin: 20px 0px 5px 20px;
+
+  @media (max-width: 1024px) {
+    margin: 0;
+  }
+`
+
 const SearchInput = styled.input`
   border-radius: 10px;
   width: 100%;
@@ -21,12 +29,21 @@ const SearchInput = styled.input`
   height: 30px;
   padding: 10px;
   box-sizing: border-box;
+
+  @media (max-width: 1024px) {
+    width: auto;
+    margin: 0 0 15px;
+  }
 `
 
 export const UserChat = styled.div`
   display: flex;
   justify-content: flex-start;
   margin: 10px 0px;
+
+  @media (max-width: 1024px) {
+    margin: 10px 0 10px 15px;
+  }
 `
 
 export const UserImg = styled.img`
@@ -51,6 +68,17 @@ export const UserName = styled.div`
   font-size: large;
   margin: 0;
   text-transform: capitalize;
+`
+
+const SearchUsers = styled.div`
+  border: 1px solid #d9d9d9;
+
+  @media (max-width: 1024px) {
+    display: flex;
+    flex-direction: row;
+    margin: 0 -15px 0;
+    overflow: scroll;
+  }
 `
 
 export const Search = ({ client }) => {
@@ -130,7 +158,7 @@ export const Search = ({ client }) => {
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
-    <div style={{margin: '20px 0px 0px 20px'}}>
+    <SearchStyled>
       <div>
         <SearchInput
           type="text"
@@ -141,14 +169,16 @@ export const Search = ({ client }) => {
         />
       </div>
       {error && <span>Пользователь не найден</span>}
-      {user && (
+      <SearchUsers>
+        {user && (
         <UserChat onClick={handleSelect}>
           <UserImg src={file} alt="user-avatar" />
           <UserChatInfo>
             <UserName>{user.displayName}</UserName>
           </UserChatInfo>
         </UserChat>
-      )}
-    </div>
+        )}
+      </SearchUsers>
+    </SearchStyled>
   );
 };

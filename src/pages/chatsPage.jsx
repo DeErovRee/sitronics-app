@@ -10,6 +10,10 @@ const Container = styled.div`
   padding: 50px 0 50px;
   background-color: white;
   background-image: linear-gradient(45deg, rgba(241, 2, 2, 0.61), rgba(0, 8, 255, 0.61));
+
+  @media (max-width: 1024px) {
+    padding: 0;
+  }
 `
 
 const Workspace = styled.div`
@@ -19,6 +23,15 @@ const Workspace = styled.div`
   width: 80vh;
   background-color: #f2f2f2;
   border-radius: 50px;
+  box-sizing: border-box;
+
+  @media (max-width: 1024px) {
+    border-radius: 0;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 15px;
+    width: 100%;
+  }
 `
 
 export const ChatsPage = () => {

@@ -10,6 +10,10 @@ import { CityCard, ServiceCard } from "../styles/generalStyledComponents";
 
 const Reviews = styled.div`
     margin: 0 10px 50px;
+
+    @media (max-width: 1024px) {
+        margin: 0 0 10px 0;
+    }
 `
 
 const ServicePageStyled = styled.div`
@@ -92,6 +96,10 @@ const ProviderPhoto = styled.div`
         width: auto;
         margin: 10px;
     }
+
+    @media (max-width: 1024px) {
+        margin: 0 0 10px 0;
+    }
 `
 
 const ServiceForm = styled.div`
@@ -124,6 +132,10 @@ const ServiceForm = styled.div`
         text-transform: uppercase;
         padding: 10px;
         background-color: #8da4f1;
+    }
+
+    @media (max-width: 1024px) {
+        margin: 0 0 10px 0;
     }
 `
 
