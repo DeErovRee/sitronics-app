@@ -21,6 +21,18 @@ import { ContactsPage } from "./pages/contactsPage";
 import { Header } from "./pages/Header";
 import { Footer } from "./pages/Footer"
 import { DronPage } from "./pages/dronesComponent/DronPage";
+import styled from "styled-components";
+
+const RunLine = styled.marquee`
+  position: sticky;
+  font-weight: 900;
+  background-color: orange;
+  margin: 0 0 -5px;
+  font-size: 25px;
+  padding: 5px;
+  top: 0px;
+  z-index: 100;
+`
 
 export const App = () => {
   const [authed, setAuthed] = useState(false);
@@ -41,6 +53,7 @@ export const App = () => {
 
   return (
     <Router>
+        <RunLine >Сайт находится в стадии разработки!</RunLine>
         <Header authenticated={authed}/>
         <main>
           <Routes>
