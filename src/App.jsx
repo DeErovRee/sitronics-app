@@ -53,7 +53,7 @@ export const App = () => {
 
   return (
     <Router>
-        <RunLine >Сайт находится в стадии разработки!</RunLine>
+        <RunLine >Сайт находится в стадии разработки!      Отправленные заявки рассмотрены не будут!</RunLine>
         <Header authenticated={authed}/>
         <main>
           <Routes>
