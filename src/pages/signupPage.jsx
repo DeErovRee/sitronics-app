@@ -95,7 +95,9 @@ export const SignupPage = () => {
               
               if(isProvider) {
                 await setDoc(doc(db, 'userReviews', res.user.uid), {})
-                await setDoc(doc(db, 'providerPages', res.user.uid), {})
+                await setDoc(doc(db, 'providerPages', res.user.uid), {
+                  ratingValue: 3,
+                })
               }
             } catch (error) {
               setError('')

@@ -47,10 +47,8 @@ const ContainerImg = styled.div`
 `
 
 const ProviderImg = styled.img`
-    width: 90px;
+    width: auto;
     height: 90px;
-    object-fit: cover;
-    border-radius: 20px;
 `
 
 const ProviderInfo = styled.div`
@@ -102,7 +100,7 @@ const ProviderPhoto = styled.div`
     }
 `
 
-const ServiceForm = styled.div`
+const ServiceForm = styled.form`
     display: flex;
     flex-direction: column;
     border-radius: 20px;
@@ -122,7 +120,7 @@ const ServiceForm = styled.div`
         border-right: 16px solid transparent;
 
         ::placeholder {
-            color: black;
+            
         }
     }
 
@@ -132,6 +130,7 @@ const ServiceForm = styled.div`
         text-transform: uppercase;
         padding: 10px;
         background-color: #8da4f1;
+        cursor: pointer;
     }
 
     @media (max-width: 1024px) {
@@ -192,6 +191,20 @@ export const ServicePage = () => {
         e.preventDefault()
         const form = document.getElementById('serviceForm')
         const orderID = nanoid()
+        const arr = ['service', 'city', 'date', 'email']
+        let aprove = true
+        arr.forEach(el => {
+            e.target[el].style.border = 'none'
+            e.target[el].style.borderRight = '16px solid transparent'
+            if(e.target[el].value === '') {
+                e.target[el].style.border = '2px solid red'
+                e.target[el].style.borderRight = '16px solid transparent'
+                aprove = false
+            }
+        })
+        if (aprove === false) {
+            return
+        }
         try {
             await setDoc(doc(db, 'orders', orderID), {
                 orderID: orderID,
@@ -214,7 +227,6 @@ export const ServicePage = () => {
                 providerPhoto: provider.userPhoto,
                 providerNote: null,
             })
-            console.log("заявка отправлена")
             form.reset()
         } catch(error) {
             console.log(error)
@@ -253,7 +265,7 @@ export const ServicePage = () => {
                     </ProviderPhoto>
                     {!currentUser.isProvider &&
                         <ServiceForm id="serviceForm" onSubmit={handleSubmit}>
-                            <select>
+                            <select id="service">
                                 <option value="">Выберите услугу</option>
                                 {provider && provider.services.map((service) => {
                                     return(
@@ -261,21 +273,27 @@ export const ServicePage = () => {
                                     )
                                 })}
                             </select>
-                            <select>
-                                <option value="">Выберите город</option>
+                            <select id="city">
+                                <option value="" >Выберите город</option>
                                 {provider && provider.citys.map((city) => {
                                     return(
                                         <option value={city}>{city}</option>
                                     )
                                 })}
                             </select>
-                            <input type="text" placeholder="Введите улицу"/>
+                            <input type="text" placeholder="Введите улицу" />
                             <input type="text" placeholder="Введите номер дома"/>
-                            <input type="date" placeholder="Выберите дату" min={getDate()}/>
+                            <input 
+                                type="text" 
+                                placeholder="Введите дату"
+                                onFocus={(e) => (e.target.type = "date")}
+                                onBlur={(e) => (e.target.type = "text")} 
+                                min={getDate()} 
+                                id="date"/>
                             <input type="phone" placeholder="Введите номер телефона"/>
-                            <input type="email" placeholder="Введите эл.почту"/>
+                            <input type="email" placeholder="Введите эл.почту" id="email"/>
                             <textarea style={{resize: 'none'}} placeholder="Опишите требуемую задачу"/>
-                            <button type="submit">Отправить заявку</button>
+                            <button type="submit" form="serviceForm">Отправить заявку</button>
                         </ServiceForm>
                     }
                     

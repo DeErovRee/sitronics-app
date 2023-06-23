@@ -24,13 +24,13 @@ const SidebarStyled = styled.div`
   }
 `
 
-const UserPhoto = styled(UserImg)`
-  width: 180px;
-  height: 180px;
+const UserPhoto = styled.img`
+  width: 100%;
+  height: auto;
 
   @media (max-width: 625px) {
     width: 300px;
-    height: 300px;
+    height: auto;
   }
 `
 

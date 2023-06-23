@@ -69,7 +69,7 @@ export const Input = styled.input`
 export const Finded = styled.div`
     display: flex;
     flex-direction: column;
-    margin: 0;
+    margin: 10px 0 0;
 `
 
 export const ItemFinded = styled.div`
@@ -78,6 +78,8 @@ export const ItemFinded = styled.div`
     margin: 0 0 8px 0;
     width: 100%;
     border-radius: 10px;
+    cursor: pointer;
+    
     p {
         color: black;
     }

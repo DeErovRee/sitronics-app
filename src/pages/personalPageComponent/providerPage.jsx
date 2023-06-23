@@ -528,6 +528,7 @@ export const ProviderPage = () => {
             <Card>
                 <CardHeader>Предоставляемые услуги</CardHeader>
                 <CardInput 
+                    style={{marginBottom: '10px'}}
                     type="text" 
                     placeholder="Введите название услуги" 
                     id="services" 
