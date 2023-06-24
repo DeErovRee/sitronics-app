@@ -138,9 +138,9 @@ export const Header = ({authenticated}) => {
                 <ListItem>
                   <Link to="/services">Услуги</Link>
                 </ListItem>
-                <ListItem>
+                {/* <ListItem>
                   <Link to="/contacts">Контакты</Link>
-                </ListItem>
+                </ListItem> */}
                 <Chats authenticated={authenticated}/>
               </List>
             </ListItem>
@@ -159,9 +159,9 @@ export const Header = ({authenticated}) => {
         <ListItem noHidden={'flex'}>
           <Link to="/services">Услуги</Link>
         </ListItem>
-        <ListItem noHidden={'flex'}>
+        {/* <ListItem noHidden={'flex'}>
           <Link to="/contacts">Контакты</Link>
-        </ListItem>
+        </ListItem> */}
         <Chats authenticated={authenticated}/>
         <Component authenticated={authenticated}/>
       </BurgerMenu>

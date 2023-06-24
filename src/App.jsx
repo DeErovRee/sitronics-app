@@ -17,7 +17,7 @@ import { auth } from "./firebase/firebase";
 
 import { PublicRoute } from "./hocs/publicRoute";
 import { PrivateRoute } from "./hocs/privateRoute";
-import { ContactsPage } from "./pages/contactsPage";
+// import { ContactsPage } from "./pages/contactsPage";
 import { Header } from "./pages/Header";
 import { Footer } from "./pages/Footer"
 import { DronPage } from "./pages/dronesComponent/DronPage";
@@ -60,7 +60,7 @@ export const App = () => {
             <Route exact path="/" element={<MainPage />} />
             <Route exact path="/drons" element={<DronsPage />} />
             <Route exact path="/services" element={<ServicesPage />} />
-            <Route exact path="/contacts" element={<ContactsPage />} />
+            {/* <Route exact path="/contacts" element={<ContactsPage />} /> */}
             <Route
               exact
               path="/chats"
