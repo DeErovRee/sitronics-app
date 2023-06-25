@@ -21,11 +21,12 @@ export const OrdersAll = () => {
             querySnapshot.forEach((doc) => 
                 snapOrders.push(doc.data())
             );
+            console.log(snapOrders)
             setOrders(snapOrders.filter((doc) => {
                 if(currentUser.isProvider) {
-                    return doc.visible.provider === true
+                    return doc.orderVisible.provider === true
                 } else {
-                    return doc.visible.client === true
+                    return doc.orderVisible.client === true
                 }
             }))
         });

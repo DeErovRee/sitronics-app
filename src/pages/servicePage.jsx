@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import DOMPurify from 'dompurify'
 import { nanoid } from "nanoid";
-import { doc, onSnapshot, setDoc } from "firebase/firestore";
+import { arrayUnion, doc, onSnapshot, setDoc } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 import { AuthContext } from '../context/AuthContext'
 import styled from 'styled-components'
 import { Review } from "./servicePageComponent/review";
 import { CityCard, ServiceCard } from "../styles/generalStyledComponents";
+import { Link } from "react-router-dom";
 
 const Reviews = styled.div`
     margin: 0 10px 50px;
@@ -17,7 +18,6 @@ const Reviews = styled.div`
 `
 
 const ServicePageStyled = styled.div`
-    max-width: 1920px;
     padding: 0 96px;
     display: flex;
     flex-direction: column;
@@ -33,11 +33,12 @@ const ProviderMainInfo = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 50px 0 50px 0;
+    margin: 20px auto;
+    max-width: 1920px;
 
     @media (max-width: 768px) {
         flex-direction: column;
-        margin: 20px 0 20px 0;
+        margin: 20px auto;
     }
 `
 
@@ -54,7 +55,8 @@ const ProviderImg = styled.img`
 const ProviderInfo = styled.div`
     display: flex;
     align-items: flex-start;
-    margin-bottom: 10px;
+    margin: 0 auto 50px;
+    max-width: 1920px;
 
     @media (max-width: 1024px) {
         flex-direction: column-reverse;
@@ -118,9 +120,10 @@ const ServiceForm = styled.form`
         margin:  0 0 5px;
         outline: none;
         border-right: 16px solid transparent;
+        color: black;
 
         ::placeholder {
-            
+            color: black;
         }
     }
 
@@ -161,9 +164,18 @@ const Text = styled.div`
     margin-bottom: 10px;
 `
 
+const Links = styled(Link)`
+    color: rgb(141, 164, 241);
+
+    :visited {
+        color: rgb(141, 164, 241)
+    }
+`
+
 export const ServicePage = () => {
 
     const [reviews, setReviews] = useState([])
+    const [isSent, setIsSent] = useState(false)
 
     const getDate = () => {
         let today = new Date();
@@ -192,17 +204,17 @@ export const ServicePage = () => {
         const form = document.getElementById('serviceForm')
         const orderID = nanoid()
         const arr = ['service', 'city', 'date', 'email']
-        let aprove = true
+        let approved = true
         arr.forEach(el => {
             e.target[el].style.border = 'none'
             e.target[el].style.borderRight = '16px solid transparent'
             if(e.target[el].value === '') {
                 e.target[el].style.border = '2px solid red'
                 e.target[el].style.borderRight = '16px solid transparent'
-                aprove = false
+                approved = false
             }
         })
-        if (aprove === false) {
+        if (approved === false) {
             return
         }
         try {
@@ -210,7 +222,10 @@ export const ServicePage = () => {
                 orderID: orderID,
                 orderService: e.target[0].value,
                 orderStatus: 'На рассмотрении',
-                orderVisible: true,
+                orderVisible: {
+                    client: true,
+                    provider: true,
+                },
                 orderRating: false,
                 orderRatingValue: 0,
                 orderReviews: false,
@@ -227,6 +242,7 @@ export const ServicePage = () => {
                 providerPhoto: provider.userPhoto,
                 providerNote: null,
             })
+            setIsSent(true)
             form.reset()
         } catch(error) {
             console.log(error)
@@ -263,10 +279,10 @@ export const ServicePage = () => {
                             )
                         })}
                     </ProviderPhoto>
-                    {!currentUser.isProvider &&
+                    {!currentUser.isProvider && !isSent ?
                         <ServiceForm id="serviceForm" onSubmit={handleSubmit}>
-                            <select id="service">
-                                <option value="">Выберите услугу</option>
+                            <select id="service" placeholder="Выберите услугу">
+                                <option value="" disabled selected>Выберите услугу</option>
                                 {provider && provider.services.map((service) => {
                                     return(
                                         <option value={service}>{service}</option>
@@ -274,7 +290,7 @@ export const ServicePage = () => {
                                 })}
                             </select>
                             <select id="city">
-                                <option value="" >Выберите город</option>
+                                <option value="" disabled selected>Выберите город</option>
                                 {provider && provider.citys.map((city) => {
                                     return(
                                         <option value={city}>{city}</option>
@@ -284,16 +300,20 @@ export const ServicePage = () => {
                             <input type="text" placeholder="Введите улицу" />
                             <input type="text" placeholder="Введите номер дома"/>
                             <input 
-                                type="text" 
+                                type="date" 
                                 placeholder="Введите дату"
-                                onFocus={(e) => (e.target.type = "date")}
-                                onBlur={(e) => (e.target.type = "text")} 
                                 min={getDate()} 
                                 id="date"/>
                             <input type="phone" placeholder="Введите номер телефона"/>
                             <input type="email" placeholder="Введите эл.почту" id="email"/>
                             <textarea style={{resize: 'none'}} placeholder="Опишите требуемую задачу"/>
                             <button type="submit" form="serviceForm">Отправить заявку</button>
+                        </ServiceForm>
+                        :
+                        <ServiceForm style={{color: 'white', alignItems: 'center'}}>
+                            <h2 style={{textAlign: 'center'}}>Ваша заявка отправлена!</h2>
+                            <h3 style={{textAlign: 'center', padding: '15px 0 15px'}}>Все ваши заявки вы можете найти <br></br><Links to='/personalArea/ordersAll'>в личном кабинете</Links></h3>
+                            <button onClick={()=>setIsSent(false)}>Новая заявка</button>
                         </ServiceForm>
                     }
                     

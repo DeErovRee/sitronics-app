@@ -93,6 +93,7 @@ const Sort = styled.div`
 `
 
 const SortBtn = styled.button`
+    color: black;
     display: flex;
     height: 50px;
     width: 50%;

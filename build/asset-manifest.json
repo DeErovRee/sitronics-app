@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/static/css/main.941b1f02.css",
+    "main.js": "/static/js/main.b8595573.js",
+    "static/media/delivery_drone.png": "/static/media/delivery_drone.5f939d64674aec59fd6d.png",
+    "static/media/white-drone-hovering-bright-blue-sky.png": "/static/media/white-drone-hovering-bright-blue-sky.5d676b2126df56391c69.png",
+    "static/media/Rectangle.png": "/static/media/Rectangle.46fbe1a765e08157fe13.png",
+    "static/media/dron_2.png": "/static/media/dron_2.064204e94e94973d3863.png",
+    "static/media/dron_4.png": "/static/media/dron_4.db96c943439a4dcd6def.png",
+    "static/media/dron_5.png": "/static/media/dron_5.bb41c40e0eeff0cb0cbb.png",
+    "static/media/dron_1.png": "/static/media/dron_1.71521c4ffb786edb73a5.png",
+    "static/media/dron_3.png": "/static/media/dron_3.7f6081fe4637eb9c20f9.png",
+    "static/media/Sitronics-1.png": "/static/media/Sitronics-1.a56e959d33ff96fbb80b.png",
+    "static/media/Background.png": "/static/media/Background.0eccf4dbfac59ce0285c.png",
+    "static/media/supercam_logo.png": "/static/media/supercam_logo.d6e09160638230403bf4.png",
+    "static/media/albatros_logo.png": "/static/media/albatros_logo.0d7a37a6f8348203874b.png",
+    "index.html": "/index.html",
+    "main.941b1f02.css.map": "/static/css/main.941b1f02.css.map",
+    "main.b8595573.js.map": "/static/js/main.b8595573.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.941b1f02.css",
+    "static/js/main.b8595573.js"
+  ]
+}

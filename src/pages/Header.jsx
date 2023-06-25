@@ -38,7 +38,7 @@ const BurgerBtn = styled.div`
   top: 63px;
   // top: 28px;
   right: 40px;
-  z-index: 110;
+  z-index: 99;
   transform: ${({isOpen}) => isOpen ? 'rotate(0)' : 'rotate(90deg)'};
   transition: transform 0.3s ease-in-out;
 
