@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import styled from "styled-components";
 import { AuthContext } from "../../context/AuthContext";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
@@ -20,9 +19,9 @@ export const OrdersHistory = () => {
             );
             setOrders(snapOrders.filter((doc) => {
                 if(currentUser.isProvider) {
-                    return doc.visible.provider === false
+                    return doc.orderVisible.provider === false
                 } else {
-                    return doc.visible.client === false
+                    return doc.orderVisible.client === false
                 }
             }))
         });

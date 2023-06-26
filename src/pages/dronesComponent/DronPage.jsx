@@ -17,6 +17,7 @@ const DroneWrapper = styled(Wrapper)`
 
 const DronePageFilter = styled(DroneCardFilter)`
     height: 100%;
+    width: inherit;
     background-color: rgba(255, 255, 255, 0.3);
     padding: 32px 96px;
     justify-content: unset;
@@ -107,11 +108,11 @@ const TnD = styled.div`
 export const DronPage = () => {
 
     const location = useLocation()
-    const { title, description, advantages } = location.state
+    const { title, description, advantages, pageBackground } = location.state
 
     return(
         <DronePageStyled>
-            <DroneWrapper background={require('../../images/delivery_drone.png')}>
+            <DroneWrapper background={pageBackground}>
                 <DronePageFilter>
                     <TnD>
                         <H1>{title}</H1>

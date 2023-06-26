@@ -5,7 +5,6 @@ import { AuthContext } from "../../context/AuthContext"
 import { Link } from "react-router-dom";
 
 import styled from 'styled-components'
-import { UserImg } from "../chatComponent/search";
 
 const SidebarStyled = styled.div`
   display: flex;
@@ -44,6 +43,7 @@ const UserData = styled.p`
 `
 
 const UserName = styled(UserData)`
+  text-align: center;
   text-transform: capitalize;
 `
 

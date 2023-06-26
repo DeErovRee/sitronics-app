@@ -1,7 +1,12 @@
 {
   "files": {
-    "main.css": "/static/css/main.941b1f02.css",
-    "main.js": "/static/js/main.b8595573.js",
+    "main.css": "/static/css/main.8c1db87b.css",
+    "main.js": "/static/js/main.7920d8d1.js",
+    "static/media/shepherd_drone.png": "/static/media/shepherd_drone.8ab9515a1a072b1d0e29.png",
+    "static/media/sprinkler_drone.png": "/static/media/sprinkler_drone.0e99ba2930733b48f942.png",
+    "static/media/liserscan_drone.png": "/static/media/liserscan_drone.99b592b51efda8edc838.png",
+    "static/media/heatvision_drone.png": "/static/media/heatvision_drone.3a268b5a166adb4fff43.png",
+    "static/media/firefighter_drone.png": "/static/media/firefighter_drone.9a5592291d09790fc2e4.png",
     "static/media/delivery_drone.png": "/static/media/delivery_drone.5f939d64674aec59fd6d.png",
     "static/media/white-drone-hovering-bright-blue-sky.png": "/static/media/white-drone-hovering-bright-blue-sky.5d676b2126df56391c69.png",
     "static/media/Rectangle.png": "/static/media/Rectangle.46fbe1a765e08157fe13.png",
@@ -15,11 +20,11 @@
     "static/media/supercam_logo.png": "/static/media/supercam_logo.d6e09160638230403bf4.png",
     "static/media/albatros_logo.png": "/static/media/albatros_logo.0d7a37a6f8348203874b.png",
     "index.html": "/index.html",
-    "main.941b1f02.css.map": "/static/css/main.941b1f02.css.map",
-    "main.b8595573.js.map": "/static/js/main.b8595573.js.map"
+    "main.8c1db87b.css.map": "/static/css/main.8c1db87b.css.map",
+    "main.7920d8d1.js.map": "/static/js/main.7920d8d1.js.map"
   },
   "entrypoints": [
-    "static/css/main.941b1f02.css",
-    "static/js/main.b8595573.js"
+    "static/css/main.8c1db87b.css",
+    "static/js/main.7920d8d1.js"
   ]
 }

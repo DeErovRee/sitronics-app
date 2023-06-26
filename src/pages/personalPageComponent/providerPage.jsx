@@ -472,7 +472,7 @@ export const ProviderPage = () => {
                     {files && files.map((file) => {
                         return(
                             <div className="preview-image" key={file.name}>
-                                <div 
+                                <div
                                     className="preview-remove"
                                     data-name={file.name}
                                     >&times;</div>
@@ -484,7 +484,6 @@ export const ProviderPage = () => {
                             </div>
                         )
                     })}
-    
                 </div> 
                 <CardButton
                     onClick={deleteFiles}>Очистить</CardButton>

@@ -61,7 +61,7 @@ const DroneCardSlicer = styled.div`
     }
 `
 
-export const DroneCard = ({title, background, url, advantages, description}) => {
+export const DroneCard = ({title, background, url, advantages, description, pageBackground}) => {
     return(
         <DroneCardStyled background={background}>
             {console.log(description)}
@@ -74,6 +74,7 @@ export const DroneCard = ({title, background, url, advantages, description}) => 
                             url: url, 
                             title: title, 
                             background: background,
+                            pageBackground: pageBackground,
                             advantages: advantages,
                             description: description,
                         }}>

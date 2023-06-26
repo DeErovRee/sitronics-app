@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { auth } from "../firebase/firebase";
+import { auth, db, provider } from "../firebase/firebase";
 import { Link } from "react-router-dom";
 import {
   signInWithEmailAndPassword,
-  sendPasswordResetEmail
+  sendPasswordResetEmail,
+  signInWithPopup
 } from "firebase/auth";
 import styled from 'styled-components'
+import { doc, setDoc } from "firebase/firestore";
 
 export const LoginStyled = styled.div`
   background-color: white;
@@ -197,6 +199,24 @@ export const LoginPage = () => {
     }
   };
 
+  const handleClick = (e) => {
+    e.preventDefault();
+    signInWithPopup(auth, provider).then((result)=>{
+      const user = result.user
+      console.log(user)
+
+      setDoc(doc(db, "users", user.uid), {
+        uid: user.uid,
+        displayName: user.displayName,
+        email: user.email,
+        isProvider: false,
+        photoURL: user.photoURL,
+      });
+
+      setDoc(doc(db, "userChats", user.uid), {});
+    })
+  }
+
   return (
     <LoginStyled>
       <Form onSubmit={handleSubmit}>
@@ -225,11 +245,14 @@ export const LoginPage = () => {
             <Link to="/signup">Создать аккаунт</Link>
           </P>
         </Container>
-        <P>Или войдите с помощью</P>
+        <P>или войдите с помощью</P>
         <Container justifyContent={'center'}>
-          <img src={require("../images/google_logo.png")} alt="" />
-          <img src={require("../images/vk_logo.png")} alt="" />
-          <img src={require("../images/microsoft_logo.png")} alt="" />
+          {/* <img src={require("../images/google_logo.png")} alt="" /> */}
+          <button style={{border: 'none'}} onClick={(e)=>handleClick(e)}>
+            <img src={require("../images/google_logo.png")} alt="" />
+          </button>
+          {/* <img src={require("../images/vk_logo.png")} alt="" /> */}
+          {/* <img src={require("../images/microsoft_logo.png")} alt="" /> */}
         </Container>
       </Form>
     </LoginStyled>

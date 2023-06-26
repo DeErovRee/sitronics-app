@@ -52,59 +52,59 @@ export const App = () => {
   }, []);
 
   return (
-    <Router>
-        <RunLine >Сайт находится в стадии разработки!      Отправленные заявки рассмотрены не будут!</RunLine>
-        <Header authenticated={authed}/>
-        <main>
-          <Routes>
-            <Route exact path="/" element={<MainPage />} />
-            <Route exact path="/drons" element={<DronsPage />} />
-            <Route exact path="/services" element={<ServicesPage />} />
-            {/* <Route exact path="/contacts" element={<ContactsPage />} /> */}
-            <Route
-              exact
-              path="/chats"
-              element={
-                <PrivateRoute authenticated={authed}>
-                  <ChatsPage />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              exact
-              path="/personalArea/*"
-              element={
-                <PrivateRoute authenticated={authed}>
-                  <PersonalAreaPage />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              authenticated={authed}
-              exact
-              path="/login"
-              element={
-                <PublicRoute authenticated={authed}>
-                  <LoginPage />
-                </PublicRoute>
-              }
-            />
-            <Route
-              authenticated={authed}
-              exact
-              path="/signup"
-              element={
-                <PublicRoute authenticated={authed}>
-                  <SignupPage />
-                </PublicRoute>
-              }
-            />
-            <Route exact path="*" element={<Page404 />} />
-            <Route exact path='services/*' element={<ServicePage />} />
-            <Route exact path='drons/*' element={<DronPage />}/>
-          </Routes>
-        </main>
-      <Footer />
-    </Router>
+      <Router>
+          <RunLine >Сайт находится в стадии разработки!      Отправленные заявки рассмотрены не будут!</RunLine>
+          <Header authenticated={authed}/>
+          <main>
+            <Routes>
+              <Route exact path="/" element={<MainPage />} />
+              <Route exact path="/drons" element={<DronsPage />} />
+              <Route exact path="/services" element={<ServicesPage />} />
+              {/* <Route exact path="/contacts" element={<ContactsPage />} /> */}
+              <Route
+                exact
+                path="/chats"
+                element={
+                  <PrivateRoute authenticated={authed}>
+                    <ChatsPage />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                exact
+                path="/personalArea/*"
+                element={
+                  <PrivateRoute authenticated={authed}>
+                    <PersonalAreaPage />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                authenticated={authed}
+                exact
+                path="/login"
+                element={
+                  <PublicRoute authenticated={authed}>
+                    <LoginPage />
+                  </PublicRoute>
+                }
+              />
+              <Route
+                authenticated={authed}
+                exact
+                path="/signup"
+                element={
+                  <PublicRoute authenticated={authed}>
+                    <SignupPage />
+                  </PublicRoute>
+                }
+              />
+              <Route exact path="*" element={<Page404 />} />
+              <Route exact path='services/*' element={<ServicePage />} />
+              <Route exact path='drons/*' element={<DronPage />}/>
+            </Routes>
+          </main>
+        <Footer />
+      </Router>
   );
 };
