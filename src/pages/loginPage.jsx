@@ -219,7 +219,7 @@ export const LoginPage = () => {
 
   return (
     <LoginStyled>
-      <Form onSubmit={handleSubmit}>
+      <Form id='form' onSubmit={handleSubmit}>
         <H3>Войдите</H3>
         <P color={'#000842'}>И получите доступ ко всем услугам нашего сервиса</P>
         <Input 
@@ -251,7 +251,10 @@ export const LoginPage = () => {
           <button style={{border: 'none'}} onClick={(e)=>handleClick(e)}>
             <img src={require("../images/google_logo.png")} alt="" />
           </button>
-          {/* <img src={require("../images/vk_logo.png")} alt="" /> */}
+          {/* <button style={{border: 'none'}}>
+            <img src={require("../images/microsoft_logo.png")} alt="" />
+          </button> */}
+          
           {/* <img src={require("../images/microsoft_logo.png")} alt="" /> */}
         </Container>
       </Form>
