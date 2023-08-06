@@ -1,9 +1,9 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
+import React from 'react'
+import { Link } from 'react-router-dom'
+import styled from 'styled-components'
 
 const DroneCardStyled = styled.div`
-    background-image: url(${props => props.background});
+    background-image: url(${(props) => props.background});
     width: 100%;
     max-width: 863px;
     height: 288px;
@@ -17,7 +17,7 @@ const DetailsBtn = styled.button`
     text-transform: uppercase;
     border-radius: 15px;
     border: 2px solid white;
-    background: rgba(0,0,0, 0.3);
+    background: rgba(0, 0, 0, 0.3);
     padding: 15px 25px;
     cursor: pointer;
 `
@@ -38,7 +38,7 @@ export const DroneCardFilter = styled.div`
     width: initial;
     height: inherit;
     border-radius: inherit;
-    background-color: rgba(0,0,0, 0.3);
+    background-color: rgba(0, 0, 0, 0.3);
     display: flex;
     align-items: flex-end;
     justify-content: center;
@@ -61,28 +61,28 @@ const DroneCardSlicer = styled.div`
     }
 `
 
-export const DroneCard = ({title, background, url, advantages, description, pageBackground}) => {
-    return(
+export const DroneCard = ({ title, background, url, advantages, description, pageBackground }) => {
+    return (
         <DroneCardStyled background={background}>
             {console.log(description)}
             <DroneCardFilter>
                 <DroneCardSlicer>
                     <H2>{title}</H2>
-                    <Link 
-                        to={{pathname: url}} 
+                    <Link
+                        to={{ pathname: url }}
                         state={{
-                            url: url, 
-                            title: title, 
+                            url: url,
+                            title: title,
                             background: background,
                             pageBackground: pageBackground,
                             advantages: advantages,
                             description: description,
-                        }}>
+                        }}
+                    >
                         <DetailsBtn>Подробнее</DetailsBtn>
                     </Link>
                 </DroneCardSlicer>
             </DroneCardFilter>
         </DroneCardStyled>
-        
     )
 }

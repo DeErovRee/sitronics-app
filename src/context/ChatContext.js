@@ -1,37 +1,33 @@
-import { createContext, useReducer, useContext } from "react";
-import { AuthContext } from "./AuthContext";
+import { createContext, useReducer, useContext } from 'react'
+import { AuthContext } from './AuthContext'
 
-export const ChatContext = createContext();
+export const ChatContext = createContext()
 
 export const ChatContextProvider = ({ children }) => {
-  const { currentUser } = useContext(AuthContext);
+    const { currentUser } = useContext(AuthContext)
 
-  const INITIAL_STATE = {
-    chatId: "null",
-    user: {},
-  };
-
-  const chatReducer = (state, action) => {
-    switch (action.type) {
-      case "CHANGE_USER":
-        return {
-          user: action.payload,
-          chatId:
-            currentUser.uid > action.payload.uid
-              ? currentUser.uid + action.payload.uid
-              : action.payload.uid + currentUser.uid,
-        };
-
-      default:
-        return state;
+    const INITIAL_STATE = {
+        chatId: 'null',
+        user: {},
     }
-  };
 
-  const [state, dispatch] = useReducer(chatReducer, INITIAL_STATE);
+    const chatReducer = (state, action) => {
+        switch (action.type) {
+            case 'CHANGE_USER':
+                return {
+                    user: action.payload,
+                    chatId:
+                        currentUser.uid > action.payload.uid
+                            ? currentUser.uid + action.payload.uid
+                            : action.payload.uid + currentUser.uid,
+                }
 
-  return (
-    <ChatContext.Provider value={{ data: state, dispatch }}>
-      {children}
-    </ChatContext.Provider>
-  );
-};
+            default:
+                return state
+        }
+    }
+
+    const [state, dispatch] = useReducer(chatReducer, INITIAL_STATE)
+
+    return <ChatContext.Provider value={{ data: state, dispatch }}>{children}</ChatContext.Provider>
+}

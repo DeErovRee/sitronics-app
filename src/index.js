@@ -39,14 +39,14 @@ const theme = {
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <AuthContextProvider>
-    <ChatContextProvider>
-      <ThemeProvider theme={theme}>
-        {/* <React.StrictMode> */}
-          <Global />
-          <App />
-        {/* </React.StrictMode> */}
-      </ThemeProvider>
-    </ChatContextProvider>
-  </AuthContextProvider>
+    <AuthContextProvider>
+      <ChatContextProvider>
+        <ThemeProvider theme={theme}>
+          <React.StrictMode>
+            <Global />
+            <App />
+          </React.StrictMode>
+        </ThemeProvider>
+      </ChatContextProvider>
+    </AuthContextProvider>
 );

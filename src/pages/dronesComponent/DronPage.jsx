@@ -1,13 +1,13 @@
-import React from "react";
-import styled from "styled-components";
-import { useLocation } from "react-router-dom";
-import { ServicesStyled, Wrapper } from "../servicesPage";
-import { DroneCardFilter } from "./droneCard";
+import React from 'react'
+import styled from 'styled-components'
+import { useLocation } from 'react-router-dom'
+import { ServicesStyled, Wrapper } from '../servicesPage'
+import { DroneCardFilter } from './droneCard'
 
 const DronePageStyled = styled(ServicesStyled)``
 
 const DroneWrapper = styled(Wrapper)`
-    background-image: url(${props => props.background});
+    background-image: url(${(props) => props.background});
     display: flex;
     background-size: cover;
     background-repeat: no-repeat;
@@ -38,11 +38,11 @@ const AdvantegesBlock = styled.div`
     flex-direction: column;
     margin: 120px 0 105px 0;
 
-    @media(max-width: 950px) {
+    @media (max-width: 950px) {
         width: 100%;
     }
 
-    @media(max-width; 650px) {
+    @media (max-width; 650px) {
         margin: 63px 0 88px;
     }
 `
@@ -60,14 +60,14 @@ const H1 = styled.h1`
     font-weight: 700;
     text-transform: uppercase;
     color: black;
-    
+
     @media (max-width: 950px) {
         margin: 39px 0 0;
         text-align: center;
     }
 
     @media (max-width: 450px) {
-        font-size: 30px; 
+        font-size: 30px;
     }
 `
 
@@ -106,11 +106,10 @@ const TnD = styled.div`
 `
 
 export const DronPage = () => {
-
     const location = useLocation()
     const { title, description, advantages, pageBackground } = location.state
 
-    return(
+    return (
         <DronePageStyled>
             <DroneWrapper background={pageBackground}>
                 <DronePageFilter>
@@ -118,13 +117,16 @@ export const DronPage = () => {
                         <H1>{title}</H1>
                         <P>{description}</P>
                     </TnD>
-                    {advantages && 
-                    <AdvantegesBlock>
-                        <H3>Преимущества</H3>
-                        <ABchield >
-                            {advantages.map(el => <p style={{width: '50%', display: 'block', marginTop: '40px'}}>{el}</p>)}
-                        </ABchield>
-                    </AdvantegesBlock>}
+                    {advantages && (
+                        <AdvantegesBlock>
+                            <H3>Преимущества</H3>
+                            <ABchield>
+                                {advantages.map((el) => (
+                                    <p style={{ width: '50%', display: 'block', marginTop: '40px' }}>{el}</p>
+                                ))}
+                            </ABchield>
+                        </AdvantegesBlock>
+                    )}
                 </DronePageFilter>
             </DroneWrapper>
         </DronePageStyled>

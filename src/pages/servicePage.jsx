@@ -1,18 +1,18 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from 'react'
 import DOMPurify from 'dompurify'
-import { nanoid } from "nanoid";
-import { doc, getDoc, onSnapshot, setDoc } from "firebase/firestore";
-import { db, auth } from "../firebase/firebase";
+import { nanoid } from 'nanoid'
+import { doc, getDoc, onSnapshot, setDoc } from 'firebase/firestore'
+import { db, auth } from '../firebase/firebase'
 import { AuthContext } from '../context/AuthContext'
 import styled from 'styled-components'
-import { Review } from "./servicePageComponent/review";
-import { CityCard, ServiceCard } from "../styles/generalStyledComponents";
-import { Link } from "react-router-dom";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { Review } from './servicePageComponent/review'
+import { CityCard, ServiceCard } from '../styles/generalStyledComponents'
+import { Link } from 'react-router-dom'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
 const Reviews = styled.div`
     margin: 0 10px 50px;
-    
+
     @media (max-width: 1024px) {
         margin: 0 0 10px 0;
     }
@@ -24,7 +24,7 @@ const ServicePageStyled = styled.div`
     display: flex;
     flex-direction: column;
     background-color: white;
-    background-image: ${props => props.theme.colors.gradient};
+    background-image: ${(props) => props.theme.colors.gradient};
 
     @media (max-width: 768px) {
         padding: 0 32px;
@@ -112,14 +112,16 @@ const ServiceForm = styled.form`
     background-color: #1e1e1e;
     padding: 20px;
 
-    input, select, textarea {
+    input,
+    select,
+    textarea {
         background: white;
         border: 1px solid #d9d9d9;
         border-radius: 10px;
         width: 100%;
         box-sizing: border-box;
         padding: 10px 0 10px 10px;
-        margin:  0 0 5px;
+        margin: 0 0 5px;
         outline: none;
         border-right: 16px solid transparent;
         color: black;
@@ -130,9 +132,9 @@ const ServiceForm = styled.form`
         }
     }
 
-    input[type="date"] {
-        display:flex;
-        display:-webkit-flex;
+    input[type='date'] {
+        display: flex;
+        display: -webkit-flex;
         flex: 1 0 0;
         -webkit-flex: 1 0 0;
     }
@@ -152,7 +154,7 @@ const ServiceForm = styled.form`
 `
 
 const Citys = styled.div`
-    background-color: #1E1E1E;
+    background-color: #1e1e1e;
     padding: 10px 20px;
     border-radius: 20px;
     margin-bottom: 10px;
@@ -168,7 +170,7 @@ const CitysItem = styled.div`
 `
 
 const Text = styled.div`
-    background-color: #1E1E1E;
+    background-color: #1e1e1e;
     padding: 10px 20px;
     border-radius: 20px;
     margin-bottom: 10px;
@@ -178,33 +180,32 @@ const Links = styled(Link)`
     color: rgb(141, 164, 241);
 
     :visited {
-        color: rgb(141, 164, 241)
+        color: rgb(141, 164, 241);
     }
 `
 
 export const ServicePage = () => {
-
-    const [authed, setAuthed] = useState(false);
+    const [authed, setAuthed] = useState(false)
     const [provider, setProvider] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
 
     const AuthedCheck = () => {
-        console.log("authed")
+        console.log('authed')
         onAuthStateChanged(auth, (user) => {
-        if (user) {
-            setAuthed(true);
-        } else {
-            setAuthed(false);
-        }
-        });
-    };
+            if (user) {
+                setAuthed(true)
+            } else {
+                setAuthed(false)
+            }
+        })
+    }
 
     const getProvider = async () => {
         // При React.strictMode в index.js функция вызывается 2 раза
         // const q = query(collection(db, "providerPages"), where("uid", "==", pageUrl));
 
-        const docRef = doc(db, "providerPages", pageUrl);
-        const docSnap = await getDoc(docRef);
+        const docRef = doc(db, 'providerPages', pageUrl)
+        const docSnap = await getDoc(docRef)
 
         if (docSnap.exists()) {
             setProvider(docSnap.data())
@@ -214,25 +215,25 @@ export const ServicePage = () => {
     }
 
     const getReviews = () => {
-        onSnapshot(doc(db, "userReviews", pageUrl), (doc) => {
-            setReviews(doc.data().reviews);
-        });
+        onSnapshot(doc(db, 'userReviews', pageUrl), (doc) => {
+            setReviews(doc.data().reviews)
+        })
     }
 
     useEffect(() => {
-        AuthedCheck();
+        AuthedCheck()
         //eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [])
 
     const [reviews, setReviews] = useState([])
     const [isSent, setIsSent] = useState(false)
 
     const getDate = () => {
-        let today = new Date();
-        const dd = String(today.getDate() + 4).padStart(2, '0');
-        const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-        const yyyy = today.getFullYear();
-        today = yyyy + '-' + mm + '-' + dd;
+        let today = new Date()
+        const dd = String(today.getDate() + 4).padStart(2, '0')
+        const mm = String(today.getMonth() + 1).padStart(2, '0') //January is 0!
+        const yyyy = today.getFullYear()
+        today = yyyy + '-' + mm + '-' + dd
         return today
     }
 
@@ -241,14 +242,10 @@ export const ServicePage = () => {
     const pageUrl = document.location.pathname.split('/')[2]
     // const provider = JSON.parse(localStorage.getItem(`${pageUrl}`))
 
-    
+    const TextPage = ({ text }) => {
+        const sanitizedText = DOMPurify.sanitize(text) // очистка текста от потенциально опасных элементов
 
-    const TextPage = ({text}) => {
-        const sanitizedText = DOMPurify.sanitize(text); // очистка текста от потенциально опасных элементов
-    
-        return (
-            <Text dangerouslySetInnerHTML={{ __html: sanitizedText }}></Text>
-        );
+        return <Text dangerouslySetInnerHTML={{ __html: sanitizedText }}></Text>
     }
 
     const handleSubmit = async (e) => {
@@ -257,10 +254,10 @@ export const ServicePage = () => {
         const orderID = nanoid()
         const arr = ['service', 'city', 'date', 'email']
         let approved = true
-        arr.forEach(el => {
+        arr.forEach((el) => {
             e.target[el].style.border = 'none'
             e.target[el].style.borderRight = '16px solid transparent'
-            if(e.target[el].value === '') {
+            if (e.target[el].value === '') {
                 e.target[el].style.border = '2px solid red'
                 e.target[el].style.borderRight = '16px solid transparent'
                 approved = false
@@ -296,123 +293,119 @@ export const ServicePage = () => {
             })
             setIsSent(true)
             form.reset()
-        } catch(error) {
+        } catch (error) {
             console.log(error)
         }
-        
     }
 
     useEffect(() => {
+        AuthedCheck()
 
-        AuthedCheck();
+        getProvider()
 
-        getProvider();
+        const unsub = onSnapshot(doc(db, 'userReviews', pageUrl), (doc) => {
+            setReviews(doc.data()?.reviews)
+        })
 
-        const unsub = onSnapshot(doc(db, "userReviews", pageUrl), (doc) => {
-            setReviews(doc.data()?.reviews);
-        });
-        
-        return() => {
+        return () => {
             unsub()
         }
-        
+
         //eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    return(
-        
+    return (
         <ServicePageStyled>
-            {provider && <ProviderMainInfo>
-                <ContainerImg >
-                    <ProviderImg src={provider.userPhoto} alt="" />
-                </ContainerImg>
-                <h2>{provider.displayName}</h2>
-            </ProviderMainInfo>}
-            {provider && <ProviderInfo>
-                <Left>
-                    <ProviderPhoto>
-                        {provider.photoURLs && provider.photoURLs.map((img) => {
-                            return(
-                                <img src={img} alt="" key={img} width='100px'/>
-                            )
-                        })}
-                    </ProviderPhoto>
-                    {authed && !currentUser.isProvider && !isSent &&
-                        <ServiceForm id="serviceForm" onSubmit={handleSubmit}>
-                            <select id="service" placeholder="Выберите услугу">
-                                <option value="" disabled selected>Выберите услугу</option>
-                                {provider && provider.services.map((service) => {
-                                    return(
-                                        <option value={service}>{service}</option>
-                                    )
+            {provider && (
+                <ProviderMainInfo>
+                    <ContainerImg>
+                        <ProviderImg src={provider.userPhoto} alt='' />
+                    </ContainerImg>
+                    <h2>{provider.displayName}</h2>
+                </ProviderMainInfo>
+            )}
+            {provider && (
+                <ProviderInfo>
+                    <Left>
+                        <ProviderPhoto>
+                            {provider.photoURLs &&
+                                provider.photoURLs.map((img) => {
+                                    return <img src={img} alt='' key={img} width='100px' />
                                 })}
-                            </select>
-                            <select id="city">
-                                <option value="" disabled selected>Выберите город</option>
-                                {provider && provider.citys.map((city) => {
-                                    return(
-                                        <option value={city}>{city}</option>
-                                    )
+                        </ProviderPhoto>
+                        {authed && !currentUser.isProvider && !isSent && (
+                            <ServiceForm id='serviceForm' onSubmit={handleSubmit}>
+                                <select id='service' placeholder='Выберите услугу'>
+                                    <option value='' disabled selected>
+                                        Выберите услугу
+                                    </option>
+                                    {provider &&
+                                        provider.services.map((service) => {
+                                            return <option value={service}>{service}</option>
+                                        })}
+                                </select>
+                                <select id='city'>
+                                    <option value='' disabled selected>
+                                        Выберите город
+                                    </option>
+                                    {provider &&
+                                        provider.citys.map((city) => {
+                                            return <option value={city}>{city}</option>
+                                        })}
+                                </select>
+                                <input type='text' placeholder='Введите улицу' />
+                                <input type='text' placeholder='Введите номер дома' />
+                                <input type='date' placeholder='Введите дату' min={getDate()} id='date' />
+                                <input type='phone' placeholder='Введите номер телефона' />
+                                <input type='email' placeholder='Введите эл.почту' id='email' />
+                                <textarea style={{ resize: 'none' }} placeholder='Опишите требуемую задачу' />
+                                <button type='submit' form='serviceForm'>
+                                    Отправить заявку
+                                </button>
+                            </ServiceForm>
+                        )}
+                        {authed && isSent && (
+                            <ServiceForm style={{ color: 'white', alignItems: 'center' }}>
+                                <h2 style={{ textAlign: 'center' }}>Ваша заявка отправлена!</h2>
+                                <h3 style={{ textAlign: 'center', padding: '15px 0 15px' }}>
+                                    Все ваши заявки вы можете найти <br></br>
+                                    <Links to='/personalArea/ordersAll'>в личном кабинете</Links>
+                                </h3>
+                                <button onClick={() => setIsSent(false)}>Новая заявка</button>
+                            </ServiceForm>
+                        )}
+                        {reviews && (
+                            <Reviews>
+                                <h2 style={{ margin: '20px 0 10px 0' }}>Отзывы:</h2>
+                                {[...reviews].map((review) => {
+                                    return <Review review={review} key={nanoid()} />
                                 })}
-                            </select>
-                            <input type="text" placeholder="Введите улицу" />
-                            <input type="text" placeholder="Введите номер дома"/>
-                            <input 
-                                type="date" 
-                                placeholder="Введите дату"
-                                min={getDate()} 
-                                id="date"/>
-                            <input type="phone" placeholder="Введите номер телефона"/>
-                            <input type="email" placeholder="Введите эл.почту" id="email"/>
-                            <textarea style={{resize: 'none'}} placeholder="Опишите требуемую задачу"/>
-                            <button type="submit" form="serviceForm">Отправить заявку</button>
-                        </ServiceForm>
-                    }
-                    {authed && isSent && <ServiceForm style={{color: 'white', alignItems: 'center'}}>
-                            <h2 style={{textAlign: 'center'}}>Ваша заявка отправлена!</h2>
-                            <h3 style={{textAlign: 'center', padding: '15px 0 15px'}}>Все ваши заявки вы можете найти <br></br><Links to='/personalArea/ordersAll'>в личном кабинете</Links></h3>
-                            <button onClick={()=>setIsSent(false)}>Новая заявка</button>
-                        </ServiceForm>}
-                    {reviews && 
-                        <Reviews>
-                        <h2 style={{margin: '20px 0 10px 0'}}>Отзывы:</h2>
-                        {[...reviews].map((review) => {
-                            return(
-                                <Review review={review} key={nanoid()}/>
-                            )
-                        })}
-                    </Reviews>
-                    }
-                    
-                </Left>
-                <Right id="providerTextInfo">
-                    <TextPage text={provider.text} />
-                    <Citys>
-                        <p>Города:</p>
-                        <CitysItem>
-                        {provider.citys && provider.citys.map((el) => {
-                            return(
-                                <CityCard>
-                                    {el}
-                                </CityCard>
-                            )
-                        })}
-                        </CitysItem>
-                    </Citys>
-                    <Citys>
-                        <p>Услуги:</p>
-                        <CitysItem>
-                        {provider.services && provider.services.map((el) => {
-                            return(
-                                <ServiceCard>
-                                    {el}
-                                </ServiceCard>
-                            )
-                        })}
-                        </CitysItem>
-                    </Citys>
-                </Right>
-            </ProviderInfo>}
+                            </Reviews>
+                        )}
+                    </Left>
+                    <Right id='providerTextInfo'>
+                        <TextPage text={provider.text} />
+                        <Citys>
+                            <p>Города:</p>
+                            <CitysItem>
+                                {provider.citys &&
+                                    provider.citys.map((el) => {
+                                        return <CityCard>{el}</CityCard>
+                                    })}
+                            </CitysItem>
+                        </Citys>
+                        <Citys>
+                            <p>Услуги:</p>
+                            <CitysItem>
+                                {provider.services &&
+                                    provider.services.map((el) => {
+                                        return <ServiceCard>{el}</ServiceCard>
+                                    })}
+                            </CitysItem>
+                        </Citys>
+                    </Right>
+                </ProviderInfo>
+            )}
         </ServicePageStyled>
     )
 }
