@@ -1,13 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import DOMPurify from 'dompurify'
 import { nanoid } from "nanoid";
-import { arrayUnion, doc, onSnapshot, setDoc } from "firebase/firestore";
-import { db } from "../firebase/firebase";
+import { doc, getDoc, onSnapshot, setDoc } from "firebase/firestore";
+import { db, auth } from "../firebase/firebase";
 import { AuthContext } from '../context/AuthContext'
 import styled from 'styled-components'
 import { Review } from "./servicePageComponent/review";
 import { CityCard, ServiceCard } from "../styles/generalStyledComponents";
 import { Link } from "react-router-dom";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const Reviews = styled.div`
     margin: 0 10px 50px;
@@ -18,6 +19,7 @@ const Reviews = styled.div`
 `
 
 const ServicePageStyled = styled.div`
+    min-height: 70vh;
     padding: 0 96px;
     display: flex;
     flex-direction: column;
@@ -121,10 +123,18 @@ const ServiceForm = styled.form`
         outline: none;
         border-right: 16px solid transparent;
         color: black;
+        min-height: 40px;
 
         ::placeholder {
             color: black;
         }
+    }
+
+    input[type="date"] {
+        display:flex;
+        display:-webkit-flex;
+        flex: 1 0 0;
+        -webkit-flex: 1 0 0;
     }
 
     button {
@@ -174,6 +184,46 @@ const Links = styled(Link)`
 
 export const ServicePage = () => {
 
+    const [authed, setAuthed] = useState(false);
+    const [provider, setProvider] = useState(null)
+    const [isLoading, setIsLoading] = useState(false)
+
+    const AuthedCheck = () => {
+        console.log("authed")
+        onAuthStateChanged(auth, (user) => {
+        if (user) {
+            setAuthed(true);
+        } else {
+            setAuthed(false);
+        }
+        });
+    };
+
+    const getProvider = async () => {
+        // При React.strictMode в index.js функция вызывается 2 раза
+        // const q = query(collection(db, "providerPages"), where("uid", "==", pageUrl));
+
+        const docRef = doc(db, "providerPages", pageUrl);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            setProvider(docSnap.data())
+        } else {
+            console.log('No such document!')
+        }
+    }
+
+    const getReviews = () => {
+        onSnapshot(doc(db, "userReviews", pageUrl), (doc) => {
+            setReviews(doc.data().reviews);
+        });
+    }
+
+    useEffect(() => {
+        AuthedCheck();
+        //eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     const [reviews, setReviews] = useState([])
     const [isSent, setIsSent] = useState(false)
 
@@ -189,7 +239,9 @@ export const ServicePage = () => {
     const { currentUser } = useContext(AuthContext)
 
     const pageUrl = document.location.pathname.split('/')[2]
-    const provider = JSON.parse(localStorage.getItem(`${pageUrl}`))
+    // const provider = JSON.parse(localStorage.getItem(`${pageUrl}`))
+
+    
 
     const TextPage = ({text}) => {
         const sanitizedText = DOMPurify.sanitize(text); // очистка текста от потенциально опасных элементов
@@ -251,8 +303,13 @@ export const ServicePage = () => {
     }
 
     useEffect(() => {
-        const unsub = onSnapshot(doc(db, "userReviews", provider.uid), (doc) => {
-            setReviews(doc.data().reviews);
+
+        AuthedCheck();
+
+        getProvider();
+
+        const unsub = onSnapshot(doc(db, "userReviews", pageUrl), (doc) => {
+            setReviews(doc.data()?.reviews);
         });
         
         return() => {
@@ -263,14 +320,15 @@ export const ServicePage = () => {
     }, [])
 
     return(
+        
         <ServicePageStyled>
-            <ProviderMainInfo>
+            {provider && <ProviderMainInfo>
                 <ContainerImg >
                     <ProviderImg src={provider.userPhoto} alt="" />
                 </ContainerImg>
                 <h2>{provider.displayName}</h2>
-            </ProviderMainInfo>
-            <ProviderInfo>
+            </ProviderMainInfo>}
+            {provider && <ProviderInfo>
                 <Left>
                     <ProviderPhoto>
                         {provider.photoURLs && provider.photoURLs.map((img) => {
@@ -279,7 +337,7 @@ export const ServicePage = () => {
                             )
                         })}
                     </ProviderPhoto>
-                    {!currentUser.isProvider && !isSent ?
+                    {authed && !currentUser.isProvider && !isSent &&
                         <ServiceForm id="serviceForm" onSubmit={handleSubmit}>
                             <select id="service" placeholder="Выберите услугу">
                                 <option value="" disabled selected>Выберите услугу</option>
@@ -309,14 +367,12 @@ export const ServicePage = () => {
                             <textarea style={{resize: 'none'}} placeholder="Опишите требуемую задачу"/>
                             <button type="submit" form="serviceForm">Отправить заявку</button>
                         </ServiceForm>
-                        :
-                        <ServiceForm style={{color: 'white', alignItems: 'center'}}>
+                    }
+                    {authed && isSent && <ServiceForm style={{color: 'white', alignItems: 'center'}}>
                             <h2 style={{textAlign: 'center'}}>Ваша заявка отправлена!</h2>
                             <h3 style={{textAlign: 'center', padding: '15px 0 15px'}}>Все ваши заявки вы можете найти <br></br><Links to='/personalArea/ordersAll'>в личном кабинете</Links></h3>
                             <button onClick={()=>setIsSent(false)}>Новая заявка</button>
-                        </ServiceForm>
-                    }
-                    
+                        </ServiceForm>}
                     {reviews && 
                         <Reviews>
                         <h2 style={{margin: '20px 0 10px 0'}}>Отзывы:</h2>
@@ -356,7 +412,7 @@ export const ServicePage = () => {
                         </CitysItem>
                     </Citys>
                 </Right>
-            </ProviderInfo>
+            </ProviderInfo>}
         </ServicePageStyled>
     )
 }

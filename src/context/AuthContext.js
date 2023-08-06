@@ -10,7 +10,6 @@ export const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
-      console.log(user.uid)
       onSnapshot(doc(db, "users", user.uid), (doc) => {
         doc.exists() && setCurrentUser({
           ...user,

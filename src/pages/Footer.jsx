@@ -121,7 +121,7 @@ export const Footer = () => {
                         <ListItem><Link to=''>О нас</Link></ListItem>
                         <ListItem><Link to='/drones'>Дроны</Link></ListItem>
                         <ListItem><Link to='/services'>Услуги</Link></ListItem>
-                        <ListItem><Link to='/contacts'>Контакты</Link></ListItem>
+                        {/* <ListItem><Link to='/contacts'>Контакты</Link></ListItem> */}
                     </List>
                     <List justifyContent={'space-between'} width={'33%'}>
                         <ListItem>
